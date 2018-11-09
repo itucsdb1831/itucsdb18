@@ -24,6 +24,10 @@ if __name__ == "__main__":
     for row in cursor:
         num = row
         print("%s" % num)
+
+    cursor.execute("CREATE TABLE USERS (USER_ID SERIAL PRIMARY KEY, NAME VARCHAR(20), PASSWORD VARCHAR(87))")
+    connection.commit()
+
     cursor.close()
 
     connection.close();
