@@ -6,8 +6,13 @@ import database as db
 
 #from database import get_user
 
-app = Flask(__name__)
-app.secret_key = b'\xfa\r\xad<\xc8s\x08\xc7\xa4\x9f!\xb7Rz\\\x86'
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object("settings")
+    app.secret_key = b'\xfa\r\xad<\xc8s\x08\xc7\xa4\x9f!\xb7Rz\\\x86'
+    app.config["DEBUG"] = True
+
+    app.add_url_rule("/", view_func=views.homepage)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -61,5 +66,11 @@ def logout():
     return redirect(url_for("homepage"))
 
 
+# -----------------------------------------------------------------------
+
+@app.route("/store/")
+def store():
+    return render_template("store.html")
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
