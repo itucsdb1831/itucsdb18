@@ -1,8 +1,8 @@
 import psycopg2 as dbapi2
 from user import User
 
-dsn = """user=erfybxxvnizudu password=35d55b4417e736e6493eb90e4f674f8530afd4d6c071c675811fd7ee5240557c
-host=ec2-204-236-230-19.compute-1.amazonaws.com port=5432 dbname=d7qite4opgg4jv"""
+dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
+host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
 
 def communicate_with_db(statement):
     connection = dbapi2.connect(dsn)
