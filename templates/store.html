@@ -11,7 +11,7 @@
 	  <tr>
 	   <td>
 	    <a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a>
-		{% if game.price %}/t {{ game.price }}$ {% endif %}
+		{% if game.price %} {{ game.price }}$ {% endif %}
 	   </td>
        </tr>
       {% endfor %}
