@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+      <h1>HOMEPAGE</h1>
+      <p>
+          <ul>
+              <li><a href="{{url_for('signup')}}">Sign Up</a></li>
+              <li><a href="{{url_for('login')}}">Log In</a></li>
+          </ul>
+      </p>
+{% endblock %}
