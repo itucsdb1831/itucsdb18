@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>Mercury</title>
-  </head>
-  <body>
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
    <h1 class="title">{{ game.title }}</h1>
     <p> 
    	<table class="table">
@@ -26,5 +22,4 @@
        </tr>
 	</table>
     </p>
-  </body>
-  </html>
+  {% endblock %}
