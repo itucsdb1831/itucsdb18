@@ -10,7 +10,6 @@ import views
 app = Flask(__name__)
 app.config.from_object("settings")
 app.secret_key = b'\xfa\r\xad<\xc8s\x08\xc7\xa4\x9f!\xb7Rz\\\x86'
-app.config["DEBUG"] = True
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -50,7 +49,7 @@ def signup():
 
 @app.route("/")
 def home_page():
-    return render_template("homepage.html")
+    return render_template("home.html")
 
 @app.route("/profile/")
 @login_required
@@ -61,7 +60,7 @@ def profile():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("homepage"))
+    return redirect(url_for("home_page"))
 
 # -----------------------------------------------------------------------
 
