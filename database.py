@@ -55,5 +55,15 @@ def get_user(user_id):
     cursor.close()
     connection.close()
     return userch
-    
 
+# -------------------------------------------------------
+    
+def add_game(game):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, %d, %f)"
+    data = (game.title, game.genre, game.age_restriciton, game.price)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
