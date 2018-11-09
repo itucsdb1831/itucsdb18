@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
 import database as db
+from game import Game
 import views
 
 #from database import get_user
@@ -73,6 +74,20 @@ def store_page():
 def game_page(game_id):
     game = db.get_game(game_id)
     return render_template("game.html", game=game)
+
+@app.route("/game_add_page", methods=['GET', 'POST'])
+def game_add_page():
+    if request.method == "GET":
+        return render_template("game_edit.html")
+    else:
+        form_title = request.form["title"]
+        form_genre = request.form["genre"]
+        form_age_restriction = request.form["age_restriction"]
+        form_price = request.form["price"]
+        game = Game(None, form_title, form_genre, 0, form_age_restriction, form_price)
+        db.add_game(game)
+        return redirect(url_for("game_edit_result.html", operation="add"))
+
 
 if __name__ == "__main__":
     app.run()
