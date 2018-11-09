@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Mercury</title>
+  </head>
+  <body>
+        {% if successful %}
+            <p>account created successfully</p>
+        {% else %}
+        <p>
+            user name already exist
+            <a href="{{url_for('signup')}}">Try again</a>
+        </p>
+        {% endif %}
+  </body>
+</html>
