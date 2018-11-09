@@ -6,7 +6,7 @@ import database as db
 from game import Game
 import views
 
-#from database import get_user
+# from database import get_user
 
 app = Flask(__name__)
 app.config.from_object("settings")
@@ -65,17 +65,20 @@ def logout():
 
 # -----------------------------------------------------------------------
 
-@app.route("/store/")
+
+@app.route("/store")
 def store_page():
     games = db.get_games()
     return render_template("store.html", games=games)
+
 
 @app.route("/store/<int:game_id>")
 def game_page(game_id):
     game = db.get_game(game_id)
     return render_template("game.html", game=game)
 
-@app.route("/game_add_page", methods=['GET', 'POST'])
+
+@app.route("/game_add", methods=['GET', 'POST'])
 def game_add_page():
     if request.method == "GET":
         return render_template("game_add.html")
@@ -88,9 +91,26 @@ def game_add_page():
         db.add_game(game)
         return redirect(url_for("game_add_page_result_page"))
 
+
 @app.route("/game_add_result")
 def game_add_page_result_page():
     return render_template("game_add_result.html")
+
+
+@app.route("/store/<int:game_id>/game_rate", methods=['GET', 'POST'])
+def game_rate_page(game_id):
+    if request.method == "GET":
+        return render_template("game_rate.html")
+    else:
+        form_rating = request.form["rating"]
+        db.update_rating_of_game(game_id, form_rating)
+        return redirect(url_for("game_rate_page_result_page"))
+
+
+@app.route("/store/game_rate_result")
+def game_rate_page_result_page():
+    return render_template("game_rate_result.html")
+
 
 if __name__ == "__main__":
     app.run()
