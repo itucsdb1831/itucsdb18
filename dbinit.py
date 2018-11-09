@@ -32,6 +32,14 @@ if __name__ == "__main__":
     cursor = connection.cursor()
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
+
+    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 6, 60.00)"
+    data = ("go go nippon my first trip to japan", "anime")
+    cursor.execute(statement, data)
+    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
+    data = ("team fortress 2", "fps")
+    cursor.execute(statement, data)
+
     connection.commit()
     cursor.close()
 
