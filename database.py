@@ -73,7 +73,13 @@ def get_games():
     games = []
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    for game in cursor:
-        game_ = Game(game.title, game.genre, game.age_restriciton, game.price)
-        games.append(game)
+    statement = "SELECT * FROM GAMES"
+    cursor.execute(statement)
+    for row in cursor:
+        title = row[1]
+        genre = row[2]
+        age_restriction = row[3]
+        price = row[4]
+        game_ = Game(title, genre, age_restriction, price)
+        games.append(game_)
     return games
