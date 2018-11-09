@@ -4,5 +4,5 @@ class Game:
         self.title = title
         self.genre = genre
         self.rating = rating
-        self.age_restriciton = age_restriction
+        self.age_restriction = age_restriction
         self.price = price
