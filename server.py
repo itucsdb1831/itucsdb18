@@ -28,7 +28,7 @@ def sign_up_result():
     if db.query_user_name(form_name) == None:
         db.insert_user(User(form_name, hasher.hash(form_pw)))
         successful = True
-    return render_template("signupresult.html", successful = successful)
+    return render_template("signupresult.html", successful=successful)
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -54,7 +54,7 @@ def homepage():
 @app.route("/profile/")
 @login_required
 def profile():
-    return render_template("profile.html", user_name = current_user.get_user_name())
+    return render_template("profile.html", user_name=current_user.get_user_name())
 
 @app.route("/logout/")
 @login_required
@@ -62,12 +62,12 @@ def logout():
     logout_user()
     return redirect(url_for("homepage"))
 
-
 # -----------------------------------------------------------------------
 
 @app.route("/store/")
 def store():
-    return render_template("store.html")
+    games = db.get_games()
+    return render_template("store.html", games=games)
 
 if __name__ == "__main__":
     app.run()
