@@ -58,7 +58,8 @@ def get_user(user_id):
     return userch
 
 # -------------------------------------------------------
-    
+
+
 def add_game(game):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
@@ -69,12 +70,13 @@ def add_game(game):
     cursor.close()
     connection.close()
 
+
 def get_game(game_id):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
     statement = "SELECT * FROM GAMES WHERE GAME_ID=%s"
     cursor.execute(statement, [game_id])
-    if cursor != None:
+    if cursor is not None:
         game_id, title, genre, rating, votes, age_restriction, price = cursor.fetchone()
         game = Game(game_id, title, genre, rating, votes, age_restriction, price)
     else:
@@ -82,6 +84,7 @@ def get_game(game_id):
     cursor.close()
     connection.close()
     return game
+
 
 def get_games():
     games = []
@@ -100,6 +103,7 @@ def get_games():
         game_ = Game(game_id, title, genre, rating, votes, age_restriction, price)
         games.append(game_)
     return games
+
 
 def update_rating_of_game(game_id, rating):
     connection = dbapi2.connect(dsn)
