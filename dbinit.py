@@ -4,8 +4,21 @@ import sys
 import psycopg2 as dbapi2
 
 INIT_STATEMENTS = [
-    "CREATE TABLE IF NOT EXISTS DUMMY (NUM INTEGER)",
-    "INSERT INTO DUMMY VALUES (42)",
+    """
+    CREATE TABLE USERS (
+        USER_ID SERIAL PRIMARY KEY,
+        NAME VARCHAR(20),
+        PASSWORD VARCHAR(87))
+    """,
+    """
+    CREATE TABLE GAMES (
+        GAME_ID SERIAL PRIMARY KEY,
+        NAME VARCHAR(100),
+        GENRE VARCHAR(100),
+        RATING NUMERIC(3, 1),
+        AGE_RESTRICTION INTEGER,
+        PRICE NUMERIC(5, 2))
+    """
 ]
 
 if __name__ == "__main__":
@@ -19,13 +32,7 @@ if __name__ == "__main__":
     cursor = connection.cursor()
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
-    statement = "SELECT * FROM DUMMY"
-    cursor.execute(statement)
-    for row in cursor:
-        num = row
-        print("%s" % num)
 
-    cursor.execute("CREATE TABLE USERS (USER_ID SERIAL PRIMARY KEY, NAME VARCHAR(20), PASSWORD VARCHAR(87))")
     connection.commit()
 
     cursor.close()
