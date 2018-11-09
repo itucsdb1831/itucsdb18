@@ -78,7 +78,7 @@ def game_page(game_id):
 @app.route("/game_add_page", methods=['GET', 'POST'])
 def game_add_page():
     if request.method == "GET":
-        return render_template("game_edit.html")
+        return render_template("game_add.html")
     else:
         form_title = request.form["title"]
         form_genre = request.form["genre"]
@@ -86,8 +86,11 @@ def game_add_page():
         form_price = request.form["price"]
         game = Game(None, form_title, form_genre, 0, form_age_restriction, form_price)
         db.add_game(game)
-        return redirect(url_for("game_edit_result.html", operation="add"))
+        return redirect(url_for("game_add_page_result_page"))
 
+@app.route("/game_add_result")
+def game_add_page_result_page():
+    return render_template("game_add_result.html")
 
 if __name__ == "__main__":
     app.run()
