@@ -16,9 +16,11 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.get_user(user_id)
+
 
 @app.route("/signupresult/", methods=["POST"])
 def sign_up_result():
@@ -30,6 +32,7 @@ def sign_up_result():
         db.insert_user(User(form_name, hasher.hash(form_pw)))
         successful = True
     return render_template("signupresult.html", successful=successful)
+
 
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
@@ -44,18 +47,22 @@ def login():
                 return "logged in"
     return render_template('login.html')
 
+
 @app.route("/signup/")
 def signup():
     return render_template("signup.html")
+
 
 @app.route("/")
 def home_page():
     return render_template("home.html")
 
+
 @app.route("/profile/")
 @login_required
 def profile():
     return render_template("profile.html", user_name=current_user.get_user_name())
+
 
 @app.route("/logout/")
 @login_required

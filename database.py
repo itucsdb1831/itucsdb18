@@ -5,6 +5,7 @@ from game import Game
 dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
 host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
 
+
 def communicate_with_db(statement):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
@@ -13,6 +14,7 @@ def communicate_with_db(statement):
     cursor.close()
     connection.close()
     return cursor
+
 
 def insert_user(user4insert):
     connection = dbapi2.connect(dsn)
@@ -41,6 +43,7 @@ def query_user_name(user_name):
     cursor.close()
     connection.close()
     return user
+
 
 def get_user(user_id):
     connection = dbapi2.connect(dsn)
