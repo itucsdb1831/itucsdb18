@@ -62,7 +62,7 @@ def get_user(user_id):
 def add_game(game):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, %d, %f)"
+    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, %s, %s)"
     data = (game.title, game.genre, game.age_restriciton, game.price)
     cursor.execute(statement, data)
     connection.commit()
