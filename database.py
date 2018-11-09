@@ -48,7 +48,7 @@ def get_user(user_id):
     statement = """SELECT * FROM USERS WHERE USER_ID=%s"""
     data = (user_id, )
     cursor.execute(statement, data)
-    if cursor != None:
+    if cursor.rowcount != 0:
         user_id, name, password = cursor.fetchone()
         userch = User(name, password, user_id)
     else:
@@ -75,8 +75,8 @@ def get_game(game_id):
     statement = "SELECT * FROM GAMES WHERE GAME_ID=%s"
     cursor.execute(statement, [game_id])
     if cursor != None:
-        game_id, title, genre, rating, age_restriction, price = cursor.fetchone()
-        game = Game(game_id, title, genre, rating, age_restriction, price)
+        game_id, title, genre, rating, votes, age_restriction, price = cursor.fetchone()
+        game = Game(game_id, title, genre, rating, votes, age_restriction, price)
     else:
         game = None
     cursor.close()
@@ -94,9 +94,10 @@ def get_games():
         title = row[1]
         genre = row[2]
         rating = row[3]
-        age_restriction = row[4]
-        price = row[5]
-        game_ = Game(game_id, title, genre, rating, age_restriction, price)
+        votes = row[4]
+        age_restriction = row[5]
+        price = row[6]
+        game_ = Game(game_id, title, genre, rating, votes, age_restriction, price)
         games.append(game_)
     return games
 
