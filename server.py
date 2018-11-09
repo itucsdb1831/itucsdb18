@@ -87,7 +87,7 @@ def game_add_page():
         form_genre = request.form["genre"]
         form_age_restriction = request.form["age_restriction"]
         form_price = request.form["price"]
-        game = Game(None, form_title, form_genre, 0, form_age_restriction, form_price)
+        game = Game(None, form_title, form_genre, 0, 0, form_age_restriction, form_price)
         db.add_game(game)
         return redirect(url_for("game_add_page_result_page"))
 
