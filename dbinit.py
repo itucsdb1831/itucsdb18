@@ -32,9 +32,7 @@ if __name__ == "__main__":
     cursor = connection.cursor()
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
-
     connection.commit()
-
     cursor.close()
 
     connection.close();

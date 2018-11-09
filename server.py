@@ -12,8 +12,6 @@ def create_app():
     app.secret_key = b'\xfa\r\xad<\xc8s\x08\xc7\xa4\x9f!\xb7Rz\\\x86'
     app.config["DEBUG"] = True
 
-    app.add_url_rule("/", view_func=views.homepage)
-
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
