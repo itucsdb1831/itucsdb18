@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
 import database as db
+import views
 
 #from database import get_user
 
@@ -48,7 +49,7 @@ def signup():
     return render_template("signup.html")
 
 @app.route("/")
-def homepage():
+def home_page():
     return render_template("homepage.html")
 
 @app.route("/profile/")
@@ -65,9 +66,14 @@ def logout():
 # -----------------------------------------------------------------------
 
 @app.route("/store/")
-def store():
+def store_page():
     games = db.get_games()
     return render_template("store.html", games=games)
+
+@app.route("/store/<int:game_id>")
+def game_page(game_id):
+    game = db.get_game(game_id)
+    return render_template("game.html", game=game)
 
 if __name__ == "__main__":
     app.run()
