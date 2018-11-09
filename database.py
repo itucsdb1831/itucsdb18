@@ -99,3 +99,18 @@ def get_games():
         game_ = Game(game_id, title, genre, rating, age_restriction, price)
         games.append(game_)
     return games
+
+def update_rating_of_game(game_id, rating):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "UPDATE GAMES" \
+                + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
+                + " VOTES = VOTES + 1" \
+                + " WHERE (GAME_ID = %s)"
+    data = (rating, game_id)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
