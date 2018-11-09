@@ -110,4 +110,4 @@ if __name__ == "__main__":
     connection.commit()
     cursor.close()
 
-    connection.close();
+    connection.close()
