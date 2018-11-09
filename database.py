@@ -76,7 +76,7 @@ def get_game(game_id):
     cursor.execute(statement, [game_id])
     if cursor != None:
         game_id, title, genre, rating, age_restriction, price = cursor.fetchone()
-        game = Game(title, genre, rating, age_restriction, price)
+        game = Game(game_id, title, genre, rating, age_restriction, price)
     else:
         game = None
     cursor.close()
@@ -90,11 +90,12 @@ def get_games():
     statement = "SELECT * FROM GAMES"
     cursor.execute(statement)
     for row in cursor:
+        game_id = row[0]
         title = row[1]
         genre = row[2]
         rating = row[3]
         age_restriction = row[4]
         price = row[5]
-        game_ = Game(title, genre, rating, age_restriction, price)
+        game_ = Game(game_id, title, genre, rating, age_restriction, price)
         games.append(game_)
     return games
