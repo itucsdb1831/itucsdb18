@@ -26,6 +26,23 @@
        </tr>
 	</table>
     </p>
+
+    <p>Items List:</p>
+    <table class="table">
+        <tr>
+            <th>Item Name:</th>
+            <th>Rarity:</th>
+            <th>Level:</th>
+        </tr>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.rarity }}</td>
+                <td>{{ item.level }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
   {% if current_user.is_authenticated %}
    <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
 <p><a href="{{ url_for('game_purchase_page', game_id=game.game_id) }}">Purchase</a></p>

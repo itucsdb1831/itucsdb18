@@ -88,7 +88,8 @@ def store_page():
 @app.route("/store/<int:game_id>")
 def game_page(game_id):
     game = db.get_game(game_id)
-    return render_template("game.html", game=game)
+    items = db.get_items(game_id)
+    return render_template("game.html", game=game, items=items)
 
 
 @app.route("/game_add", methods=['GET', 'POST'])

@@ -2,6 +2,7 @@ import psycopg2 as dbapi2
 from user import User
 from game import Game
 from game_of_user import GameOfUser
+from item import Item
 
 dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
 host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
@@ -175,7 +176,7 @@ def get_games_of_user(user_id):
     connection.close()
     return games
 
-
+  
 def check_code(code):
     valid = False
     connection = dbapi2.connect(dsn)
@@ -199,3 +200,20 @@ def add_balance_to_user(user_id):
     connection.commit()
     cursor.close()
     connection.close()
+
+    
+def get_items(game_id):
+    items = []
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM ITEMS WHERE GAME_ID=%s"
+    cursor.execute(statement, [game_id])
+
+    for row in cursor:
+        (item_id, _, name, rarity, level) = row
+        item = Item(item_id, game_id, name, rarity, level)
+        items.append(item)
+
+    cursor.close()
+    connection.close()
+    return items
