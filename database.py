@@ -166,7 +166,10 @@ def get_games_of_user(user_id):
         title = row[2]
         time_played = row[3]
         time_purchased = row[4]
-        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased)
+        num_of_reviews = row[5]
+        num_of_screenshots = row[6]
+        is_favourite = row[7]
+        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews,  num_of_screenshots, is_favourite)
         games.append(game)
     cursor.close()
     connection.close()
