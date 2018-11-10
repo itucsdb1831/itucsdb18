@@ -2,12 +2,13 @@
 {% block title %}Mercury{% endblock %}
 {% block content %}
 {% if not success %}
-  {% if game.price > current_user.balance %}
+  {% if game.price > current_user.balance and not current_user.is_admin %}
     <p>You do not have enough balance.</p>
+  {% else %}
+    <p>You already own this game.</p>
   {% endif %}
 {% else %}
   <p>{{ game.title }} has been added to your library!</p>
-{% endif %}
-
 <a class="button is-link" href="{{ url_for('profile', user=current_user) }}">View the game in your profile</a>
+{% endif %}
 {% endblock %}
