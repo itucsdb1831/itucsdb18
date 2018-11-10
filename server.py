@@ -133,5 +133,23 @@ def game_rate_page_result_page():
     return render_template("game_rate_result.html")
 
 
+@app.route("/store/<int:game_id>/game_purchase")
+@login_required
+def game_purchase_page(game_id):
+    game = db.get_game(game_id)
+    return render_template("game_purchase.html", game=game)
+
+
+@app.route("/store/<int:game_id>/game_purchase_result")
+@login_required
+def game_purchase_result_page(game_id):
+    game = db.get_game(game_id)
+    success = False
+    if current_user.is_admin or current_user.balance >= game.price:
+        success = True
+        db.add_game_to_user(game.game_id, current_user.id)
+    return render_template("game_purchase_result.html", game=game, success=success)
+
+
 if __name__ == "__main__":
     app.run()
