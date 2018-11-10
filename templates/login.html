@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>Mercury</title>
-  </head>
-  <body>
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
     <h1>Log in</h1>
     <p>
         <form action="" method="post" name="log_in">
@@ -29,5 +25,4 @@
             </div>
           </form>
     </p>
-  </body>
-</html>
+  {% endblock %}
