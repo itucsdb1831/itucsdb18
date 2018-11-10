@@ -28,6 +28,7 @@
     </p>
   {% if current_user.is_authenticated %}
    <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
+<p><a href="{{ url_for('game_purchase_page', game_id=game.game_id) }}">Purchase</a></p>
   {% endif %}
    <p><a href="{{ url_for('store_page') }}">Back</a></p>
   {% endblock %}
