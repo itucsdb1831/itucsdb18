@@ -201,6 +201,19 @@ def add_balance_to_user(user_id):
     cursor.close()
     connection.close()
 
+
+def decrease_balance_of_user(user_id, amount):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "UPDATE USERS" \
+                + " SET BALANCE = BALANCE - %s" \
+                + " WHERE (USER_ID = %s)"
+    data = (amount, user_id)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
     
 def get_items(game_id):
     items = []
