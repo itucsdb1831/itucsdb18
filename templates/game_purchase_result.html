@@ -8,7 +8,7 @@
     <p>You already own this game.</p>
   {% endif %}
 {% else %}
-  <p>{{ game.title }} has been added to your library!</p>
+  <p>"{{ game.title }}" has been added to your library!</p>
 <a class="button is-link" href="{{ url_for('profile', user=current_user) }}">View the game in your profile</a>
 {% endif %}
 {% endblock %}
