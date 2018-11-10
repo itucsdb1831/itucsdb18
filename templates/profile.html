@@ -6,12 +6,13 @@
     <p>Library:</p>
       {% if games_of_user %}
     <table class="table is-striped is-fullwidth">
+	  <th>Title</th>
+	  <th>Time Played</th>
+	  <th>Time Purchased</th>
       {% for game in games_of_user%}
       <tr>
-        <td>{{ game.user_id}}</td>
-        <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{game.game_id }} </a>
-        </td>
-	   <td>{{ game.time_played }}</td>
+        <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{game.title}} </a></td>
+	   <td>{{ game.time_played }} hours</td>
 	   <td>{{ game.time_purchased}}</td>
       </tr>
       {% endfor %}
