@@ -139,11 +139,13 @@ def add_game_to_user(game_id, user_id):
     success = False
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    statement = "SELECT COUNT(*) FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
-    data = (user_id, game_id)
+    statement = "SELECT * FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
+    data = (game_id, user_id)
     cursor.execute(statement, data)
-    if cursor == 0:
-        statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TIME_PURCHASED) VALUES(%s, %s, CURRENT_DATE)"
+    if cursor.rowcount == 0:
+        game = get_game(game_id)
+        statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TITLE, TIME_PURCHASED) VALUES(%s, %s, %s, CURRENT_DATE)"
+        data = (user_id, game_id, game.title)
         cursor.execute(statement, data)
         success = True
     connection.commit()
@@ -161,9 +163,10 @@ def get_games_of_user(user_id):
     for row in cursor:
         user_id_ = row[0]
         game_id = row[1]
-        time_played = row[2]
-        time_purchased = row[3]
-        game = GameOfUser(user_id_, game_id, time_played, time_purchased)
+        title = row[2]
+        time_played = row[3]
+        time_purchased = row[4]
+        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased)
         games.append(game)
     cursor.close()
     connection.close()
