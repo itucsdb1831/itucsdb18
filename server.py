@@ -73,10 +73,16 @@ def logout():
 # -----------------------------------------------------------------------
 
 
-@app.route("/store")
+@app.route("/store", methods=['GET', 'POST'])
 def store_page():
-    games = db.get_games()
-    return render_template("store.html", games=games)
+    if request.method == "GET":
+        games = db.get_games()
+        return render_template("store.html", games=games)
+    else:
+        form_game_ids = request.form.getlist("game_ids")
+        for form_game_id in form_game_ids:
+            db.delete_game(int(form_game_id))
+        return redirect(url_for("store_page"))
 
 
 @app.route("/store/<int:game_id>")

@@ -97,10 +97,6 @@ if __name__ == "__main__":
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
 
-    statement = "INSERT INTO USERS(NAME, PASSWORD) VALUES(%s, %s)"
-    data = ("emre", "asdf")
-    cursor.execute(statement, data)
-
     statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 6, 60.00)"
     data = ("go go nippon my first trip to japan", "anime")
     cursor.execute(statement, data)
