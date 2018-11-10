@@ -130,3 +130,17 @@ def delete_game(game_id):
     connection.commit()
     cursor.close()
     connection.close()
+
+# -------------------------------------------------------
+
+
+def add_game_to_user(game_id, user_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TIME_PURCHASED) VALUES(%s, %s, CURRENT_DATE)"
+    data = (user_id, game_id)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
