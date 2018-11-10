@@ -122,3 +122,11 @@ def update_rating_of_game(game_id, rating):
     connection.close()
 
 
+def delete_game(game_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "DELETE FROM GAMES WHERE GAME_ID = %s"
+    cursor.execute(statement, [game_id])
+    connection.commit()
+    cursor.close()
+    connection.close()
