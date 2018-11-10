@@ -4,7 +4,6 @@ from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
 import database as db
 from game import Game
-import views
 
 # from database import get_user
 
@@ -153,3 +152,4 @@ def game_purchase_result_page(game_id):
 
 if __name__ == "__main__":
     app.run()
+
