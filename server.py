@@ -29,7 +29,7 @@ def sign_up_result():
     name_is_dupl = db.query_user_name(form_name)
     successful = False
     if db.query_user_name(form_name) == None:
-        db.insert_user(User(form_name, hasher.hash(form_pw)))
+        db.insert_user(User(form_name, hasher.hash(form_pw), True, False, 0))
         successful = True
     return render_template("signupresult.html", successful=successful)
 
