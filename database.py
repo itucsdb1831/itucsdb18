@@ -176,7 +176,32 @@ def get_games_of_user(user_id):
     connection.close()
     return games
 
+  
+def check_code(code):
+    valid = False
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM BALANCE_CODES WHERE CODE = %s"
+    cursor.execute(statement, [code])
+    if cursor.rowcount != 0:
+        valid = True
+    cursor.close()
+    connection.close()
+    return valid
 
+
+def add_balance_to_user(user_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "UPDATE USERS" \
+                + " SET BALANCE = BALANCE + 100" \
+                + " WHERE (USER_ID = %s)"
+    cursor.execute(statement, [user_id])
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    
 def get_items(game_id):
     items = []
     connection = dbapi2.connect(dsn)
@@ -192,4 +217,3 @@ def get_items(game_id):
     cursor.close()
     connection.close()
     return items
-

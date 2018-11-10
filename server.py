@@ -151,6 +151,18 @@ def game_purchase_result_page(game_id):
     return render_template("game_purchase_result.html", game=game, success=success)
 
 
+@app.route("/profile/code_enter", methods=['GET', 'POST'])
+@login_required
+def code_enter_page():
+    if request.method == "GET":
+        return render_template("code_enter.html")
+    else:
+        form_code = request.form["code"]
+        valid = db.check_code(form_code)
+        if valid:
+            db.add_balance_to_user(current_user.id)
+            return render_template("code_enter_result.html", valid=valid)
+
+
 if __name__ == "__main__":
     app.run()
-
