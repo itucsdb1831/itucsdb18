@@ -1,6 +1,7 @@
 import psycopg2 as dbapi2
 from user import User
 from game import Game
+from game_of_user import GameOfUser
 
 dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
 host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
@@ -127,6 +128,44 @@ def delete_game(game_id):
     cursor = connection.cursor()
     statement = "DELETE FROM GAMES WHERE GAME_ID = %s"
     cursor.execute(statement, [game_id])
+    statement = "DELETE FROM GAMES_OF_USERS WHERE GAME_ID = %s"
+    cursor.execute(statement, [game_id])
     connection.commit()
     cursor.close()
     connection.close()
+
+
+def add_game_to_user(game_id, user_id):
+    success = False
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT COUNT(*) FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
+    data = (user_id, game_id)
+    cursor.execute(statement, data)
+    if cursor == 0:
+        statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TIME_PURCHASED) VALUES(%s, %s, CURRENT_DATE)"
+        cursor.execute(statement, data)
+        success = True
+    connection.commit()
+    cursor.close()
+    connection.close()
+    return success
+
+
+def get_games_of_user(user_id):
+    games = []
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM GAMES_OF_USERS WHERE USER_ID = %s"
+    cursor.execute(statement, [user_id])
+    for row in cursor:
+        user_id_ = row[0]
+        game_id = row[1]
+        time_played = row[2]
+        time_purchased = row[3]
+        game = GameOfUser(user_id_, game_id, time_played, time_purchased)
+        games.append(game)
+    cursor.close()
+    connection.close()
+    return games
+

@@ -44,7 +44,7 @@ def login():
                 login_user(user)
                 next = request.args.get('next')
                 
-                return render_template('login_result.html')
+                return render_template('profile.html', user=current_user)
     return render_template('login.html')
 
 
@@ -61,7 +61,8 @@ def home_page():
 @app.route("/profile/")
 @login_required
 def profile():
-    return render_template("profile.html", user_name=current_user.get_user_name())
+    games_of_user = db.get_games_of_user(current_user.id)
+    return render_template("profile.html", user=current_user, games_of_user=games_of_user)
 
 
 @app.route("/logout/")
@@ -131,6 +132,23 @@ def game_rate_page(game_id):
 @login_required
 def game_rate_page_result_page():
     return render_template("game_rate_result.html")
+
+
+@app.route("/store/<int:game_id>/game_purchase")
+@login_required
+def game_purchase_page(game_id):
+    game = db.get_game(game_id)
+    return render_template("game_purchase.html", game=game)
+
+
+@app.route("/store/<int:game_id>/game_purchase_result")
+@login_required
+def game_purchase_result_page(game_id):
+    game = db.get_game(game_id)
+    success = False
+    if current_user.is_admin or current_user.balance >= game.price:
+        success = db.add_game_to_user(game.game_id, current_user.id)
+    return render_template("game_purchase_result.html", game=game, success=success)
 
 
 if __name__ == "__main__":
