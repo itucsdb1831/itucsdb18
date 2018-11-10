@@ -44,7 +44,7 @@ def login():
                 login_user(user)
                 next = request.args.get('next')
                 
-                return render_template('login_result.html')
+                return render_template('profile.html', user=current_user)
     return render_template('login.html')
 
 
