@@ -92,7 +92,10 @@ def game_page(game_id):
 
 
 @app.route("/game_add", methods=['GET', 'POST'])
+@login_required
 def game_add_page():
+    if not current_user.is_admin:
+        return render_template('not_allowed.html')
     if request.method == "GET":
         return render_template("game_add.html")
     else:
@@ -106,11 +109,15 @@ def game_add_page():
 
 
 @app.route("/game_add_result")
+@login_required
 def game_add_page_result_page():
+    if not current_user.is_admin:
+        return render_template('not_allowed.html')
     return render_template("game_add_result.html")
 
 
 @app.route("/store/<int:game_id>/game_rate", methods=['GET', 'POST'])
+@login_required
 def game_rate_page(game_id):
     if request.method == "GET":
         return render_template("game_rate.html")
@@ -121,6 +128,7 @@ def game_rate_page(game_id):
 
 
 @app.route("/store/game_rate_result")
+@login_required
 def game_rate_page_result_page():
     return render_template("game_rate_result.html")
 

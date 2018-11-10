@@ -2,6 +2,7 @@ import os
 import sys
 
 import psycopg2 as dbapi2
+from passlib.hash import pbkdf2_sha256 as hasher
 
 INIT_STATEMENTS = [
     """
@@ -9,8 +10,8 @@ INIT_STATEMENTS = [
         USER_ID SERIAL PRIMARY KEY,
         NAME VARCHAR(20),
         PASSWORD VARCHAR(87),
-        IS_ACTIVE VARCHAR(5) DEFAULT TRUE,
-        IS_ADMIN VARCHAR(5) DEFAULT FALSE,
+        IS_ACTIVE BOOLEAN DEFAULT TRUE,
+        IS_ADMIN BOOLEAN DEFAULT FALSE,
         BALANCE NUMERIC(5,2) DEFAULT 0
     )
     """,
@@ -99,6 +100,12 @@ if __name__ == "__main__":
     cursor = connection.cursor()
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
+
+    password = "asdf"
+    hashed_password = hasher.hash(password)
+    statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES(%s, %s, %s)"
+    data = ("emre", hashed_password, True)
+    cursor.execute(statement, data)
 
     statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 6, 60.00)"
     data = ("go go nippon my first trip to japan", "anime")
