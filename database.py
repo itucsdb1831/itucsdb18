@@ -38,8 +38,8 @@ def query_user_name(user_name):
         connection.close()
         return None
     print(cursor)
-    user_id, name, password = cursor.fetchone()
-    user = User(name, password, user_id)
+    user_id, name, password, is_active, is_admin, balance = cursor.fetchone()
+    user = User(name, password, is_active, is_admin, balance, user_id)
     cursor.close()
     connection.close()
     return user
@@ -52,8 +52,8 @@ def get_user(user_id):
     data = (user_id, )
     cursor.execute(statement, data)
     if cursor.rowcount != 0:
-        user_id, name, password = cursor.fetchone()
-        userch = User(name, password, user_id)
+        user_id, name, password, is_active, is_admin, balance = cursor.fetchone()
+        userch = User(name, password, is_active, is_admin, balance, user_id)
     else:
         userch = None
     cursor.close()

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <title>Mercury</title>
-  </head>
-  <body>
-        {% if successful %}
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+
+{% if successful %}
          <p>account created successfully</p>
 	    <p><a href="{{ url_for('home_page') }}">Click here
 to return to the home page.</a></p>
@@ -17,3 +14,4 @@ to return to the home page.</a></p>
         {% endif %}
   </body>
 </html>
+  {% endblock %}
