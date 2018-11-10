@@ -61,7 +61,7 @@ def home_page():
 @app.route("/profile/")
 @login_required
 def profile():
-    return render_template("profile.html", user_name=current_user.get_user_name())
+    return render_template("profile.html", user=current_user)
 
 
 @app.route("/logout/")
