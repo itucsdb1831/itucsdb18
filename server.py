@@ -148,6 +148,8 @@ def game_purchase_result_page(game_id):
     success = False
     if current_user.is_admin or current_user.balance >= game.price:
         success = db.add_game_to_user(game.game_id, current_user.id)
+        if success:
+            db.decrease_balance_of_user(current_user.id, game.price)
     return render_template("game_purchase_result.html", game=game, success=success)
 
 
