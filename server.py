@@ -43,8 +43,8 @@ def login():
             if hasher.verify(request.form.get("password"), user.get_pw()):
                 login_user(user)
                 next = request.args.get('next')
-                
-                return render_template('profile.html', user=current_user)
+                games_of_user = db.get_games_of_user(current_user.id)
+                return render_template('profile.html', user=current_user, games_of_user=games_of_user)
     return render_template('login.html')
 
 
