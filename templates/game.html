@@ -26,6 +26,8 @@
        </tr>
 	</table>
     </p>
+  {% if current_user.is_authenticated %}
    <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
+  {% endif %}
    <p><a href="{{ url_for('store_page') }}">Back</a></p>
   {% endblock %}
