@@ -265,7 +265,7 @@ def send_friend_request(user_id_from, user_id_to):
 def add_friend(user1_id, user2_id):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    statement = "INSERT INTO FRIENDS(USER1_ID, USER2_ID, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
+    statement = "INSERT INTO FRIENDS(USER_ID_FROM, USER_ID_TO, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
     data = (user1_id, user2_id)
     cursor.execute(statement, data)
     data = (user2_id, user1_id)
@@ -279,7 +279,7 @@ def get_friend_requests(user_id_to):
     requests = []
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    statement = "SELECT USER1_ID FROM FRIEND_REQUESTS WHERE USER2_ID = %s"
+    statement = "SELECT USER_ID_FROM FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
     cursor.execute(statement, [user_id_to])
     for user_id_from in cursor:
         request = FriendRequest(user_id_from, user_id_to)
@@ -288,6 +288,16 @@ def get_friend_requests(user_id_to):
     connection.close()
     return requests
 
+
+def remove_request(user_id_from, user_id_to):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "DELETE FROM FRIEND_REQUESTS WHERE (USER_ID_FROM = %s) AND (USER_ID_TO = %s)"
+    data = (user_id_from, user_id_to)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
 
 # def update_shared_games():
 
