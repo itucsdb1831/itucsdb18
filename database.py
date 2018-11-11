@@ -3,6 +3,8 @@ from user import User
 from game import Game
 from game_of_user import GameOfUser
 from item import Item
+from review import Review
+
 
 dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
 host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
@@ -61,6 +63,30 @@ def get_user(user_id):
     cursor.close()
     connection.close()
     return userch
+
+def insert_review(review):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = """INSERT INTO REVIEWS (USER_ID, GAME_ID, LABEL, CONTENT) VALUES (%s, %s, %s, %s)"""
+    data = ( review.user_id, review.game_id, review.label, review.content)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+def get_reviews4game(game_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, LIKES, DISLIKES FROM REVIEWS WHERE GAME_ID=%s"""
+    data = (game_id, )
+    cursor.execute(statement, data)
+    reviews = []
+    for row in cursor:
+        review_id, user_id, label, content, likes, dislikes = row
+        reviews.append(Review(user_id, game_id, label, content, likes, dislikes, review_id))
+    cursor.close()
+    connection.close()
+    return reviews
 
 # -------------------------------------------------------
 
