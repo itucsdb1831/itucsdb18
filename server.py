@@ -163,7 +163,22 @@ def code_enter_page():
         valid = db.check_code(form_code)
         if valid:
             db.add_balance_to_user(current_user.id)
-            return render_template("code_enter_result.html", valid=valid)
+        return render_template("code_enter_result.html", valid=valid)
+
+# -----------------------------------------------------------------------
+
+
+@app.route("/profile/friend_add", methods=['GET', 'POST'])
+@login_required
+def friend_add_page():
+    if request.method == "GET":
+        return render_template("friend_add.html")
+    else:
+        form_user_name = request.form["user_name"]
+        valid = db.check_user_name(form_user_name)
+        if valid:
+            db.send_friend_request()
+        return render_template("friend_add_result.html", valid=valid)
 
 
 if __name__ == "__main__":
