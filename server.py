@@ -43,7 +43,10 @@ def login():
                 login_user(user)
                 next = request.args.get('next')
                 games_of_user = db.get_games_of_user(current_user.id)
-                return render_template('profile.html', user=current_user, games_of_user=games_of_user)
+                friend_requests = db.get_friend_requests(current_user.id)
+                friends = db.get_friends(current_user.id)
+                return render_template('profile.html', user=current_user, games_of_user=games_of_user,
+                                       friend_requests=friend_requests, friends=friends)
     return render_template('login.html')
 
 
