@@ -293,7 +293,7 @@ def send_friend_request(user_id_from, user_id_to):
 def add_friend(user1_id, user2_id):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    statement = "INSERT INTO FRIENDS(USER_ID_FROM, USER_ID_TO, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
+    statement = "INSERT INTO FRIENDS(USER1_ID, USER2_ID, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
     data = (user1_id, user2_id)
     cursor.execute(statement, data)
     data = (user2_id, user1_id)
