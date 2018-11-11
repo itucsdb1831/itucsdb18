@@ -5,6 +5,7 @@ from passlib.hash import pbkdf2_sha256 as hasher
 import database as db
 from game import Game
 from review import Review
+from item import Item
 
 # from database import get_user
 
@@ -125,6 +126,19 @@ def game_add_page():
         game = Game(None, form_title, form_genre, 0, 0, form_age_restriction, form_price)
         db.add_game(game)
         return redirect(url_for("game_add_page_result_page"))
+
+
+@app.route("/store/<int:game_id>/item_add", methods=['GET', 'POST'])
+def item_add_page(game_id):
+    if request.method == 'GET':
+        return render_template("item_add.html")
+
+    form_name = request.form["name"]
+    form_rarity = request.form["rarity"]
+    form_level = request.form["level"]
+    item = Item(None, game_id, form_name, form_rarity, form_level)
+    db.add_item(item)
+    return render_template("item_add_result.html", game_id=game_id)
 
 
 @app.route("/game_add_result")
