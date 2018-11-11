@@ -91,6 +91,7 @@ def insert_review(review):
     cursor.close()
     connection.close()
 
+
 def get_reviews4game(game_id):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
