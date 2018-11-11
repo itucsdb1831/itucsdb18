@@ -186,7 +186,8 @@ def get_games_of_user(user_id):
         num_of_reviews = row[5]
         num_of_screenshots = row[6]
         is_favourite = row[7]
-        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews,  num_of_screenshots, is_favourite)
+        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews,  num_of_screenshots,
+                          is_favourite)
         games.append(game)
     cursor.close()
     connection.close()
@@ -298,6 +299,28 @@ def remove_request(user_id_from, user_id_to):
     connection.commit()
     cursor.close()
     connection.close()
+
+
+def get_friends(user_id):
+    friends = []
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM FRIENDS WHERE USER1_ID = %s"
+    cursor.execute(statement, [user_id])
+    for row in cursor:
+        user1_id = row[0]
+        user2_id = row[1]
+        date_befriended = row[2]
+        is_blocked = row[3]
+        is_following = row[4]
+        num_of_shared_games = row[5]
+        is_favourite = row[6]
+        friend = Friend(user1_id, user2_id, date_befriended, is_blocked, is_following,
+                        num_of_shared_games, is_favourite)
+        friends.append(friend)
+    cursor.close()
+    connection.close()
+    return friends
 
 # def update_shared_games():
 
