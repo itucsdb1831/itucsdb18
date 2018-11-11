@@ -14,7 +14,7 @@
  {% if current_user.is_admin %}
 		<label class="checkbox">
            <input type="checkbox" name="game_ids" 	value="{{ game.game_id }}"/>
-            </label>
+        </label>
 {% endif %}
 	    <a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a>
 		{% if game.price %} {{ game.price }}$ {% endif %}
