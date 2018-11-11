@@ -193,7 +193,7 @@ def friend_request_page(user_id_to_add):
         return render_template("friend_request.html", user_to_add=user_id_to_add)
     else:
         accepted = False
-        form_decision = request.form("decision")
+        form_decision = request.form["decision"]
         if form_decision == "Accept":
             accepted = True
             db.add_friend(current_user.id, user_id_to_add)
