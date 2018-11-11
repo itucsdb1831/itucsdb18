@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+<h1 class="title">Add a Friend</h1>
+{% if not valid %}
+  <p>User does not exist.</p>
+  <p><a class="button is-link" href="{{ url_for('friend_add_page') }}">Go Back</a></p>
+{% else %}
+  <p>Request has been sent!</p>
+  <a class="button is-link" href="{{ url_for('profile') }}">Back to your profile</a>
+{% endif %}
+{% endblock %}
