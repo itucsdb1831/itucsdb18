@@ -3,6 +3,8 @@ from user import User
 from game import Game
 from game_of_user import GameOfUser
 from item import Item
+from friend import Friend
+from friend_request import FriendRequest
 
 dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
 host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
@@ -61,6 +63,20 @@ def get_user(user_id):
     cursor.close()
     connection.close()
     return userch
+
+
+def get_user_id(user_name):
+    user_id = None
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT USER_ID FROM USERS WHERE NAME = %s"
+    cursor.execute(statement, [user_name])
+    if cursor.rowcount != 0:
+        row = cursor.fetchone()
+        user_id = row[0]
+    cursor.close()
+    connection.close()
+    return user_id
 
 # -------------------------------------------------------
 
@@ -235,21 +251,15 @@ def get_items(game_id):
 # -------------------------------------------------------
 
 
-def check_user_name(user_name):
-    valid = False
+def send_friend_request(user_id_from, user_id_to):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
-    statement = "SELECT * FROM USERS WHERE NAME = %s"
-    cursor.execute(statement, [user_name])
-    if cursor.rowcount != 0:
-        valid = True
+    statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s)"
+    data = (user_id_from, user_id_to)
+    cursor.execute(statement, data)
+    connection.commit()
     cursor.close()
     connection.close()
-    return valid
-
-
-def send_friend_request():
-
 
 
 def add_friend(user1_id, user2_id):
@@ -265,7 +275,21 @@ def add_friend(user1_id, user2_id):
     connection.close()
 
 
-def update_shared_games():
+def get_friend_requests(user_id_to):
+    requests = []
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT USER1_ID FROM FRIEND_REQUESTS WHERE USER2_ID = %s"
+    cursor.execute(statement, [user_id_to])
+    for user_id_from in cursor:
+        request = FriendRequest(user_id_from, user_id_to)
+        requests.append(request)
+    cursor.close()
+    connection.close()
+    return requests
+
+
+# def update_shared_games():
 
 
 
