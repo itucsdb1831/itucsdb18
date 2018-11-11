@@ -67,7 +67,7 @@ def get_user(user_id):
     return userch
   
   
-  def get_user_id(user_name):
+def get_user_id(user_name):
     user_id = None
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
