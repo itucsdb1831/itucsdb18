@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <title>Mercury</title>
+    </head>
+    <body>
+        <h1>Review of the GAME</h1>
+        <p>
+            You can write your review about a <a href="url_for('game_page', game_id=game.game_id)">{{game.title}}</a> here.
+            <form action="{{url_for('add_review', game_id=game.game_id)}}" method="post">
+                <input type="text" name="label" class="input" required="required"/>
+                <textarea name="content" rows="10" cols="30" required="required" maxlength="500">The cat was playing in the garden.</textarea>
+                <input type="submit">
+            </form>
+        </p>
+    </body>
+</html>

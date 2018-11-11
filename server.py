@@ -4,6 +4,7 @@ from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
 import database as db
 from game import Game
+from review import Review
 
 # from database import get_user
 
@@ -76,6 +77,15 @@ def logout():
     logout_user()
     return redirect(url_for("home_page"))
 
+@app.route("/store/<int:game_id>/add_review/", methods=["GET", "POST"])
+@login_required
+def add_review(game_id):
+    if request.method == "POST":
+        db.insert_review(Review(current_user.id, game_id, request.form.get("label"), request.form.get("content")))
+        return redirect(url_for('game_page', game_id=game_id))
+    else:
+        return render_template("add_review.html", game=db.get_game(game_id))
+
 # -----------------------------------------------------------------------
 
 
@@ -95,7 +105,8 @@ def store_page():
 def game_page(game_id):
     game = db.get_game(game_id)
     items = db.get_items(game_id)
-    return render_template("game.html", game=game, items=items)
+    reviews = db.get_reviews4game(game_id)
+    return render_template("game.html", game=game, items=items, reviews=reviews)
 
 
 @app.route("/game_add", methods=['GET', 'POST'])
