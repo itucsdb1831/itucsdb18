@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+   <h1 class="title">Friend Request</h1>
+   <form action="" method="post" name="requests_list">
+  {% if not requests %}
+    <p>You do not have any friend requests.</p>
+  {% else %}
+    <p>Your friend requests:</p>
+       <p>{{ user_to_add }} has sent you a friend request.</p>
+       <p>
+      <label class="button">
+          <input type="submit" name="decision" value="Accept"/>
+          <input type="submit" name="decision" value="Decline"/>
+      </label>
+      </p>
+  {% endif %}
+{% endblock %}
