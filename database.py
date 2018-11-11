@@ -360,7 +360,7 @@ def get_friends(user_id):
 # def check_if_already_friends():
 
 
-
+# def cancel_friend_request():
 
 
 
