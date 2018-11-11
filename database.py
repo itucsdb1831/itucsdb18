@@ -4,6 +4,8 @@ from game import Game
 from game_of_user import GameOfUser
 from item import Item
 from review import Review
+from friend import Friend
+from friend_request import FriendRequest
 
 
 dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
@@ -63,7 +65,22 @@ def get_user(user_id):
     cursor.close()
     connection.close()
     return userch
+  
+  
+  def get_user_id(user_name):
+    user_id = None
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT USER_ID FROM USERS WHERE NAME = %s"
+    cursor.execute(statement, [user_name])
+    if cursor.rowcount != 0:
+        row = cursor.fetchone()
+        user_id = row[0]
+    cursor.close()
+    connection.close()
+    return user_id
 
+  
 def insert_review(review):
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
@@ -196,7 +213,8 @@ def get_games_of_user(user_id):
         num_of_reviews = row[5]
         num_of_screenshots = row[6]
         is_favourite = row[7]
-        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews,  num_of_screenshots, is_favourite)
+        game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews,  num_of_screenshots,
+                          is_favourite)
         games.append(game)
     cursor.close()
     connection.close()
@@ -256,3 +274,87 @@ def get_items(game_id):
     cursor.close()
     connection.close()
     return items
+
+
+# -------------------------------------------------------
+
+
+def send_friend_request(user_id_from, user_id_to):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s)"
+    data = (user_id_from, user_id_to)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def add_friend(user1_id, user2_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "INSERT INTO FRIENDS(USER_ID_FROM, USER_ID_TO, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
+    data = (user1_id, user2_id)
+    cursor.execute(statement, data)
+    data = (user2_id, user1_id)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def get_friend_requests(user_id_to):
+    requests = []
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT USER_ID_FROM FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
+    cursor.execute(statement, [user_id_to])
+    for user_id_from in cursor:
+        request = FriendRequest(user_id_from, user_id_to)
+        requests.append(request)
+    cursor.close()
+    connection.close()
+    return requests
+
+
+def remove_request(user_id_from, user_id_to):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "DELETE FROM FRIEND_REQUESTS WHERE (USER_ID_FROM = %s) AND (USER_ID_TO = %s)"
+    data = (user_id_from, user_id_to)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def get_friends(user_id):
+    friends = []
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM FRIENDS WHERE USER1_ID = %s"
+    cursor.execute(statement, [user_id])
+    for row in cursor:
+        user1_id = row[0]
+        user2_id = row[1]
+        date_befriended = row[2]
+        is_blocked = row[3]
+        is_following = row[4]
+        num_of_shared_games = row[5]
+        is_favourite = row[6]
+        friend = Friend(user1_id, user2_id, date_befriended, is_blocked, is_following,
+                        num_of_shared_games, is_favourite)
+        friends.append(friend)
+    cursor.close()
+    connection.close()
+    return friends
+
+# def update_shared_games():
+
+
+
+
+
+
+
+

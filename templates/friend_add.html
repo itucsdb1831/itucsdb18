@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+  <h1 class="title">Add a Friend</h1>
+  <form action="" method="post" name="friend_add">
+      <div class="field">
+        <label for="user_name" class="label">Enter the user's name:</label>
+        <div class="control">
+          <input type="text" name="user_name" class="input" required="required"/>
+        </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="control">
+          <button class="button is-primary is-small">Add</button>
+        </div>
+      </div>
+    </form>
+{% endblock %}

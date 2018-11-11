@@ -62,7 +62,10 @@ def home_page():
 @login_required
 def profile():
     games_of_user = db.get_games_of_user(current_user.id)
-    return render_template("profile.html", user=current_user, games_of_user=games_of_user)
+    friend_requests = db.get_friend_requests(current_user.id)
+    friends = db.get_friends(current_user.id)
+    return render_template("profile.html", user=current_user, games_of_user=games_of_user,
+                           friend_requests=friend_requests, friends=friends)
 
 
 @app.route("/logout/")
@@ -174,7 +177,39 @@ def code_enter_page():
         valid = db.check_code(form_code)
         if valid:
             db.add_balance_to_user(current_user.id)
-            return render_template("code_enter_result.html", valid=valid)
+        return render_template("code_enter_result.html", valid=valid)
+
+# -----------------------------------------------------------------------
+
+
+@app.route("/profile/<int:user_id_to_add>", methods=['GET', 'POST'])
+@login_required
+def friend_request_page(user_id_to_add):
+    if request.method == "GET":
+        return render_template("friend_request.html", user_to_add=user_id_to_add)
+    else:
+        accepted = False
+        form_decision = request.form("decision")
+        if form_decision == "Accept":
+            accepted = True
+            db.add_friend(current_user.id, user_id_to_add)
+        db.remove_request(user_id_to_add, current_user.id)
+        return render_template("friend_request_result.html", accepted=accepted, user_added=user_id_to_add)
+
+
+@app.route("/profile/friend_add", methods=['GET', 'POST'])
+@login_required
+def friend_add_page():
+    if request.method == "GET":
+        return render_template("friend_add.html")
+    else:
+        valid = False
+        form_user_name = request.form["user_name"]
+        user_id_to = db.get_user_id(form_user_name)
+        if user_id_to is not None:
+            valid = True
+            db.send_friend_request(current_user.id, user_id_to)
+        return render_template("friend_add_result.html", valid=valid)
 
 
 if __name__ == "__main__":
