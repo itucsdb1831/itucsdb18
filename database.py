@@ -230,3 +230,47 @@ def get_items(game_id):
     cursor.close()
     connection.close()
     return items
+
+
+# -------------------------------------------------------
+
+
+def check_user_name(user_name):
+    valid = False
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM USERS WHERE NAME = %s"
+    cursor.execute(statement, [user_name])
+    if cursor.rowcount != 0:
+        valid = True
+    cursor.close()
+    connection.close()
+    return valid
+
+
+def send_friend_request():
+
+
+
+def add_friend(user1_id, user2_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "INSERT INTO FRIENDS(USER1_ID, USER2_ID, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
+    data = (user1_id, user2_id)
+    cursor.execute(statement, data)
+    data = (user2_id, user1_id)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
+def update_shared_games():
+
+
+
+
+
+
+
+
