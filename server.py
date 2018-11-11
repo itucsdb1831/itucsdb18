@@ -174,10 +174,12 @@ def friend_add_page():
     if request.method == "GET":
         return render_template("friend_add.html")
     else:
+        valid = False
         form_user_name = request.form["user_name"]
-        valid = db.check_user_name(form_user_name)
-        if valid:
-            db.send_friend_request()
+        user_id_to = db.get_user_id(form_user_name)
+        if user_id_to is not None:
+            valid = True
+            db.send_friend_request(current_user.id, user_id_to)
         return render_template("friend_add_result.html", valid=valid)
 
 
