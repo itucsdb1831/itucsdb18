@@ -1,0 +1,6 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <p>Item added!</p>
+    <p><a href="{{ url_for('game_page', game_id=game_id) }}">Click here to return to the game page.</a></p>
+{% endblock %}

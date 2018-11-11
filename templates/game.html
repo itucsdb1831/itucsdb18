@@ -55,4 +55,8 @@
 <p><a href="{{url_for('add_review', game_id=game.game_id)}}">Add review</a></p>
   {% endif %}
    <p><a href="{{ url_for('store_page') }}">Back</a></p>
+
+    {% if current_user.is_admin %}
+        <p><a href="{{url_for('item_add_page', game_id=game.game_id)}}">Add item</a></p>
+    {% endif %}
   {% endblock %}

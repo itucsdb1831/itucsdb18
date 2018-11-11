@@ -258,7 +258,18 @@ def decrease_balance_of_user(user_id, amount):
     cursor.close()
     connection.close()
 
-    
+
+def add_item(item):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = """INSERT INTO ITEMS (GAME_ID, NAME, RARITY, LEVEL) VALUES (%s, %s, %s, %s)"""
+    data = (item.game_id, item.name, item.rarity, item.level)
+    cursor.execute(statement, data)
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
 def get_items(game_id):
     items = []
     connection = dbapi2.connect(dsn)
