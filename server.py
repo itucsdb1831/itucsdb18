@@ -77,6 +77,7 @@ def logout():
     logout_user()
     return redirect(url_for("home_page"))
 
+
 @app.route("/store/<int:game_id>/add_review/", methods=["GET", "POST"])
 @login_required
 def add_review(game_id):
