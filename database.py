@@ -282,7 +282,8 @@ def get_friend_requests(user_id_to):
     cursor = connection.cursor()
     statement = "SELECT USER_ID_FROM FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
     cursor.execute(statement, [user_id_to])
-    for user_id_from in cursor:
+    for row in cursor:
+        user_id_from = row[0]
         request = FriendRequest(user_id_from, user_id_to)
         requests.append(request)
     cursor.close()
@@ -321,6 +322,10 @@ def get_friends(user_id):
     cursor.close()
     connection.close()
     return friends
+
+
+# def check_friend_request():
+
 
 # def update_shared_games():
 
