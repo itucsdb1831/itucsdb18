@@ -61,7 +61,9 @@ def home_page():
 @login_required
 def profile():
     games_of_user = db.get_games_of_user(current_user.id)
-    return render_template("profile.html", user=current_user, games_of_user=games_of_user)
+    friend_requests = db.get_friend_requests(current_user.id)
+    return render_template("profile.html", user=current_user, games_of_user=games_of_user,
+                           num_of_friend_requests=friend_requests.rowcount)
 
 
 @app.route("/logout/")
@@ -166,6 +168,23 @@ def code_enter_page():
         return render_template("code_enter_result.html", valid=valid)
 
 # -----------------------------------------------------------------------
+
+
+@app.route("/profile/friend_requests", methods=['GET', 'POST'])
+@login_required
+def friend_requests_page():
+    requests = db.get_friend_requests(current_user.id)
+    if request.method == "GET":
+        return render_template("friend_requests.html", requests=requests)
+    else:
+        accepted = False
+        form_decision = request.form("decision")
+        form_user_id_to_add = request.form("user_id_to_add")
+        if form_decision == "Accept":
+            accepted = True
+            db.add_friend(current_user.id, form_user_id_to_add)
+        db.remove_request(form_user_id_to_add, current_user.id)
+        return render_template("friend_requests_result.html", accepted=accepted)
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
