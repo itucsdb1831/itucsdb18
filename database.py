@@ -357,6 +357,10 @@ def get_friends(user_id):
 # def update_shared_games():
 
 
+# def check_if_already_friends():
+
+
+
 
 
 
