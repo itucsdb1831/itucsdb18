@@ -363,13 +363,24 @@ def get_friends(user_id):
     return friends
 
 
+def check_if_already_friends(user1_id, user2_id):
+    are_friends = False
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = "SELECT * FROM FRIENDS WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+    data = (user1_id, user2_id)
+    cursor.execute(statement, data)
+    if cursor.rowcount != 0:
+        are_friends = True
+    cursor.close()
+    connection.close()
+    return are_friends
+
+
 # def check_friend_request():
 
 
 # def update_shared_games():
-
-
-# def check_if_already_friends():
 
 
 # def cancel_friend_request():
