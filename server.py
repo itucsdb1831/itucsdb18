@@ -221,13 +221,21 @@ def friend_add_page():
     if request.method == "GET":
         return render_template("friend_add.html")
     else:
-        valid = False
         form_user_name = request.form["user_name"]
         user_id_to = db.get_user_id(form_user_name)
+        valid = False
+        are_friends = False
+        is_self = False
         if user_id_to is not None:
             valid = True
-            db.send_friend_request(current_user.id, user_id_to)
-        return render_template("friend_add_result.html", valid=valid)
+            are_friends = db.check_if_already_friends(current_user.id, user_id_to)
+            if not are_friends:
+                if current_user.id != user_id_to:
+                    db.send_friend_request(current_user.id, user_id_to)
+                else:
+                    is_self = True
+        return render_template("friend_add_result.html", valid=valid, are_friends=are_friends, is_self=is_self,
+                               user_to=user_id_to)
 
 
 if __name__ == "__main__":
