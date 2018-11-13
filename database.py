@@ -288,6 +288,16 @@ def get_items(game_id):
     return items
 
 
+def delete_item(item_id):
+    connection = dbapi2.connect(dsn)
+    cursor = connection.cursor()
+    statement = """DELETE FROM ITEMS WHERE ITEM_ID=%s"""
+    cursor.execute(statement, [item_id])
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+
 # -------------------------------------------------------
 
 
