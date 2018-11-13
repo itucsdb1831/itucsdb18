@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-<h1 class="title">Friend Request</h1>
-  {% if accepted %}
-    <p>{{ user_added }} has been added to your friends list!</p>
-  {% else %}
-    <p>You declined {{ user_added }}'s friend request.</p>
-  {% endif %}
-  <a class="button is-link" href="{{ url_for('profile') }}">Back to your profile</a>
+    <h1 class="title">Friend Request</h1>
+    {% if accepted %}
+        <p>{{ user_added }} has been added to your friends list!</p>
+    {% else %}
+        <p>You declined {{ user_added }}'s friend request.</p>
+    {% endif %}
+    <a class="button is-link" href="{{ url_for('profile') }}">Back to your profile</a>
 {% endblock %}

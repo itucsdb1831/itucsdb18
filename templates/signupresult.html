@@ -2,16 +2,16 @@
 {% block title %}Mercury{% endblock %}
 {% block content %}
 
-{% if successful %}
-         <p>account created successfully</p>
-	    <p><a href="{{ url_for('login') }}">Click here
-to log in.</a></p>
-        {% else %}
+    {% if successful %}
+        <p>account created successfully</p>
+        <p><a href="{{ url_for('login') }}">Click here
+            to log in.</a></p>
+    {% else %}
         <p>
             user name already exist
-            <a href="{{url_for('signup')}}">Try again</a>
+            <a href="{{ url_for('signup') }}">Try again</a>
         </p>
-        {% endif %}
-  </body>
-</html>
-  {% endblock %}
+    {% endif %}
+    </body>
+    </html>
+{% endblock %}

@@ -1,15 +1,15 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-<h1 class="title">Add a Friend</h1>
-{% if not valid %}
-  <p>User does not exist.</p>
-{% elif are_friends %}
-  <p>You are already friends with {{ user_to }}.</p>
-{% elif is_self %}
-  <p>You can not send a friend request to yourself.</p>
-{% else %}
-  <p>Request has been sent!</p>
-{% endif %}
-<a class="button is-link" href="{{ url_for('profile') }}">Back to your profile</a>
+    <h1 class="title">Add a Friend</h1>
+    {% if not valid %}
+        <p>User does not exist.</p>
+    {% elif are_friends %}
+        <p>You are already friends with {{ user_to }}.</p>
+    {% elif is_self %}
+        <p>You can not send a friend request to yourself.</p>
+    {% else %}
+        <p>Request has been sent!</p>
+    {% endif %}
+    <a class="button is-link" href="{{ url_for('profile') }}">Back to your profile</a>
 {% endblock %}

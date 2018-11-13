@@ -1,19 +1,19 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-<h1 class="title">Rate the game</h1>
-<form action="" method="post" name="game_rate">
-      <div class="field">
-        <label for="title" class="label">Your rating(0-10):</label>
-        <div class="control">
-          <input type="number" name="rating" class="input" required="required" min="0" max="10"/>
+    <h1 class="title">Rate the game</h1>
+    <form action="" method="post" name="game_rate">
+        <div class="field">
+            <label for="title" class="label">Your rating(0-10):</label>
+            <div class="control">
+                <input type="number" name="rating" class="input" required="required" min="0" max="10"/>
+            </div>
         </div>
-      </div>
-<div class="field is-grouped">
-        <div class="control">
-          <button class="button is-primary is-small">Save</button>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary is-small">Save</button>
+            </div>
         </div>
-      </div>
     </form>
 
 {% endblock %}
