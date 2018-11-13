@@ -226,16 +226,19 @@ def friend_add_page():
         valid = False
         are_friends = False
         is_self = False
+        already_sent = False
         if user_id_to is not None:
             valid = True
             are_friends = db.check_if_already_friends(current_user.id, user_id_to)
             if not are_friends:
                 if current_user.id != user_id_to:
-                    db.send_friend_request(current_user.id, user_id_to)
+                    already_sent = db.check_friend_request(current_user.id, user_id_to)
+                    if not already_sent:
+                        db.send_friend_request(current_user.id, user_id_to)
                 else:
                     is_self = True
         return render_template("friend_add_result.html", valid=valid, are_friends=are_friends, is_self=is_self,
-                               user_to=user_id_to)
+                               already_sent=already_sent, user_to=user_id_to)
 
 
 if __name__ == "__main__":

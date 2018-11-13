@@ -8,6 +8,8 @@
         <p>You are already friends with {{ user_to }}.</p>
     {% elif is_self %}
         <p>You can not send a friend request to yourself.</p>
+    {% elif already_sent %}
+        <p>You already sent a friend request to {{ user_to }}.</p>
     {% else %}
         <p>Request has been sent!</p>
     {% endif %}
