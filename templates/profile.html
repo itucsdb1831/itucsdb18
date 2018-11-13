@@ -2,44 +2,46 @@
 {% block title %}Mercury{% endblock %}
 {% block content %}
     <h1>{{ user.user_name }}</h1>
-    <p>hello {{user.user_name}}</p>
+    <p>hello {{ user.user_name }}</p>
     {% if not current_user.is_admin %}
-    <p>Your balance: {{ current_user.balance }}$</p>
+        <p>Your balance: {{ current_user.balance }}$</p>
     {% else %}
-    <p>Your balance: :)</p>
+        <p>Your balance: :)</p>
     {% endif %}
     <p>Library:</p>
-      {% if games_of_user %}
-    <table class="table is-striped is-fullwidth">
-	  <th>Title</th>
-	  <th>Time Played</th>
-	  <th>Time Purchased</th>
-      {% for game in games_of_user%}
-      <tr>
-        <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{game.title}} </a></td>
-	   <td>{{ game.time_played }} hours</td>
-	   <td>{{ game.time_purchased}}</td>
-      </tr>
-      {% endfor %}
-    </table>
+    {% if games_of_user %}
+        <table class="table is-striped is-fullwidth">
+            <th>Title</th>
+            <th>Time Played</th>
+            <th>Time Purchased</th>
+            {% for game in games_of_user %}
+                <tr>
+                    <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a></td>
+                    <td>{{ game.time_played }} hours</td>
+                    <td>{{ game.time_purchased }}</td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
     <p>Friends List:</p>
-      <table class="table is-striped is-fullwidth">
-          {% for friend in friends %}
+    <table class="table is-striped is-fullwidth">
+        {% for friend in friends %}
             <tr>
                 {{ friend.user2_id }}
             </tr>
-          {% endfor %}
-      </table>
+        {% endfor %}
+    </table>
     <p><a href="{{ url_for('friend_add_page') }}"> Add a friend </a></p>
     {% if friend_requests %}
-      <p>You have new friend requests:</p>
-       <table class="table is-striped is-fullwidth">
-       {% for request in friend_requests %}
-           <tr>
-           <td><a href="{{ url_for('friend_request_page', user_id_to_add=request.user_id_from) }}"> {{ request.user_id_from }} </a></td>
-           </tr>
-       {% endfor %}
-       </table>
+        <p>You have new friend requests:</p>
+        <table class="table is-striped is-fullwidth">
+            {% for request in friend_requests %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('friend_request_page', user_id_to_add=request.user_id_from) }}"> {{ request.user_id_from }} </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
     {% endif %}
 {% endblock %}

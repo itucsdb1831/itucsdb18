@@ -1,30 +1,30 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-   <h1 class="title">{{ game.title }}</h1>
-    <p> 
-   	<table class="table">
-      <tr>
-	  <th>Genre:</th>
-        <td>{{ game.genre }}</td>
-      </tr>
-       <tr>
-	   <th>Rating:</th>
-        <td>{{ game.rating }}</td>
-       </tr>
-       <tr>
-	   <th>Votes:</th>
-        <td>{{ game.votes }}</td>
-       </tr>
-       <tr>
-	   <th>Age Restriction:</th>
-        <td>{{ game.age_restriction }}+</td>
-       </tr>
-       <tr>
-	   <th>Price:</th>
-        <td>{{ game.price }}$</td>
-       </tr>
-	</table>
+    <h1 class="title">{{ game.title }}</h1>
+    <p>
+    <table class="table">
+        <tr>
+            <th>Genre:</th>
+            <td>{{ game.genre }}</td>
+        </tr>
+        <tr>
+            <th>Rating:</th>
+            <td>{{ game.rating }}</td>
+        </tr>
+        <tr>
+            <th>Votes:</th>
+            <td>{{ game.votes }}</td>
+        </tr>
+        <tr>
+            <th>Age Restriction:</th>
+            <td>{{ game.age_restriction }}+</td>
+        </tr>
+        <tr>
+            <th>Price:</th>
+            <td>{{ game.price }}$</td>
+        </tr>
+    </table>
     </p>
 
     <p>Items List:</p>
@@ -43,20 +43,20 @@
         {% endfor %}
     </table>
     <p>Reviews</p>
-        <ul>
-            {% for review in reviews %}
-                <li><p>{{review.label}}: {{review.content}}</p></li>
-            {% endfor %}
-        </ul>
+    <ul>
+        {% for review in reviews %}
+            <li><p>{{ review.label }}: {{ review.content }}</p></li>
+        {% endfor %}
+    </ul>
 
-  {% if current_user.is_authenticated %}
-   <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
-<p><a href="{{ url_for('game_purchase_page', game_id=game.game_id) }}">Purchase</a></p>
-<p><a href="{{url_for('add_review', game_id=game.game_id)}}">Add review</a></p>
-  {% endif %}
-   <p><a href="{{ url_for('store_page') }}">Back</a></p>
+    {% if current_user.is_authenticated %}
+        <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
+        <p><a href="{{ url_for('game_purchase_page', game_id=game.game_id) }}">Purchase</a></p>
+        <p><a href="{{ url_for('add_review', game_id=game.game_id) }}">Add review</a></p>
+    {% endif %}
+    <p><a href="{{ url_for('store_page') }}">Back</a></p>
 
     {% if current_user.is_admin %}
-        <p><a href="{{url_for('item_add_page', game_id=game.game_id)}}">Add item</a></p>
+        <p><a href="{{ url_for('item_add_page', game_id=game.game_id) }}">Add item</a></p>
     {% endif %}
-  {% endblock %}
+{% endblock %}

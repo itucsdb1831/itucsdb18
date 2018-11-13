@@ -1,41 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8"/>
     <title>{% block title %}{% endblock %}</title>
-  </head>
-  <body>
-    <header>
-<nav class="navbar" aria-label="main navigation">
+</head>
+<body>
+<header>
+    <nav class="navbar" aria-label="main navigation">
         <div class="navbar-brand">
           <span class="navbar-item">
             <a class="button is-link" href="{{ url_for('home_page') }}">Home</a>
           </span>
-          <span class="navbar-item">
+            <span class="navbar-item">
             <a class="button is-link" href="{{ url_for('store_page') }}">Store</a>
           </span>
-          {% if current_user.is_admin %}
-          <span class="navbar-item">
+            {% if current_user.is_admin %}
+                <span class="navbar-item">
             <a class="button is-link" href="{{ url_for('game_add_page') }}">Add game</a>
           </span>
-          {% endif %}
-          <span class="navbar-item">
+            {% endif %}
+            <span class="navbar-item">
           {% if not current_user.is_authenticated %}
-            <a class="button is-link" href="{{ url_for('login') }}">Log in</a>
-            <a class="button is-link" href="{{ url_for('signup') }}">Sign up</a>
+              <a class="button is-link" href="{{ url_for('login') }}">Log in</a>
+              <a class="button is-link" href="{{ url_for('signup') }}">Sign up</a>
           {% else %}
               <a class="button is-link" href="{{ url_for('code_enter_page') }}">Add balance</a>
-              <a class="button is-link" href="{{ url_for('profile', user=current_user) }}">{{ current_user.user_name }}</a>
+              <a class="button is-link"
+                 href="{{ url_for('profile', user=current_user) }}">{{ current_user.user_name }}</a>
               <a class="button is-link" href="{{ url_for('logout') }}">Log out</a>
           {% endif %}
           </span>
         </div>
-      </nav>
-    </header>
-    {% block content %}{% endblock %}
-    <footer>
-    </footer>
-  </body>
+    </nav>
+</header>
+{% block content %}{% endblock %}
+<footer>
+</footer>
+</body>
 </html>
 
  

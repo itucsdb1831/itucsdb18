@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-{% if valid %}
-  <p>100$ has been added to your balance!</p>
-  <a class="button is-link" href="{{ url_for('store_page') }}">Go to store</a>
-{% else %}
-  <p>Code is invalid</p>
-  <a class="button is-link" href="{{ url_for('code_enter_page') }}">Enter another code</a>
-{% endif %}
+    {% if valid %}
+        <p>100$ has been added to your balance!</p>
+        <a class="button is-link" href="{{ url_for('store_page') }}">Go to store</a>
+    {% else %}
+        <p>Code is invalid</p>
+        <a class="button is-link" href="{{ url_for('code_enter_page') }}">Enter another code</a>
+    {% endif %}
 {% endblock %}
