@@ -103,8 +103,14 @@ def store_page():
         return redirect(url_for("store_page"))
 
 
-@app.route("/store/<int:game_id>")
+@app.route("/store/<int:game_id>", methods=['GET', 'POST'])
 def game_page(game_id):
+    if request.method == 'POST':
+        form_item_ids = request.form.getlist("item_ids")
+        for form_item_id in form_item_ids:
+            db.delete_item(int(form_item_id))
+        return redirect(url_for("game_page", game_id=game_id))
+
     game = db.get_game(game_id)
     items = db.get_items(game_id)
     reviews = db.get_reviews4game(game_id)

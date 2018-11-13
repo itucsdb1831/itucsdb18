@@ -27,21 +27,38 @@
     </table>
     </p>
 
-    <p>Items List:</p>
-    <table class="table">
-        <tr>
-            <th>Item Name:</th>
-            <th>Rarity:</th>
-            <th>Level:</th>
-        </tr>
-        {% for item in items %}
+    <form action="" method="post" name="item_list">
+        <p>Items List:</p>
+        <table class="table">
             <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.rarity }}</td>
-                <td>{{ item.level }}</td>
+                <th>Item Name:</th>
+                <th>Rarity:</th>
+                <th>Level:</th>
             </tr>
-        {% endfor %}
-    </table>
+            {% for item in items %}
+                <tr>
+                    <td>
+                        {% if current_user.is_admin %}
+                            <label class="checkbox">
+                                <input type="checkbox" name="item_ids" value="{{ item.item_id }}"/>
+                            </label>
+                        {% endif %}
+                        {{ item.name }}
+                    </td>
+                    <td>{{ item.rarity }}</td>
+                    <td>{{ item.level }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {% if current_user.is_admin %}
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-danger is-small">Delete items</button>
+                </div>
+            </div>
+        {% endif %}
+    </form>
+
     <p>Reviews</p>
     <ul>
         {% for review in reviews %}
