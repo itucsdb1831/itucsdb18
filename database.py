@@ -18,9 +18,6 @@ class Database:
         self.connection = dbapi2.connect(self.dsn)
         self.cursor = self.connection.cursor()
 
-    def execute_on_database(self, statement):
-        self.cursor.execute(statement)
-
     def query_database(self, query):
         statement, data = query
         self.cursor.execute(statement, data)
@@ -141,7 +138,7 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM GAMES"
-        self.execute_on_database(statement)
+        self.cursor.execute(statement)
 
         games = []
         for row in self.cursor:
@@ -223,9 +220,7 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        valid = False
-        if self.cursor.rowcount != 0:
-            valid = True
+        valid = self.cursor.rowcount != 0
 
         self.disconnect()
         return valid
