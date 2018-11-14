@@ -2,12 +2,17 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
-import database as db
+from database import Database
 from game import Game
 from review import Review
 from item import Item
 
 # from database import get_user
+
+dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
+host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
+
+db = Database(dsn)
 
 app = Flask(__name__)
 app.config.from_object("settings")
@@ -113,7 +118,7 @@ def game_page(game_id):
 
     game = db.get_game(game_id)
     items = db.get_items(game_id)
-    reviews = db.get_reviews4game(game_id)
+    reviews = db.get_reviews_of_game(game_id)
     return render_template("game.html", game=game, items=items, reviews=reviews)
 
 
