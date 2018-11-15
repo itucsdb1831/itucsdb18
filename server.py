@@ -124,28 +124,27 @@ def game_add_page():
     if not current_user.is_admin:
         return render_template('not_allowed.html')
 
-    if request.method == "GET":
-        return render_template("game_add.html")
-    form_title = request.form["title"]
-    form_genre = request.form["genre"]
-    form_age_restriction = request.form["age_restriction"]
-    form_price = request.form["price"]
-    game = Game(None, form_title, form_genre, 0, 0, form_age_restriction, form_price)
-    db.add_game(game)
-    return redirect(url_for("game_add_page_result_page"))
+    if request.method == "POST":
+        form_title = request.form["title"]
+        form_genre = request.form["genre"]
+        form_age_restriction = request.form["age_restriction"]
+        form_price = request.form["price"]
+        game = Game(None, form_title, form_genre, 0, 0, form_age_restriction, form_price)
+        db.add_game(game)
+        return redirect(url_for("game_add_page_result_page"))
+    return render_template("game_add.html")
 
 
 @app.route("/store/<int:game_id>/item_add", methods=['GET', 'POST'])
 def item_add_page(game_id):
-    if request.method == 'GET':
-        return render_template("item_add.html")
-
-    form_name = request.form["name"]
-    form_rarity = request.form["rarity"]
-    form_level = request.form["level"]
-    item = Item(None, game_id, form_name, form_rarity, form_level)
-    db.add_item(item)
-    return render_template("item_add_result.html", game_id=game_id)
+    if request.method == 'POST':
+        form_name = request.form["name"]
+        form_rarity = request.form["rarity"]
+        form_level = request.form["level"]
+        item = Item(None, game_id, form_name, form_rarity, form_level)
+        db.add_item(item)
+        return render_template("item_add_result.html", game_id=game_id)
+    return render_template("item_add.html")
 
 
 @app.route("/game_add_result")
@@ -159,11 +158,11 @@ def game_add_page_result_page():
 @app.route("/store/<int:game_id>/game_rate", methods=['GET', 'POST'])
 @login_required
 def game_rate_page(game_id):
-    if request.method == "GET":
-        return render_template("game_rate.html")
-    form_rating = request.form["rating"]
-    db.update_rating_of_game(game_id, form_rating)
-    return redirect(url_for("game_rate_page_result_page"))
+    if request.method == "POST":
+        form_rating = request.form["rating"]
+        db.update_rating_of_game(game_id, form_rating)
+        return redirect(url_for("game_rate_page_result_page"))
+    return render_template("game_rate.html")
 
 
 @app.route("/store/game_rate_result")
@@ -193,13 +192,13 @@ def game_purchase_result_page(game_id):
 @app.route("/profile/code_enter", methods=['GET', 'POST'])
 @login_required
 def code_enter_page():
-    if request.method == "GET":
-        return render_template("code_enter.html")
-    form_code = request.form["code"]
-    valid = db.check_code(form_code)
-    if valid:
-        db.add_balance_to_user(current_user.id)
-    return render_template("code_enter_result.html", valid=valid)
+    if request.method == "POST":
+        form_code = request.form["code"]
+        valid = db.check_code(form_code)
+        if valid:
+            db.add_balance_to_user(current_user.id)
+        return render_template("code_enter_result.html", valid=valid)
+    return render_template("code_enter.html")
 
 # -----------------------------------------------------------------------
 
@@ -207,34 +206,34 @@ def code_enter_page():
 @app.route("/profile/<int:user_id_to_add>", methods=['GET', 'POST'])
 @login_required
 def friend_request_page(user_id_to_add):
-    if request.method == "GET":
-        return render_template("friend_request.html", user_to_add=user_id_to_add)
-    form_decision = request.form["decision"]
-    is_accepted = form_decision == "Accept"
-    if is_accepted:
-        db.add_friend(current_user.id, user_id_to_add)
-    db.remove_request(user_id_to_add, current_user.id)
-    return render_template("friend_request_result.html", accepted=is_accepted, user_added=user_id_to_add)
+    if request.method == "POST":
+        form_decision = request.form["decision"]
+        is_accepted = form_decision == "Accept"
+        if is_accepted:
+            db.add_friend(current_user.id, user_id_to_add)
+        db.remove_request(user_id_to_add, current_user.id)
+        return render_template("friend_request_result.html", accepted=is_accepted, user_added=user_id_to_add)
+    return render_template("friend_request.html", user_to_add=user_id_to_add)
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
 @login_required
 def friend_add_page():
-    if request.method == "GET":
-        return render_template("friend_add.html")
-    form_user_name = request.form["user_name"]
-    user_id_to = db.get_user_id(form_user_name)
-    is_valid = user_id_to is not None
-    if is_valid:
-        user_to = db.get_user(user_id_to)
-        are_friends = db.check_if_already_friends(current_user.id, user_id_to)
-        is_self = current_user.id == user_id_to
-        already_sent = db.check_friend_request(current_user.id, user_id_to)
-        if not are_friends and not is_self and not already_sent:
-            db.send_friend_request(current_user.id, user_id_to)
+    if request.method == "POST":
+        form_user_name = request.form["user_name"]
+        user_id_to = db.get_user_id(form_user_name)
+        is_valid = user_id_to is not None
+        if is_valid:
+            user_to = db.get_user(user_id_to)
+            are_friends = db.check_if_already_friends(current_user.id, user_id_to)
+            is_self = current_user.id == user_id_to
+            already_sent = db.check_friend_request(current_user.id, user_id_to)
+            if not are_friends and not is_self and not already_sent:
+                db.send_friend_request(current_user.id, user_id_to)
 
-    return render_template("friend_add_result.html", valid=is_valid, are_friends=are_friends, is_self=is_self,
-                           already_sent=already_sent, user_to=user_to.user_name)
+        return render_template("friend_add_result.html", valid=is_valid, are_friends=are_friends, is_self=is_self,
+                               already_sent=already_sent, user_to=user_to.user_name)
+    return render_template("friend_add.html")
 
 
 if __name__ == "__main__":
