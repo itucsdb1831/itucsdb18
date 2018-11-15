@@ -9,8 +9,8 @@ from item import Item
 
 # from database import get_user
 
-dsn = """user=khxcpxyuayifiy password=a71d836a4a3e8c9d4030a8bd40ffec8d7e43202bf75ece49c4635701c10cd21f
-host=ec2-54-247-124-154.eu-west-1.compute.amazonaws.com port=5432 dbname=dd7j2nqkjb2bs9"""
+with open("dsn.txt") as file:
+    dsn = file.read()
 
 db = Database(dsn)
 
