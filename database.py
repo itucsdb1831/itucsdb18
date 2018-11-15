@@ -182,8 +182,8 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        success = self.cursor.rowcount == 0
-        if success:
+        is_successful = self.cursor.rowcount == 0
+        if is_successful:
             game = self.get_game(game_id)
             statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TITLE, TIME_PURCHASED) VALUES(%s, %s, %s, CURRENT_DATE)"
             data = (user_id, game_id, game.title)
@@ -191,7 +191,7 @@ class Database:
             self.query_database(query)
 
         self.disconnect()
-        return success
+        return is_successful
 
     def get_games_of_user(self, user_id):
         self.connect()
@@ -219,10 +219,10 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        valid = self.cursor.rowcount != 0
+        is_valid = self.cursor.rowcount != 0
 
         self.disconnect()
-        return valid
+        return is_valid
 
     def add_balance_to_user(self, user_id):
         self.connect()
