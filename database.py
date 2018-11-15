@@ -182,14 +182,13 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        success = False
-        if self.cursor.rowcount == 0:
+        success = self.cursor.rowcount == 0
+        if success:
             game = self.get_game(game_id)
             statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TITLE, TIME_PURCHASED) VALUES(%s, %s, %s, CURRENT_DATE)"
             data = (user_id, game_id, game.title)
             query = statement, data
             self.query_database(query)
-            success = True
 
         self.disconnect()
         return success
