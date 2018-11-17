@@ -82,25 +82,28 @@ class Database:
     def insert_review(self, review):
         self.connect()
 
-        statement = """INSERT INTO REVIEWS (USER_ID, GAME_ID, LABEL, CONTENT) VALUES (%s, %s, %s, %s)"""
-        data = (review.user_id, review.game_id, review.label, review.content)
+        statement = """INSERT INTO REVIEWS (USER_ID, GAME_ID, LABEL, CONTENT, ADDED) VALUES (%s, %s, %s, %s, %s)"""
+        data = (review.user_id, review.game_id, review.label, review.content, review.added)
         query = statement, data
         self.query_database(query)
 
         self.disconnect()
 
-    def get_reviews_of_game(self, game_id):
+    def get_reviews_of_game(self, game_id, user_id = None):
         self.connect()
 
-        statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, LIKES, DISLIKES FROM REVIEWS WHERE GAME_ID=%s"""
+        statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED FROM REVIEWS WHERE GAME_ID=%s"""
         data = (game_id,)
+        if user_id != None:
+            statement += " AND USER_ID=%s"
+            data += (str(user_id),)
         query = statement, data
         self.query_database(query)
 
         reviews = []
         for row in self.cursor:
-            review_id, user_id, label, content, likes, dislikes = row
-            reviews.append(Review(user_id, game_id, label, content, likes, dislikes, review_id))
+            review_id, user_id, label, content, added, likes, dislikes, edited = row
+            reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id))
 
         self.disconnect()
         return reviews
