@@ -62,7 +62,7 @@
     <p>Reviews</p>
     <ul>
         {% for review in reviews %}
-            <li><p>{{ review.label }}: {{ review.content }}</p></li>
+            <li><p>{{ review.label }}: {{ review.content (Submitted: {{review.added}} {% if review.edited != None %}Last change: {{review.edited}}{% endif %})}}</p></li>
         {% endfor %}
     </ul>
 
