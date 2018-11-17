@@ -6,6 +6,7 @@ from database import Database
 from game import Game
 from review import Review
 from item import Item
+from datetime import datetime
 
 # from database import get_user
 
@@ -85,10 +86,18 @@ def logout():
 @app.route("/store/<int:game_id>/add_review/", methods=["GET", "POST"])
 @login_required
 def add_review(game_id):
+    prev_review = db.get_reviews_of_game(game_id, current_user.id)
+    duplicate = len(prev_review) != 0
     if request.method == "POST":
-        db.insert_review(Review(current_user.id, game_id, request.form.get("label"), request.form.get("content")))
+        if duplicate:
+            db.update_review(prev_review[0].id, request.form.get("label"), request.form.get("content"), str(datetime.utcnow()))
+        else:
+            db.insert_review(Review(current_user.id, game_id, request.form.get("label"), str(datetime.utcnow()), request.form.get("content")))
         return redirect(url_for('game_page', game_id=game_id))
-    return render_template("add_review.html", game=db.get_game(game_id))
+    if duplicate:
+        return render_template("add_review.html", game=db.get_game(game_id), review=prev_review[0])
+    else:
+        return render_template("add_review.html", game=db.get_game(game_id), review=None)
 
 # -----------------------------------------------------------------------
 
