@@ -1,5 +1,5 @@
 class Review:
-    def __init__(self, user_id, game_id, label, content="", likes=0, dislikes=0, id=None):
+    def __init__(self, user_id, game_id, label, added, content="", likes=0, dislikes=0, edited = None, id=None):
         self.user_id = user_id
         self.game_id = game_id
         self.label = label
@@ -7,3 +7,5 @@ class Review:
         self.likes = 0
         self.dislikes = 0
         self.id=id
+        self.added = added
+        self.edited = edited
