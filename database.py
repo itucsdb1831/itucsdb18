@@ -107,6 +107,16 @@ class Database:
 
         self.disconnect()
         return reviews
+    
+    def update_review(self, review_id, label, content, edited):
+        self.connect()
+
+        statement = """UPDATE REVIEWS SET CONTENT=%s, LABEL=%s, UPDATED=%s WHERE REVIEW_ID=%s"""
+        data = (content, label, edited, review_id)
+        query = statement, data
+        self.query_database(query)
+        
+        self.disconnect()
 
     # -------------------------------------------------------
 
