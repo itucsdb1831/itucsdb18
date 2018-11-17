@@ -43,8 +43,10 @@ class Database:
         statement = """SELECT * FROM USERS WHERE NAME=%s"""
         data = (user_name,)
         query = statement, data
-        self.query_database(query)
-
+        self.query_database(query)     
+        if self.cursor.rowcount == 0:
+            return None
+        
         user_id, name, password, is_active, is_admin, balance = self.cursor.fetchone()
         user = User(name, password, is_active, is_admin, balance, user_id)
 
