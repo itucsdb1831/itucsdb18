@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
+<script src="{{ url_for('static', filename='review_feedback.js') }}"></script>
     <h1 class="title">{{ game.title }}</h1>
     <p>
     <table class="table">
@@ -62,7 +63,14 @@
     <p>Reviews</p>
     <ul>
         {% for review in reviews %}
-            <li><p>{{ review.label }}: {{ review.content (Submitted: {{review.added}} {% if review.edited != None %}Last change: {{review.edited}}{% endif %})}}</p></li>
+            <li><p>{{ review.label }}: {{ review.content }} (Submitted: {{review.added}} {% if review.edited != None %}Last change: {{review.edited}}{% endif %})
+                <form id="like">
+                    <button id="like_sub" value="{{review.id}}" {% if review.disliked_from_current %} disabled {% endif %}>{% if review.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
+                </form>
+                <form id="dislike">
+                    <button id="disl_sub" value="{{review.id}}" {% if review.liked_from_current %} disabled {% endif %}>{% if review.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
+                </form>
+            </p></li>
         {% endfor %}
     </ul>
 
