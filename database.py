@@ -91,14 +91,11 @@ class Database:
 
         self.disconnect()
 
-    def get_reviews_of_game(self, game_id, user_id = None):
+    def get_reviews_of_game(self, game_id, cur_user_id):
         self.connect()
 
         statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED FROM REVIEWS WHERE GAME_ID=%s"""
         data = (game_id,)
-        if user_id != None:
-            statement += " AND USER_ID=%s"
-            data += (str(user_id),)
         query = statement, data
         self.query_database(query)
 
@@ -107,6 +104,23 @@ class Database:
             review_id, user_id, label, content, added, likes, dislikes, edited = row
             reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id))
 
+        for review in reviews:
+            review.liked_from_current = self.get_like_of_user(review.id, cur_user_id, "review")
+            review.disliked_from_current = self.get_dislike_of_user(review.id, cur_user_id, "review")
+        self.disconnect()
+        return reviews
+    
+    def get_prev_review(self, game_id, user_id):
+        self.connect()
+
+        statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED FROM REVIEWS WHERE GAME_ID=%s AND USER_ID=%s"""
+        data = (game_id, str(user_id),)
+        query = statement, data
+        self.query_database(query)
+        reviews = []
+        for row in self.cursor:
+            review_id, user_id, label, content, added, likes, dislikes, edited = row
+            reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id))
         self.disconnect()
         return reviews
     
@@ -119,6 +133,66 @@ class Database:
         self.query_database(query)
         
         self.disconnect()
+    
+    def add_like(self, entity_id, user_id, entity_type):
+        self.connect()
+        statement = """INSERT INTO LIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
+        data = (entity_id, user_id, entity_type)
+        query = statement, data
+
+        self.query_database(query)
+        self.disconnect()
+    
+    def remove_like(self, entity_id, user_id, entity_type):
+        self.connect()
+        statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (entity_id, user_id, entity_type)
+        query = statement, data
+
+        self.query_database(query)
+        self.disconnect()
+    
+    def get_like_of_user(self, entity_id, user_id, entity_type):
+        self.connect()
+        statement = """SELECT * FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (entity_id, user_id, entity_type)
+        query = statement, data
+        self.query_database(query)
+        
+        is_liked = self.cursor.rowcount != 0
+        self.disconnect()
+        print(is_liked)
+        return is_liked
+    
+    def add_dislike(self, entity_id, user_id, entity_type):
+        self.connect()
+        statement = """INSERT INTO DISLIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
+        data = (entity_id, user_id, entity_type)
+        query = statement, data
+
+        self.query_database(query)
+        self.disconnect()
+    
+    def remove_dislike(self, entity_id, user_id, entity_type):
+        self.connect()
+        statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (entity_id, user_id, entity_type)
+        query = statement, data
+
+        self.query_database(query)
+        self.disconnect()
+    
+    def get_dislike_of_user(self, entity_id, user_id, entity_type):
+        self.connect()
+        statement = """SELECT * FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (entity_id, user_id, entity_type)
+        query = statement, data
+        self.query_database(query)
+        is_disliked = self.cursor.rowcount != 0
+
+        self.disconnect()
+        print(is_disliked)
+        return is_disliked
 
     # -------------------------------------------------------
 
