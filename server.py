@@ -86,7 +86,7 @@ def logout():
 @app.route("/store/<int:game_id>/add_review/", methods=["GET", "POST"])
 @login_required
 def add_review(game_id):
-    prev_review = db.get_reviews_of_game(game_id, current_user.id)
+    prev_review = db.get_prev_review(game_id, current_user.id)
     duplicate = len(prev_review) != 0
     if request.method == "POST":
         if duplicate:
@@ -98,6 +98,21 @@ def add_review(game_id):
         return render_template("add_review.html", game=db.get_game(game_id), review=prev_review[0])
     else:
         return render_template("add_review.html", game=db.get_game(game_id), review=None)
+
+@app.route("/process_review_feedback/", methods=["POST"])
+@login_required
+def process_review_feedback():
+    if request.form.get("sit4process") == "like":
+        if request.form.get("like_sit") == "Like":
+            db.add_like(request.form.get("review_id"), current_user.id, "review")
+        if request.form.get("like_sit") == "You Liked It":
+            db.remove_like(request.form.get("review_id"), current_user.id, "review")
+    if request.form.get("sit4process") == "dislike":
+        if request.form.get("disl_sit") == "Dislike":
+            db.add_dislike(request.form.get("review_id"), current_user.id, "review")
+        if request.form.get("disl_sit") == "You Disliked It":
+            db.remove_dislike(request.form.get("review_id"), current_user.id, "review")
+    return jsonify({"success": True})
 
 # -----------------------------------------------------------------------
 
