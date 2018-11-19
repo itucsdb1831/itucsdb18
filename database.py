@@ -75,8 +75,10 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        row = self.cursor.fetchone()
-        user_id = row[0]
+        user_id = None
+        if self.cursor.rowcount != 0:
+            row = self.cursor.fetchone()
+            user_id = row[0]
 
         self.disconnect()
         return user_id

@@ -249,16 +249,21 @@ def friend_add_page():
         form_user_name = request.form["user_name"]
         user_id_to = db.get_user_id(form_user_name)
         is_valid = user_id_to is not None
+        are_friends = False
+        is_self = False
+        already_sent = False
+        user_to = None
         if is_valid:
             user_to = db.get_user(user_id_to)
             are_friends = db.check_if_already_friends(current_user.id, user_id_to)
-            is_self = current_user.id == user_id_to
+            if current_user.id == user_id_to:
+                is_self = True
             already_sent = db.check_friend_request(current_user.id, user_id_to)
             if not are_friends and not is_self and not already_sent:
                 db.send_friend_request(current_user.id, user_id_to)
 
         return render_template("friend_add_result.html", valid=is_valid, are_friends=are_friends, is_self=is_self,
-                               already_sent=already_sent, user_to=user_to.user_name)
+                               already_sent=already_sent, user_to=user_to)
     return render_template("friend_add.html")
 
 
