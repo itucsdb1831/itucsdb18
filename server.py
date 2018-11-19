@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
