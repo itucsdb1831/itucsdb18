@@ -99,6 +99,7 @@ def add_review(game_id):
     else:
         return render_template("add_review.html", game=db.get_game(game_id), review=None)
 
+
 @app.route("/process_review_feedback/", methods=["POST"])
 @login_required
 def process_review_feedback():
@@ -230,14 +231,15 @@ def code_enter_page():
 @app.route("/profile/<int:user_id_to_add>", methods=['GET', 'POST'])
 @login_required
 def friend_request_page(user_id_to_add):
+    user_name_to_add = db.get_user(user_id_to_add).user_name
     if request.method == "POST":
         form_decision = request.form["decision"]
         is_accepted = form_decision == "Accept"
         if is_accepted:
             db.add_friend(current_user.id, user_id_to_add)
         db.remove_request(user_id_to_add, current_user.id)
-        return render_template("friend_request_result.html", accepted=is_accepted, user_added=user_id_to_add)
-    return render_template("friend_request.html", user_to_add=user_id_to_add)
+        return render_template("friend_request_result.html", accepted=is_accepted, user_added=user_name_to_add)
+    return render_template("friend_request.html", user_to_add=user_name_to_add)
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
