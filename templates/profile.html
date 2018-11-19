@@ -27,7 +27,7 @@
     <table class="table is-striped is-fullwidth">
         {% for friend in friends %}
             <tr>
-                {{ friend.user2_id }}
+                {{ friend.user2_name}}
             </tr>
         {% endfor %}
     </table>
@@ -38,7 +38,7 @@
             {% for request in friend_requests %}
                 <tr>
                     <td>
-                        <a href="{{ url_for('friend_request_page', user_id_to_add=request.user_id_from) }}"> {{ request.user_id_from }} </a>
+                        <a href="{{ url_for('friend_request_page', user_id_to_add=request.user_id_from) }}"> {{ request.user_name_from }} </a>
                     </td>
                 </tr>
             {% endfor %}

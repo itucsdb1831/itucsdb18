@@ -377,24 +377,28 @@ class Database:
     # -------------------------------------------------------
 
     def send_friend_request(self, user_id_from, user_id_to):
+        user_name_from = self.get_user(user_id_from).user_name
         self.connect()
 
-        statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s)"
-        data = (user_id_from, user_id_to)
+        statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s, %s)"
+        data = (user_id_from, user_id_to, user_name_from)
         query = statement, data
         self.query_database(query)
 
         self.disconnect()
 
     def add_friend(self, user1_id, user2_id):
+        user2_name = self.get_user(user2_id).user_name
+        user1_name = self.get_user(user1_id).user_name
         self.connect()
 
-        statement = "INSERT INTO FRIENDS(USER1_ID, USER2_ID, DATE_BEFRIENDED) VALUES(%s, %s, CURRENT_DATE)"
-        data = (user1_id, user2_id)
+        statement = "INSERT INTO FRIENDS(USER1_ID, USER2_ID, USER2_NAME, DATE_BEFRIENDED)" \
+                    " VALUES(%s, %s, %s, CURRENT_DATE)"
+        data = (user1_id, user2_id, user2_name)
         query = statement, data
         self.query_database(query)
 
-        data = (user2_id, user1_id)
+        data = (user2_id, user1_id, user1_name)
         query = statement, data
         self.query_database(query)
 
@@ -402,7 +406,7 @@ class Database:
 
     def get_friend_requests(self, user_id_to):
         self.connect()
-        statement = "SELECT USER_ID_FROM FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
+        statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
         data = [user_id_to]
         query = statement, data
         self.query_database(query)
@@ -410,7 +414,8 @@ class Database:
         requests = []
         for row in self.cursor:
             user_id_from = row[0]
-            request = FriendRequest(user_id_from, user_id_to)
+            user_name_from = row[1]
+            request = FriendRequest(user_id_from, user_name_from, user_id_to)
             requests.append(request)
 
         self.disconnect()
@@ -436,9 +441,9 @@ class Database:
 
         friends = []
         for row in self.cursor:
-            (user1_id, user2_id, date_befriended, is_blocked, is_following,
+            (user1_id, user2_id, user2_name, date_befriended, is_blocked, is_following,
              num_of_shared_games, is_favourite) = row
-            friend = Friend(user1_id, user2_id, date_befriended, is_blocked, is_following,
+            friend = Friend(user1_id, user2_id, user2_name, date_befriended, is_blocked, is_following,
                             num_of_shared_games, is_favourite)
             friends.append(friend)
 
@@ -471,6 +476,6 @@ class Database:
         self.disconnect()
         return already_sent
 
-    # def update_shared_games():
-
     # def cancel_friend_request():
+
+    # def update_shared_games():
