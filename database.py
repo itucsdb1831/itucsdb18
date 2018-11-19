@@ -414,7 +414,7 @@ class Database:
         requests = []
         for row in self.cursor:
             user_id_from = row[0]
-            user_name_from = row[1]
+            user_name_from = row[2]
             request = FriendRequest(user_id_from, user_name_from, user_id_to)
             requests.append(request)
 
