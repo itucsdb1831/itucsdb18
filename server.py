@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
+from flask_uploads import UploadSet, configure_uploads, IMAGES
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from user import User
 from passlib.hash import pbkdf2_sha256 as hasher
@@ -18,6 +19,11 @@ db = Database(dsn)
 app = Flask(__name__)
 app.config.from_object("settings")
 app.secret_key = b'\xfa\r\xad<\xc8s\x08\xc7\xa4\x9f!\xb7Rz\\\x86'
+
+images = UploadSet("images", IMAGES)
+img_source = 'static/img'
+app.config['UPLOADED_IMAGES_DEST'] = img_source
+configure_uploads(app, images)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -105,15 +111,30 @@ def add_review(game_id):
 def process_review_feedback():
     if request.form.get("sit4process") == "like":
         if request.form.get("like_sit") == "Like":
-            db.add_like(request.form.get("review_id"), current_user.id, "review")
+            db.add_like(request.form.get("review_id"), current_user.id, "REVIEWS")
         if request.form.get("like_sit") == "You Liked It":
-            db.remove_like(request.form.get("review_id"), current_user.id, "review")
+            db.remove_like(request.form.get("review_id"), current_user.id, "REVIEWS")
     if request.form.get("sit4process") == "dislike":
         if request.form.get("disl_sit") == "Dislike":
-            db.add_dislike(request.form.get("review_id"), current_user.id, "review")
+            db.add_dislike(request.form.get("review_id"), current_user.id, "REVIEWS")
         if request.form.get("disl_sit") == "You Disliked It":
-            db.remove_dislike(request.form.get("review_id"), current_user.id, "review")
+            db.remove_dislike(request.form.get("review_id"), current_user.id, "REVIEWS")
     return jsonify({"success": True})
+
+@app.route("/store/<int:game_id>/add_screenshot/", methods=["GET", "POST"])
+@login_required
+def add_screenshot(game_id):
+    if request.method == "GET":
+        return render_template("add_screenshot.html", game=db.get_game(game_id))
+    if "img" in request.files:
+        img = request.files["img"]
+        valid_ext = [".jpg", ".png"]
+        if img.filename[len(img.filename)-4:] in valid_ext:
+            img_name = images.save(img)
+            db.insert_screenshot(Screenshot(img_name,current_user.id,game_id,request.form.get("caption"),str(datetime.utcnow())))
+            return img_name + " has been added!"
+    else:
+        return "unsuccessful!!!"
 
 # -----------------------------------------------------------------------
 
@@ -140,7 +161,8 @@ def game_page(game_id):
     game = db.get_game(game_id)
     items = db.get_items(game_id)
     reviews = db.get_reviews_of_game(game_id, current_user.id)
-    return render_template("game.html", game=game, items=items, reviews=reviews)
+    screenshots = db.get_screenshots_of_game(game_id)
+    return render_template("game.html", game=game, items=items, reviews=reviews, screenshots = screenshots, images = images)
 
 
 @app.route("/game_add", methods=['GET', 'POST'])
