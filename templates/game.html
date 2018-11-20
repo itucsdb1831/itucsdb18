@@ -73,6 +73,12 @@
             </p></li>
         {% endfor %}
     </ul>
+    <p>Screenshots</p>
+    <ul>
+        {% for shot in screenshots %}
+            <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}</li>
+        {% endfor %}
+    </ul>
 
     {% if current_user.is_authenticated %}
         <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
