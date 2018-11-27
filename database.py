@@ -6,7 +6,7 @@ from item import Item
 from review import Review
 from friend import Friend
 from friend_request import FriendRequest
-
+from screenshot import Screenshot
 
 class Database:
     def __init__(self, dsn):
