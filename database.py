@@ -216,7 +216,7 @@ class Database:
         print(is_disliked)
         return is_disliked
     
-        def insert_screenshot(self, ss):
+    def insert_screenshot(self, ss):
         self.connect()
 
         statement = "INSERT INTO SCREENSHOTS (NAME, USER_ID, GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES) VALUES (%s, %s, %s, %s, %s, %s, %s)"
