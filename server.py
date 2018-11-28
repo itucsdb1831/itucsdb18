@@ -139,7 +139,7 @@ def game_page(game_id):
 
     game = db.get_game(game_id)
     items = db.get_items(game_id)
-    reviews = db.get_reviews_of_game(game_id)
+    reviews = db.get_reviews_of_game(game_id, current_user.id)
     return render_template("game.html", game=game, items=items, reviews=reviews)
 
 
