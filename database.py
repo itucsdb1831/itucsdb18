@@ -6,7 +6,7 @@ from item import Item
 from review import Review
 from friend import Friend
 from friend_request import FriendRequest
-
+from screenshot import Screenshot
 
 class Database:
     def __init__(self, dsn):
@@ -107,8 +107,8 @@ class Database:
             reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id))
 
         for review in reviews:
-            review.liked_from_current = self.get_like_of_user(review.id, cur_user_id, "review")
-            review.disliked_from_current = self.get_dislike_of_user(review.id, cur_user_id, "review")
+            review.liked_from_current = self.get_like_of_user(review.id, cur_user_id, "REVIEWS")
+            review.disliked_from_current = self.get_dislike_of_user(review.id, cur_user_id, "REVIEWS")
         self.disconnect()
         return reviews
     
@@ -141,7 +141,12 @@ class Database:
         statement = """INSERT INTO LIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
         data = (entity_id, user_id, entity_type)
         query = statement, data
-
+        self.query_database(query)
+        
+        statements = {"REVIEWS" : "UPDATE REVIEWS SET LIKES = LIKES + 1 WHERE REVIEW_ID=%s",
+        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES + 1 WHERE SHOT_ID=%s"}
+        data = (entity_id)
+        query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
     
@@ -150,7 +155,12 @@ class Database:
         statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
         data = (entity_id, user_id, entity_type)
         query = statement, data
+        self.query_database(query)
 
+        statements = {"REVIEWS" : "UPDATE REVIEWS SET LIKES = LIKES - 1 WHERE REVIEW_ID=%s",
+        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES - 1 WHERE SHOT_ID=%s"}
+        data = (entity_id)
+        query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
     
@@ -171,7 +181,12 @@ class Database:
         statement = """INSERT INTO DISLIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
         data = (entity_id, user_id, entity_type)
         query = statement, data
-
+        self.query_database(query)
+        
+        statements = {"REVIEWS" : "UPDATE REVIEWS SET DISLIKES = DISLIKES + 1 WHERE REVIEW_ID=%s",
+        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES + 1 WHERE SHOT_ID=%s"}
+        data = (entity_id)
+        query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
     
@@ -180,7 +195,12 @@ class Database:
         statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
         data = (entity_id, user_id, entity_type)
         query = statement, data
+        self.query_database(query)
 
+        statements = {"REVIEWS" : "UPDATE REVIEWS SET DISLIKES = DISLIKES - 1 WHERE REVIEW_ID=%s",
+        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES - 1 WHERE SHOT_ID=%s"}
+        data = (entity_id)
+        query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
     
@@ -195,6 +215,29 @@ class Database:
         self.disconnect()
         print(is_disliked)
         return is_disliked
+    
+    def insert_screenshot(self, ss):
+        self.connect()
+
+        statement = "INSERT INTO SCREENSHOTS (NAME, USER_ID, GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        data = (ss.name, ss.user_id, ss.game_id, ss.caption, ss.date_added, ss.likes, ss.dislikes)
+        query = statement, data
+        self.query_database(query)
+        self.disconnect()
+    
+    def get_screenshots_of_game(self, game_id):
+        self.connect()
+
+        statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID FROM SCREENSHOTS WHERE GAME_ID=%s"
+        data = (str(game_id))
+        query = statement, data
+        self.query_database(query)
+        sss = []
+        for row in self.cursor:
+            name, user_id, caption, date_added, likes, dislikes, shot_id = row
+            sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id))
+        self.disconnect()
+        return sss
 
     # -------------------------------------------------------
 
