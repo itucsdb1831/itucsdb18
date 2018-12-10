@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
+    <script src="{{ url_for('static', filename='friend_request_feedback.js') }}"></script>
     <h1>{{ user.user_name }}</h1>
     <p>hello {{ user.user_name }}</p>
     {% if not current_user.is_admin %}
@@ -33,15 +34,14 @@
     </table>
     <p><a href="{{ url_for('friend_add_page') }}"> Add a friend </a></p>
     {% if friend_requests %}
-        <p>You have new friend requests:</p>
-        <table class="table is-striped is-fullwidth">
-            {% for request in friend_requests %}
-                <tr>
-                    <td>
-                        <a href="{{ url_for('friend_request_page', user_id_to_add=request.user_id_from) }}"> {{ request.user_name_from }} </a>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        <p>You have new friend requests from:</p>
+            <ul>
+                {% for request in friend_requests %}
+                    <li id="{{ request.user_id_from }}"><p> {{ request.user_name_from }}
+                            <button onclick="acceptRequest({{ request.user_id_from }}, {{ request.user_id_to }})">Accept</button>
+                            <button onclick="declineRequest({{ request.user_id_from }}, {{ request.user_id_to }})">Decline</button>
+                    </p></li>
+                {% endfor %}
+            </ul>
     {% endif %}
 {% endblock %}
