@@ -121,6 +121,7 @@ def process_review_feedback():
             db.remove_dislike(request.form.get("review_id"), current_user.id, "REVIEWS")
     return jsonify({"success": True})
 
+
 @app.route("/store/<int:game_id>/add_screenshot/", methods=["GET", "POST"])
 @login_required
 def add_screenshot(game_id):
