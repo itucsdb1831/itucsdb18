@@ -105,11 +105,11 @@ def add_review(game_id):
     else:
         return render_template("add_review.html", game=db.get_game(game_id), review=None)
 
-@app.route("/store/<int:game_id>/delete_review/", methods=["POST"])
+@app.route("/delete_review/", methods=["POST"])
 @login_required
-def delete_review(game_id):
-    db.delete_review(game_id, current_user.id)
-    return redirect(url_for('game_page', game_id=game_id))
+def delete_review():
+    db.delete_review(request.form.get("review_id"))
+    return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
 
 @app.route("/process_review_feedback/", methods=["POST"])
