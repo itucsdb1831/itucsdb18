@@ -7,7 +7,9 @@ from database import Database
 from game import Game
 from review import Review
 from item import Item
+from screenshot import Screenshot
 from datetime import datetime
+from os import remove
 
 # from database import get_user
 
@@ -115,6 +117,7 @@ def delete_review():
 @login_required
 def delete_screenshot():
     db.delete_screenshot(request.form.get("shot_name"))
+    remove(images.path(request.form.get("shot_name")))
     return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
 @app.route("/process_review_feedback/", methods=["POST"])
