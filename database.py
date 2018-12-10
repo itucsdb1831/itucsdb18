@@ -8,6 +8,7 @@ from friend import Friend
 from friend_request import FriendRequest
 from screenshot import Screenshot
 
+
 class Database:
     def __init__(self, dsn):
         self.dsn = dsn
@@ -433,10 +434,11 @@ class Database:
 
     def send_friend_request(self, user_id_from, user_id_to):
         user_name_from = self.get_user(user_id_from).user_name
+        user_name_to = self.get_user(user_id_to).user_name
         self.connect()
 
         statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s, %s)"
-        data = (user_id_from, user_id_to, user_name_from)
+        data = (user_id_from, user_id_to, user_name_from, user_name_to)
         query = statement, data
         self.query_database(query)
 
@@ -459,7 +461,7 @@ class Database:
 
         self.disconnect()
 
-    def get_friend_requests(self, user_id_to):
+    def get_received_friend_requests(self, user_id_to):
         self.connect()
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
         data = [user_id_to]
@@ -470,7 +472,26 @@ class Database:
         for row in self.cursor:
             user_id_from = row[0]
             user_name_from = row[2]
-            request = FriendRequest(user_id_from, user_name_from, user_id_to)
+            user_name_to = row[3]
+            request = FriendRequest(user_id_from, user_name_from, user_id_to, user_name_to)
+            requests.append(request)
+
+        self.disconnect()
+        return requests
+
+    def get_sent_friend_requests(self, user_id_from):
+        self.connect()
+        statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_FROM = %s"
+        data = [user_id_from]
+        query = statement, data
+        self.query_database(query)
+
+        requests = []
+        for row in self.cursor:
+            user_id_to = row[1]
+            user_name_from = row[2]
+            user_name_to = row[3]
+            request = FriendRequest(user_id_from, user_name_from, user_id_to, user_name_to)
             requests.append(request)
 
         self.disconnect()
