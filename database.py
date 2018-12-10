@@ -395,8 +395,10 @@ class Database:
     def add_item(self, item):
         self.connect()
 
-        statement = """INSERT INTO ITEMS (GAME_ID, NAME, RARITY, LEVEL) VALUES (%s, %s, %s, %s)"""
-        data = (item.game_id, item.name, item.rarity, item.level,)
+        statement = """INSERT INTO ITEMS (GAME_ID, PICTURE, NAME, ITEM_TYPE, RARITY, PRICE)
+                           VALUES (%s, %s, %s, %s, %s, %s)"""
+        data = (item.game_id, item.picture, item.name, item.item_type, item.rarity, item.price)
+
         query = statement, data
         self.query_database(query)
 
@@ -412,8 +414,8 @@ class Database:
 
         items = []
         for row in self.cursor:
-            (item_id, _, name, rarity, level) = row
-            item = Item(item_id, game_id, name, rarity, level)
+            (item_id, _, picture, name, item_type, rarity, price) = row
+            item = Item(item_id, game_id, picture, name, item_type, rarity, price)
             items.append(item)
 
         self.disconnect()
