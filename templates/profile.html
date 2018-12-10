@@ -33,13 +33,24 @@
         {% endfor %}
     </table>
     <p><a href="{{ url_for('friend_add_page') }}"> Add a friend </a></p>
-    {% if friend_requests %}
+    {% if sent_friend_requests %}
+        <P>You have sent friend requests to:</P>
+            <ul>
+                {% for sent_request in sent_friend_requests %}
+                    <li id="{{ sent_request.user_id_to }}"><p> {{ sent_request.user_name_to }}
+                            <button onclick="cancelRequest({{ sent_request.user_id_from }}, {{ sent_request.user_id_to }})">Cancel</button>
+                    </p></li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+
+    {% if received_friend_requests %}
         <p>You have new friend requests from:</p>
             <ul>
-                {% for request in friend_requests %}
-                    <li id="{{ request.user_id_from }}"><p> {{ request.user_name_from }}
-                            <button onclick="acceptRequest({{ request.user_id_from }}, {{ request.user_id_to }})">Accept</button>
-                            <button onclick="declineRequest({{ request.user_id_from }}, {{ request.user_id_to }})">Decline</button>
+                {% for received_request in received_friend_requests %}
+                    <li id="{{ received_request.user_id_from }}"><p> {{ received_request.user_name_from }}
+                        <button onclick="acceptRequest({{ received_request.user_id_from }}, {{ received_request.user_id_to }})">Accept</button>
+                        <button onclick="declineRequest({{ received_request.user_id_from }}, {{ received_request.user_id_to }})">Decline</button>
                     </p></li>
                 {% endfor %}
             </ul>
