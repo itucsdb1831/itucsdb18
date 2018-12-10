@@ -87,7 +87,15 @@
     <p>Screenshots</p>
     <ul>
         {% for shot in screenshots %}
-            <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}</li>
+            <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}
+                {% if shot.user_id == current_user.id %}
+                    <form action="{{url_for('delete_screenshot')}}" method="POST">
+                        <input type="hidden" name="shot_name" value="{{shot.name}}">
+                        <input type="hidden" name="game_id" value="{{game.game_id}}">
+                        <button>Delete screenshot</button>
+                    </form>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 
