@@ -1,3 +1,7 @@
+function cancelRequest(user_id_from, user_id_to) {
+
+}
+
 function acceptRequest(user_id_from, user_id_to) {
     const request = new XMLHttpRequest();
     request.open('POST', '/profile/process_friend_request_response');
