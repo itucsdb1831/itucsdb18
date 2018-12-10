@@ -191,10 +191,12 @@ def game_add_page():
 @app.route("/store/<int:game_id>/item_add", methods=['GET', 'POST'])
 def item_add_page(game_id):
     if request.method == 'POST':
+        form_picture = request.form["picture"]
         form_name = request.form["name"]
+        form_item_type = request.form["item_type"]
         form_rarity = request.form["rarity"]
-        form_level = request.form["level"]
-        item = Item(None, game_id, form_name, form_rarity, form_level)
+        form_price = request.form["price"]
+        item = Item(None, game_id, form_picture, form_name, form_item_type, form_rarity, form_price)
         db.add_item(item)
         return render_template("item_add_result.html", game_id=game_id)
     return render_template("item_add.html")
