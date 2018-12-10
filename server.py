@@ -111,6 +111,11 @@ def delete_review():
     db.delete_review(request.form.get("review_id"))
     return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
+@app.route("/delete_screenshot/", methods=["POST"])
+@login_required
+def delete_screenshot():
+    db.delete_screenshot(request.form.get("shot_name"))
+    return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
 @app.route("/process_review_feedback/", methods=["POST"])
 @login_required
