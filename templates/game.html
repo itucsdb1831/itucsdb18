@@ -75,7 +75,9 @@
                     <button class="dislikes" id="{{review.id}}d" value="{{review.id}}" {% if review.liked_from_current %} disabled {% endif %}>{% if review.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
                 </form>
                 {% if review.user_id == current_user.id %}
-                <form action="{{url_for('delete_review', game_id=game.game_id)}}" method="POST">
+                <form action="{{url_for('delete_review', review_id=review.id)}}" method="POST">
+                    <input type="hidden" name="review_id" value="{{review.id}}" />
+                    <input type="hidden" name="game_id" value="{{game.game_id}}" />
                     <button>Delete review</button>
                 </form>
                 {% endif %}
