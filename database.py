@@ -136,11 +136,21 @@ class Database:
         
         self.disconnect()
     
-    def delete_review(self, game_id, user_id):
+    def delete_review(self, review_id):
         self.connect()
 
-        statement = """DELETE FROM REVIEWS WHERE ((GAME_ID=%s) AND (USER_ID=%s))"""
-        data = (game_id, user_id,)
+        statement = """DELETE FROM REVIEWS WHERE REVIEW_ID=%s"""
+        data = (review_id,)
+        query = statement, data
+        self.query_database(query)
+
+        statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (review_id, "REVIEWS",)
+        query = statement, data
+        self.query_database(query)
+
+        statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (review_id, "REVIEWS",)
         query = statement, data
         self.query_database(query)
 
