@@ -258,6 +258,16 @@ class Database:
             sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id))
         self.disconnect()
         return sss
+    
+    def delete_screenshot(self, shot_name):
+        self.connect()
+
+        statement = "DELETE FROM SCREENSHOTS WHERE NAME=%s"
+        data = (shot_name,)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
 
     # -------------------------------------------------------
 
