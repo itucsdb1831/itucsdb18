@@ -136,6 +136,16 @@ class Database:
         
         self.disconnect()
     
+    def delete_review(self, game_id, user_id):
+        self.connect()
+
+        statement = """DELETE FROM REVIEWS WHERE ((GAME_ID=%s) AND (USER_ID=%s))"""
+        data = (game_id, user_id)
+        query = statement, data
+        self.query_database(query)
+
+        self. disconnect()
+    
     def add_like(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """INSERT INTO LIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
