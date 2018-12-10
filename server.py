@@ -251,18 +251,18 @@ def code_enter_page():
 # -----------------------------------------------------------------------
 
 
-@app.route("/profile/<int:user_id_to_add>", methods=['GET', 'POST'])
+@app.route("/profile/process_friend_request_response", methods=['POST'])
 @login_required
-def friend_request_page(user_id_to_add):
-    user_name_to_add = db.get_user(user_id_to_add).user_name
-    if request.method == "POST":
-        form_decision = request.form["decision"]
-        is_accepted = form_decision == "Accept"
-        if is_accepted:
-            db.add_friend(current_user.id, user_id_to_add)
-        db.remove_request(user_id_to_add, current_user.id)
-        return render_template("friend_request_result.html", accepted=is_accepted, user_added=user_name_to_add)
-    return render_template("friend_request.html", user_to_add=user_name_to_add)
+def process_friend_request_response():
+    user_id_from = request.form.get("user_id_from")
+    user_id_to = request.form.get("user_id_to")
+    user_name_from = db.get_user(user_id_from).user_name
+    if request.form.get("response") == "accepted":
+        db.add_friend(user_id_to, user_id_from)
+        return user_name_from + " has been added to your friends!"
+    else:
+        db.remove_request(user_id_from, user_id_to)
+        return "You declined " + user_name_from + "'s friend request."
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
