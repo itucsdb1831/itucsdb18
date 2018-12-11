@@ -437,7 +437,7 @@ class Database:
         user_name_to = self.get_user(user_id_to).user_name
         self.connect()
 
-        statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s, %s)"
+        statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s, %s, %s)"
         data = (user_id_from, user_id_to, user_name_from, user_name_to)
         query = statement, data
         self.query_database(query)
@@ -551,7 +551,3 @@ class Database:
 
         self.disconnect()
         return already_sent
-
-    # def cancel_friend_request():
-
-    # def update_shared_games():
