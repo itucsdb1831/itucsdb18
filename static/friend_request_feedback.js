@@ -4,7 +4,7 @@ function cancelRequest(user_id_from, user_id_to) {
 
     request.onload = () => {
         const data = JSON.parse(request.responseText);
-        document.getElementById(user_id_from).innerHtml = data.filler;
+        document.getElementById(user_id_to)[0].innerHtml = data.filler;
     }
 
     const data = new FormData();
@@ -13,7 +13,7 @@ function cancelRequest(user_id_from, user_id_to) {
     data.append('user_id_to', user_id_to);
 
     request.send(data);
-}
+};
 
 function acceptRequest(user_id_from, user_id_to) {
     const request = new XMLHttpRequest();
@@ -21,7 +21,7 @@ function acceptRequest(user_id_from, user_id_to) {
 
     request.onload = () => {
         const data = JSON.parse(request.responseText);
-        document.getElementById(user_id_from).innerHtml = data.fillerText;
+        document.getElementById(user_id_from)[0].innerHtml = data.fillerText;
     }
 
     const data = new FormData();
@@ -30,7 +30,7 @@ function acceptRequest(user_id_from, user_id_to) {
     data.append('user_id_to', user_id_to);
 
     request.send(data);
-}
+};
 
 function declineRequest(user_id_from, user_id_to) {
     const request = new XMLHttpRequest();
@@ -38,7 +38,7 @@ function declineRequest(user_id_from, user_id_to) {
 
     request.onload = () => {
         const data = JSON.parse(request.responseText);
-        document.getElementById(user_id_from).innerHtml = data.fillerText;
+        document.getElementById(user_id_from)[0].innerHtml = data.fillerText;
     }
 
     const data = new FormData();
@@ -47,4 +47,4 @@ function declineRequest(user_id_from, user_id_to) {
     data.append('user_id_to', user_id_to);
 
     request.send(data);
-}
+};
