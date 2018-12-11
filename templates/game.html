@@ -90,6 +90,12 @@
     <ul>
         {% for shot in screenshots %}
             <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}, (Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)
+                <form id="like">
+                    <button class="likes" id="{{shot.id}}l" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.disliked_from_current %} disabled {% endif %}>{% if shot.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
+                </form>
+                <form id="dislike">
+                    <button class="dislikes" id="{{shot.id}}d" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.liked_from_current %} disabled {% endif %}>{% if shot.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
+                </form>
                 {% if shot.user_id == current_user.id or current_user.is_admin %}
                     <form action="{{url_for('delete_screenshot')}}" method="POST">
                         <input type="hidden" name="shot_name" value="{{shot.name}}">
