@@ -26,38 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.onclick = function() {
             const request = new XMLHttpRequest();
             const like_sit = button.innerHTML;
-            request.open('POST', '/process_review_feedback/');
-
-            request.onload = () => {
-
-                // Extract JSON data from request
-                const data = JSON.parse(request.responseText);
-                if (data.success) {
-                    toggle_like(button);
-                    document.getElementById(button.value+"d").disabled = false;
-                }
-            }
-            const data = new FormData();
-            data.append('review_id', button.value);
-            data.append('sit4process', "like")
-            data.append('like_sit', like_sit);
-            document.getElementById(button.value+"l").disabled = true;
-    
-            // Send request
-            request.send(data);
-            return false;
-        };
-    });
-});
-
-
-document.addEventListener('DOMContentLoaded', function() {
-
-    document.querySelectorAll('.likes').forEach(function(button) {
-        button.onclick = function() {
-            const request = new XMLHttpRequest();
-            const like_sit = button.innerHTML;
-            request.open('POST', '/process_review_feedback/');
+            request.open('POST', '/process_likes_dislikes/');
 
             request.onload = () => {
 
@@ -69,9 +38,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             const data = new FormData();
-            data.append('review_id', button.value);
-            data.append('sit4process', "like")
+            data.append('entity_id', button.value);
+            data.append('sit4process', "like");
             data.append('like_sit', like_sit);
+            data.append('entity_type', button.dataset.ent_type);
             document.getElementById(button.value+"l").disabled = true;
             document.getElementById(button.value+"d").disabled = true;
     
@@ -89,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         button.onclick = function() {
             const request = new XMLHttpRequest();
             const disl_sit = button.innerHTML;
-            request.open('POST', '/process_review_feedback/');
+            request.open('POST', '/process_likes_dislikes/');
 
             request.onload = () => {
 
@@ -101,9 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             const data = new FormData();
-            data.append('review_id', button.value);
-            data.append('sit4process', "dislike")
+            data.append('entity_id', button.value);
+            data.append('sit4process', "dislike");
             data.append('disl_sit', disl_sit);
+            data.append('entity_type', button.dataset.ent_type);
             document.getElementById(button.value+"d").disabled = true;
             document.getElementById(button.value+"l").disabled = true;
     
