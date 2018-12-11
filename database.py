@@ -62,8 +62,10 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        user_id, name, password, is_active, is_admin, balance = self.cursor.fetchone()
-        user = User(name, password, is_active, is_admin, balance, user_id)
+        user = None
+        if self.cursor.rowcount != 0:
+            user_id, name, password, is_active, is_admin, balance = self.cursor.fetchone()
+            user = User(name, password, is_active, is_admin, balance, user_id)
 
         self.disconnect()
         return user
