@@ -270,7 +270,8 @@ def process_friend_request_response():
         db.remove_request(user_id_from, user_id_to)
         return "You declined " + user_name_from + "'s friend request."
     else:
-
+        db.remove_request(user_id_from, user_id_to)
+        return "You cancelled the request."
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
