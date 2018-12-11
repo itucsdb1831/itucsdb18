@@ -57,8 +57,9 @@ def login():
                 games_of_user = db.get_games_of_user(current_user.id)
                 friend_requests = db.get_friend_requests(current_user.id)
                 friends = db.get_friends(current_user.id)
+                items_of_user = db.get_items_of_user(current_user.id)
                 return render_template('profile.html', user=current_user, games_of_user=games_of_user,
-                                       friend_requests=friend_requests, friends=friends)
+                                       friend_requests=friend_requests, friends=friends, items_of_user=items_of_user)
     return render_template('login.html')
 
 
@@ -78,8 +79,9 @@ def profile():
     games_of_user = db.get_games_of_user(current_user.id)
     friend_requests = db.get_friend_requests(current_user.id)
     friends = db.get_friends(current_user.id)
+    items_of_user = db.get_items_of_user(current_user.id)
     return render_template("profile.html", user=current_user, games_of_user=games_of_user,
-                           friend_requests=friend_requests, friends=friends)
+                           friend_requests=friend_requests, friends=friends, items_of_user=items_of_user)
 
 
 @app.route("/logout/")
@@ -200,6 +202,24 @@ def item_add_page(game_id):
         db.add_item(item)
         return render_template("item_add_result.html", game_id=game_id)
     return render_template("item_add.html")
+
+
+@app.route("/store/<int:game_id>/<int:item_id>/item_purchase")
+@login_required
+def item_purchase_page(game_id, item_id):
+    game = db.get_game(game_id)
+    item = db.get_item(game_id, item_id)
+    return render_template("item_purchase.html", game=game, item=item)
+
+
+@app.route("/store/<int:game_id>/<int:item_id>/item_purchase_result")
+@login_required
+def item_purchase_result_page(game_id, item_id):
+    item = db.get_item(game_id, item_id)
+    if current_user.is_admin or current_user.balance >= item.price:
+        db.add_item_to_user(item.item_id, game_id, current_user.id)
+        db.decrease_balance_of_user(current_user.id, item.price)
+    return render_template("item_purchase_result.html", item=item)
 
 
 @app.route("/game_add_result")

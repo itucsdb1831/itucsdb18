@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <p>You are about to purchase "{{ item.name }}" for {{ item.price }}$.</p>
+    {% if not current_user.is_admin %}
+        <p>Your balance: {{ current_user.balance }}$</p>
+    {% else %}
+        <p>Your balance: :)</p>
+    {% endif %}
+    <a class="button is-link" href="{{ url_for('item_purchase_result_page', game_id=game.game_id, item_id=item.item_id) }}">Purchase item</a>
+{% endblock %}
