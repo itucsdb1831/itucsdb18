@@ -126,19 +126,24 @@ def delete_screenshot():
     remove(images.path(request.form.get("shot_name")))
     return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
-@app.route("/process_review_feedback/", methods=["POST"])
+@app.route("/process_likes_dislikes/", methods=["POST"])
 @login_required
-def process_review_feedback():
+def process_likes_dislikes():
+    entities = ["REVIEWS", "SCREENSHOTS"]
     if request.form.get("sit4process") == "like":
         if request.form.get("like_sit") == "Like":
-            db.add_like(request.form.get("review_id"), current_user.id, "REVIEWS")
+            if request.form.get("entity_type") in entities:
+                db.add_like(request.form.get("entity_id"), current_user.id, request.form.get("entity_type"))
         if request.form.get("like_sit") == "You Liked It":
-            db.remove_like(request.form.get("review_id"), current_user.id, "REVIEWS")
+            if request.form.get("entity_type") in entities:
+                db.remove_like(request.form.get("entity_id"), current_user.id, request.form.get("entity_type"))
     if request.form.get("sit4process") == "dislike":
         if request.form.get("disl_sit") == "Dislike":
-            db.add_dislike(request.form.get("review_id"), current_user.id, "REVIEWS")
+            if request.form.get("entity_type") in entities:
+                db.add_dislike(request.form.get("entity_id"), current_user.id, request.form.get("entity_type"))
         if request.form.get("disl_sit") == "You Disliked It":
-            db.remove_dislike(request.form.get("review_id"), current_user.id, "REVIEWS")
+            if request.form.get("entity_type") in entities:
+                db.remove_dislike(request.form.get("entity_id"), current_user.id, request.form.get("entity_type"))
     return jsonify({"success": True})
 
 
