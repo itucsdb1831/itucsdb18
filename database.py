@@ -88,7 +88,7 @@ class Database:
         self.connect()
 
         statement = """INSERT INTO REVIEWS (USER_ID, GAME_ID, LABEL, CONTENT, ADDED) VALUES (%s, %s, %s, %s, %s)"""
-        data = (review.user_id, review.game_id, review.label, review.content, review.added)
+        data = (review.user_id, review.game_id, review.label, review.content, review.added,)
         query = statement, data
         self.query_database(query)
 
@@ -131,17 +131,27 @@ class Database:
         self.connect()
 
         statement = """UPDATE REVIEWS SET CONTENT=%s, LABEL=%s, UPDATED=%s WHERE REVIEW_ID=%s"""
-        data = (content, label, edited, review_id)
+        data = (content, label, edited, review_id,)
         query = statement, data
         self.query_database(query)
         
         self.disconnect()
     
-    def delete_review(self, game_id, user_id):
+    def delete_review(self, review_id):
         self.connect()
 
-        statement = """DELETE FROM REVIEWS WHERE ((GAME_ID=%s) AND (USER_ID=%s))"""
-        data = (game_id, user_id)
+        statement = """DELETE FROM REVIEWS WHERE REVIEW_ID=%s"""
+        data = (review_id,)
+        query = statement, data
+        self.query_database(query)
+
+        statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (review_id, "REVIEWS",)
+        query = statement, data
+        self.query_database(query)
+
+        statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (review_id, "REVIEWS",)
         query = statement, data
         self.query_database(query)
 
@@ -150,13 +160,13 @@ class Database:
     def add_like(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """INSERT INTO LIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
-        data = (entity_id, user_id, entity_type)
+        data = (entity_id, user_id, entity_type,)
         query = statement, data
         self.query_database(query)
         
         statements = {"REVIEWS" : "UPDATE REVIEWS SET LIKES = LIKES + 1 WHERE REVIEW_ID=%s",
         "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES + 1 WHERE SHOT_ID=%s"}
-        data = (entity_id)
+        data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
@@ -164,13 +174,13 @@ class Database:
     def remove_like(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
-        data = (entity_id, user_id, entity_type)
+        data = (entity_id, user_id, entity_type,)
         query = statement, data
         self.query_database(query)
 
         statements = {"REVIEWS" : "UPDATE REVIEWS SET LIKES = LIKES - 1 WHERE REVIEW_ID=%s",
         "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES - 1 WHERE SHOT_ID=%s"}
-        data = (entity_id)
+        data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
@@ -178,7 +188,7 @@ class Database:
     def get_like_of_user(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """SELECT * FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
-        data = (entity_id, user_id, entity_type)
+        data = (entity_id, user_id, entity_type,)
         query = statement, data
         self.query_database(query)
         
@@ -190,13 +200,13 @@ class Database:
     def add_dislike(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """INSERT INTO DISLIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
-        data = (entity_id, user_id, entity_type)
+        data = (entity_id, user_id, entity_type,)
         query = statement, data
         self.query_database(query)
         
         statements = {"REVIEWS" : "UPDATE REVIEWS SET DISLIKES = DISLIKES + 1 WHERE REVIEW_ID=%s",
         "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES + 1 WHERE SHOT_ID=%s"}
-        data = (entity_id)
+        data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
@@ -204,13 +214,13 @@ class Database:
     def remove_dislike(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
-        data = (entity_id, user_id, entity_type)
+        data = (entity_id, user_id, entity_type,)
         query = statement, data
         self.query_database(query)
 
         statements = {"REVIEWS" : "UPDATE REVIEWS SET DISLIKES = DISLIKES - 1 WHERE REVIEW_ID=%s",
         "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES - 1 WHERE SHOT_ID=%s"}
-        data = (entity_id)
+        data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
         self.disconnect()
@@ -218,7 +228,7 @@ class Database:
     def get_dislike_of_user(self, entity_id, user_id, entity_type):
         self.connect()
         statement = """SELECT * FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
-        data = (entity_id, user_id, entity_type)
+        data = (entity_id, user_id, entity_type,)
         query = statement, data
         self.query_database(query)
         is_disliked = self.cursor.rowcount != 0
@@ -231,7 +241,7 @@ class Database:
         self.connect()
 
         statement = "INSERT INTO SCREENSHOTS (NAME, USER_ID, GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        data = (ss.name, ss.user_id, ss.game_id, ss.caption, ss.date_added, ss.likes, ss.dislikes)
+        data = (ss.name, ss.user_id, ss.game_id, ss.caption, ss.date_added, ss.likes, ss.dislikes,)
         query = statement, data
         self.query_database(query)
         self.disconnect()
@@ -240,7 +250,7 @@ class Database:
         self.connect()
 
         statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID FROM SCREENSHOTS WHERE GAME_ID=%s"
-        data = (str(game_id))
+        data = (str(game_id),)
         query = statement, data
         self.query_database(query)
         sss = []
@@ -249,6 +259,16 @@ class Database:
             sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id))
         self.disconnect()
         return sss
+    
+    def delete_screenshot(self, shot_name):
+        self.connect()
+
+        statement = "DELETE FROM SCREENSHOTS WHERE NAME=%s"
+        data = (shot_name,)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
 
     # -------------------------------------------------------
 
@@ -256,7 +276,7 @@ class Database:
         self.connect()
 
         statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, %s, %s)"
-        data = (game.title, game.genre, game.age_restriction, game.price)
+        data = (game.title, game.genre, game.age_restriction, game.price,)
         query = statement, data
         self.query_database(query)
 
@@ -299,7 +319,7 @@ class Database:
                     + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
                     + " VOTES = VOTES + 1" \
                     + " WHERE (GAME_ID = %s)"
-        data = (rating, game_id)
+        data = (rating, game_id,)
         query = statement, data
         self.query_database(query)
 
@@ -323,7 +343,7 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
-        data = (game_id, user_id)
+        data = (game_id, user_id,)
         query = statement, data
         self.query_database(query)
 
@@ -331,7 +351,7 @@ class Database:
         if is_successful:
             game = self.get_game(game_id)
             statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TITLE, TIME_PURCHASED) VALUES(%s, %s, %s, CURRENT_DATE)"
-            data = (user_id, game_id, game.title)
+            data = (user_id, game_id, game.title,)
             query = statement, data
             self.query_database(query)
 
@@ -387,7 +407,7 @@ class Database:
         statement = "UPDATE USERS" \
                     + " SET BALANCE = BALANCE - %s" \
                     + " WHERE (USER_ID = %s)"
-        data = (amount, user_id)
+        data = (amount, user_id,)
         query = statement, data
         self.query_database(query)
 
@@ -396,8 +416,10 @@ class Database:
     def add_item(self, item):
         self.connect()
 
-        statement = """INSERT INTO ITEMS (GAME_ID, NAME, RARITY, LEVEL) VALUES (%s, %s, %s, %s)"""
-        data = (item.game_id, item.name, item.rarity, item.level)
+        statement = """INSERT INTO ITEMS (GAME_ID, PICTURE, NAME, ITEM_TYPE, RARITY, PRICE)
+                           VALUES (%s, %s, %s, %s, %s, %s)"""
+        data = (item.game_id, item.picture, item.name, item.item_type, item.rarity, item.price)
+
         query = statement, data
         self.query_database(query)
 
@@ -413,8 +435,8 @@ class Database:
 
         items = []
         for row in self.cursor:
-            (item_id, _, name, rarity, level) = row
-            item = Item(item_id, game_id, name, rarity, level)
+            (item_id, _, picture, name, item_type, rarity, price) = row
+            item = Item(item_id, game_id, picture, name, item_type, rarity, price)
             items.append(item)
 
         self.disconnect()
@@ -451,7 +473,7 @@ class Database:
 
         statement = "INSERT INTO FRIENDS(USER1_ID, USER2_ID, USER2_NAME, DATE_BEFRIENDED)" \
                     " VALUES(%s, %s, %s, CURRENT_DATE)"
-        data = (user1_id, user2_id, user2_name)
+        data = (user1_id, user2_id, user2_name,)
         query = statement, data
         self.query_database(query)
 
@@ -501,7 +523,7 @@ class Database:
         self.connect()
 
         statement = "DELETE FROM FRIEND_REQUESTS WHERE (USER_ID_FROM = %s) AND (USER_ID_TO = %s)"
-        data = (user_id_from, user_id_to)
+        data = (user_id_from, user_id_to,)
         query = statement, data
         self.query_database(query)
 
@@ -530,7 +552,7 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM FRIENDS WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
-        data = (user1_id, user2_id)
+        data = (user1_id, user2_id,)
         query = statement, data
         self.query_database(query)
 
@@ -543,7 +565,7 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE (USER_ID_FROM = %s) AND (USER_ID_TO = %s)"
-        data = (user_id_from, user_id_to)
+        data = (user_id_from, user_id_to,)
         query = statement, data
         self.query_database(query)
 
