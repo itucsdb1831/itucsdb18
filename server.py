@@ -63,7 +63,7 @@ def login():
                 items_of_user = db.get_items_of_user(current_user.id)
                 return render_template('profile.html', user=current_user, games_of_user=games_of_user,
                                        received_friend_requests=received_friend_requests,
-                                       sent_friend_requests=sent_friend_requests, friends=friends)
+                                       sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user)
     return render_template('login.html')
 
 
@@ -87,7 +87,7 @@ def profile():
     items_of_user = db.get_items_of_user(current_user.id)
     return render_template("profile.html", user=current_user, games_of_user=games_of_user,
                            received_friend_requests=received_friend_requests,
-                           sent_friend_requests=sent_friend_requests, friends=friends)
+                           sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user)
 
 
 @app.route("/logout/")
