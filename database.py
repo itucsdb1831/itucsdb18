@@ -9,6 +9,7 @@ from friend_request import FriendRequest
 from screenshot import Screenshot
 from item_of_user import ItemOfUser
 
+
 class Database:
     def __init__(self, dsn):
         self.dsn = dsn
@@ -68,8 +69,10 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        user_id, name, password, is_active, is_admin, balance = self.cursor.fetchone()
-        user = User(name, password, is_active, is_admin, balance, user_id)
+        user = None
+        if self.cursor.rowcount != 0:
+            user_id, name, password, is_active, is_admin, balance = self.cursor.fetchone()
+            user = User(name, password, is_active, is_admin, balance, user_id)
 
         self.disconnect()
         return user
@@ -143,11 +146,21 @@ class Database:
         
         self.disconnect()
     
-    def delete_review(self, game_id, user_id):
+    def delete_review(self, review_id):
         self.connect()
 
-        statement = """DELETE FROM REVIEWS WHERE ((GAME_ID=%s) AND (USER_ID=%s))"""
-        data = (game_id, user_id,)
+        statement = """DELETE FROM REVIEWS WHERE REVIEW_ID=%s"""
+        data = (review_id,)
+        query = statement, data
+        self.query_database(query)
+
+        statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (review_id, "REVIEWS",)
+        query = statement, data
+        self.query_database(query)
+
+        statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (ENTITY_TYPE=%s))"""
+        data = (review_id, "REVIEWS",)
         query = statement, data
         self.query_database(query)
 
@@ -255,6 +268,16 @@ class Database:
             sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id))
         self.disconnect()
         return sss
+    
+    def delete_screenshot(self, shot_name):
+        self.connect()
+
+        statement = "DELETE FROM SCREENSHOTS WHERE NAME=%s"
+        data = (shot_name,)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
 
     # -------------------------------------------------------
 
@@ -491,10 +514,11 @@ class Database:
 
     def send_friend_request(self, user_id_from, user_id_to):
         user_name_from = self.get_user(user_id_from).user_name
+        user_name_to = self.get_user(user_id_to).user_name
         self.connect()
 
-        statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s, %s)"
-        data = (user_id_from, user_id_to, user_name_from,)
+        statement = "INSERT INTO FRIEND_REQUESTS VALUES(%s, %s, %s, %s)"
+        data = (user_id_from, user_id_to, user_name_from, user_name_to)
         query = statement, data
         self.query_database(query)
 
@@ -517,7 +541,7 @@ class Database:
 
         self.disconnect()
 
-    def get_friend_requests(self, user_id_to):
+    def get_received_friend_requests(self, user_id_to):
         self.connect()
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
         data = [user_id_to]
@@ -528,7 +552,26 @@ class Database:
         for row in self.cursor:
             user_id_from = row[0]
             user_name_from = row[2]
-            request = FriendRequest(user_id_from, user_name_from, user_id_to)
+            user_name_to = row[3]
+            request = FriendRequest(user_id_from, user_name_from, user_id_to, user_name_to)
+            requests.append(request)
+
+        self.disconnect()
+        return requests
+
+    def get_sent_friend_requests(self, user_id_from):
+        self.connect()
+        statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_FROM = %s"
+        data = [user_id_from]
+        query = statement, data
+        self.query_database(query)
+
+        requests = []
+        for row in self.cursor:
+            user_id_to = row[1]
+            user_name_from = row[2]
+            user_name_to = row[3]
+            request = FriendRequest(user_id_from, user_name_from, user_id_to, user_name_to)
             requests.append(request)
 
         self.disconnect()
@@ -588,7 +631,3 @@ class Database:
 
         self.disconnect()
         return already_sent
-
-    # def cancel_friend_request():
-
-    # def update_shared_games():

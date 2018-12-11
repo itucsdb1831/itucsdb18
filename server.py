@@ -7,7 +7,9 @@ from database import Database
 from game import Game
 from review import Review
 from item import Item
+from screenshot import Screenshot
 from datetime import datetime
+from os import remove
 
 # from database import get_user
 
@@ -55,11 +57,13 @@ def login():
                 login_user(user)
                 next = request.args.get('next')
                 games_of_user = db.get_games_of_user(current_user.id)
-                friend_requests = db.get_friend_requests(current_user.id)
+                received_friend_requests = db.get_received_friend_requests(current_user.id)
+                sent_friend_requests = db.get_sent_friend_requests(current_user.id)
                 friends = db.get_friends(current_user.id)
                 items_of_user = db.get_items_of_user(current_user.id)
                 return render_template('profile.html', user=current_user, games_of_user=games_of_user,
-                                       friend_requests=friend_requests, friends=friends, items_of_user=items_of_user)
+                                       received_friend_requests=received_friend_requests,
+                                       sent_friend_requests=sent_friend_requests, friends=friends)
     return render_template('login.html')
 
 
@@ -77,11 +81,13 @@ def home_page():
 @login_required
 def profile():
     games_of_user = db.get_games_of_user(current_user.id)
-    friend_requests = db.get_friend_requests(current_user.id)
+    received_friend_requests = db.get_received_friend_requests(current_user.id)
+    sent_friend_requests = db.get_sent_friend_requests(current_user.id)
     friends = db.get_friends(current_user.id)
     items_of_user = db.get_items_of_user(current_user.id)
     return render_template("profile.html", user=current_user, games_of_user=games_of_user,
-                           friend_requests=friend_requests, friends=friends, items_of_user=items_of_user)
+                           received_friend_requests=received_friend_requests,
+                           sent_friend_requests=sent_friend_requests, friends=friends)
 
 
 @app.route("/logout/")
@@ -107,12 +113,18 @@ def add_review(game_id):
     else:
         return render_template("add_review.html", game=db.get_game(game_id), review=None)
 
-@app.route("/store/<int:game_id>/delete_review/", methods=["POST"])
+@app.route("/delete_review/", methods=["POST"])
 @login_required
-def delete_review(game_id):
-    db.delete_review(game_id, current_user.id)
-    return redirect(url_for('game_page', game_id=game_id))
+def delete_review():
+    db.delete_review(request.form.get("review_id"))
+    return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
+@app.route("/delete_screenshot/", methods=["POST"])
+@login_required
+def delete_screenshot():
+    db.delete_screenshot(request.form.get("shot_name"))
+    remove(images.path(request.form.get("shot_name")))
+    return redirect(url_for('game_page', game_id=request.form.get("game_id")))
 
 @app.route("/process_review_feedback/", methods=["POST"])
 @login_required
@@ -128,6 +140,7 @@ def process_review_feedback():
         if request.form.get("disl_sit") == "You Disliked It":
             db.remove_dislike(request.form.get("review_id"), current_user.id, "REVIEWS")
     return jsonify({"success": True})
+
 
 @app.route("/store/<int:game_id>/add_screenshot/", methods=["GET", "POST"])
 @login_required
@@ -257,6 +270,7 @@ def game_purchase_page(game_id):
 @login_required
 def game_purchase_result_page(game_id):
     game = db.get_game(game_id)
+    success = False
     if current_user.is_admin or current_user.balance >= game.price:
         success = db.add_game_to_user(game.game_id, current_user.id)
         if success:
@@ -284,12 +298,16 @@ def process_friend_request_response():
     user_id_from = request.form.get("user_id_from")
     user_id_to = request.form.get("user_id_to")
     user_name_from = db.get_user(user_id_from).user_name
+
     if request.form.get("response") == "accepted":
         db.add_friend(user_id_to, user_id_from)
-        return user_name_from + " has been added to your friends!"
+        return jsonify({"fillerText": user_name_from + " has been added to your friends!"})
+    elif request.form.get("response") == "declined":
+        db.remove_request(user_id_from, user_id_to)
+        return jsonify({"fillerText": "You declined " + user_name_from + "'s friend request."})
     else:
         db.remove_request(user_id_from, user_id_to)
-        return "You declined " + user_name_from + "'s friend request."
+        return jsonify({"fillerText": "You cancelled the request."})
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
@@ -303,6 +321,7 @@ def friend_add_page():
         is_self = False
         already_sent = False
         user_to = None
+
         if is_valid:
             user_to = db.get_user(user_id_to)
             are_friends = db.check_if_already_friends(current_user.id, user_id_to)

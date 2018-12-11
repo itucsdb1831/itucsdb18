@@ -44,6 +44,7 @@ INIT_STATEMENTS = [
         USER_ID_FROM INTEGER REFERENCES USERS (USER_ID),
         USER_ID_TO INTEGER REFERENCES USERS (USER_ID),
         USER_NAME_FROM VARCHAR(20) REFERENCES USERS (NAME),
+        USER_NAME_TO VARCHAR(20) REFERENCES USERS (NAME),
         PRIMARY KEY (USER_ID_FROM, USER_ID_TO)
     )
     """,
@@ -153,17 +154,17 @@ if __name__ == "__main__":
     cursor = connection.cursor()
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
-    #
-    # password = "asdf"
-    # hashed_password = hasher.hash(password)
-    # statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES(%s, %s, %s)"
-    # data = ("emre", hashed_password, True)
-    # cursor.execute(statement, data)
-    #
-    # statement = "INSERT INTO BALANCE_CODES VALUES(%s)"
-    # data = "1234"
-    # cursor.execute(statement, [data])
-    #
+
+    password = "asdf"
+    hashed_password = hasher.hash(password)
+    statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES(%s, %s, %s)"
+    data = ("emre", hashed_password, True)
+    cursor.execute(statement, data)
+    
+    statement = "INSERT INTO BALANCE_CODES VALUES(%s)"
+    data = "1234"
+    cursor.execute(statement, [data])
+
     # statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
     # data = ("team fortress 2", "fps")
     # cursor.execute(statement, data)

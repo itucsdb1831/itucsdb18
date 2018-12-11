@@ -75,7 +75,9 @@
                     <button class="dislikes" id="{{review.id}}d" value="{{review.id}}" {% if review.liked_from_current %} disabled {% endif %}>{% if review.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
                 </form>
                 {% if review.user_id == current_user.id %}
-                <form action="{{url_for('delete_review', game_id=game.game_id)}}" method="POST">
+                <form action="{{url_for('delete_review', review_id=review.id)}}" method="POST">
+                    <input type="hidden" name="review_id" value="{{review.id}}" />
+                    <input type="hidden" name="game_id" value="{{game.game_id}}" />
                     <button>Delete review</button>
                 </form>
                 {% endif %}
@@ -85,7 +87,15 @@
     <p>Screenshots</p>
     <ul>
         {% for shot in screenshots %}
-            <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}</li>
+            <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}
+                {% if shot.user_id == current_user.id %}
+                    <form action="{{url_for('delete_screenshot')}}" method="POST">
+                        <input type="hidden" name="shot_name" value="{{shot.name}}">
+                        <input type="hidden" name="game_id" value="{{game.game_id}}">
+                        <button>Delete screenshot</button>
+                    </form>
+                {% endif %}
+            </li>
         {% endfor %}
     </ul>
 
