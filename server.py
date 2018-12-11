@@ -281,13 +281,13 @@ def process_friend_request_response():
 
     if request.form.get("response") == "accepted":
         db.add_friend(user_id_to, user_id_from)
-        return user_name_from + " has been added to your friends!"
+        return jsonify({"fillerText": user_name_from + " has been added to your friends!"})
     elif request.form.get("response") == "declined":
         db.remove_request(user_id_from, user_id_to)
-        return "You declined " + user_name_from + "'s friend request."
+        return jsonify({"fillerText": "You declined " + user_name_from + "'s friend request."})
     else:
         db.remove_request(user_id_from, user_id_to)
-        return "You cancelled the request."
+        return jsonify({"fillerText": "You cancelled the request."})
 
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
