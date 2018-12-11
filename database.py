@@ -7,6 +7,7 @@ from review import Review
 from friend import Friend
 from friend_request import FriendRequest
 from screenshot import Screenshot
+from item_of_user import ItemOfUser
 
 
 class Database:
@@ -21,8 +22,14 @@ class Database:
 
     def query_database(self, query):
         statement, data = query
-        self.cursor.execute(statement, data)
-        self.connection.commit()
+        try:
+            self.cursor.execute(statement, data)
+            self.connection.commit()
+        except Exception as e:
+            print(e)
+            self.connect()
+            self.cursor.execute(statement, data)
+            self.connection.commit()
 
     def disconnect(self):
         self.cursor.close()
@@ -452,7 +459,56 @@ class Database:
         query = statement, data
         self.query_database(query)
 
+        statement = "DELETE FROM ITEMS_OF_USERS WHERE ITEM_ID = %s"
+        query = statement, data
+        self.query_database(query)
+
         self.disconnect()
+
+    def get_item(self, game_id, item_id):
+        self.connect()
+        statement = "SELECT * FROM ITEMS WHERE (GAME_ID=%s) AND (ITEM_ID=%s)"
+        data = [game_id, item_id]
+        query = statement, data
+        self.query_database(query)
+
+        if self.cursor is not None:
+            (item_id, game_id, picture, name, item_type, rarity, price) = self.cursor.fetchone()
+            item = Item(item_id, game_id, picture, name, item_type, rarity, price)
+        else:
+            item = None
+
+        self.disconnect()
+        return item
+
+    def add_item_to_user(self, item_id, game_id, user_id):
+        self.connect()
+
+        item = self.get_item(game_id, item_id)
+        statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
+                           VALUES(%s, %s, %s, %s, CURRENT_DATE)"""
+        data = (item_id, game_id, user_id, item.name)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def get_items_of_user(self, user_id):
+        self.connect()
+
+        statement = """SELECT * FROM ITEMS_OF_USERS WHERE USER_ID = %s"""
+        data = [user_id]
+        query = statement, data
+        self.query_database(query)
+
+        items_of_user = []
+        for row in self.cursor:
+            (item_id, game_id, user_id, name, level, color, progress, is_favorite, date_purchased) = row
+            item = ItemOfUser(item_id, game_id, user_id, name, level, color, progress, is_favorite, date_purchased)
+            items_of_user.append(item)
+
+        self.disconnect()
+        return items_of_user
 
     # -------------------------------------------------------
 
