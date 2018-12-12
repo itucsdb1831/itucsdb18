@@ -163,25 +163,25 @@ if __name__ == "__main__":
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
 
-    # password = "asdf"
-    # hashed_password = hasher.hash(password)
-    # statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES(%s, %s, %s)"
-    # data = ("emre", hashed_password, True)
-    # cursor.execute(statement, data)
-    #
-    # statement = "INSERT INTO BALANCE_CODES VALUES(%s)"
-    # data = "1234"
-    # cursor.execute(statement, [data])
+    password = "asdf"
+    hashed_password = hasher.hash(password)
+    statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES (%s, %s, %s)"
+    data = ("emre", hashed_password, True)
+    cursor.execute(statement, data)
 
-    # statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
-    # data = ("team fortress 2", "fps")
-    # cursor.execute(statement, data)
-    #
+    statement = "INSERT INTO BALANCE_CODES VALUES (%s)"
+    data = "1234"
+    cursor.execute(statement, [data])
+
+    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
+    data = ("team fortress 2", "fps")
+    cursor.execute(statement, data)
+
     # statement = """INSERT INTO ITEMS(GAME_ID, NAME, RARITY, LEVEL)
     #                 VALUES (1, 'Bag', 'Common', 10),
     #                         (1, 'Jacket', 'Rare', 25),
     #                         (1, 'Shoe', 'Very rare', 30)"""
-    cursor.execute(statement)
+    #cursor.execute(statement)
 
     connection.commit()
     cursor.close()

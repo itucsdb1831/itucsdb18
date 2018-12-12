@@ -273,14 +273,8 @@ def game_rate_page(game_id):
         form_rating = request.form["rating"]
         already_rated = db.is_already_rated(current_user.id, game_id)
         db.update_rating_of_game(game_id, current_user.id, form_rating, already_rated)
-        return redirect(url_for("game_rate_page_result_page"))
+        return render_template("game_rate_result.html", rated_before=already_rated)
     return render_template("game_rate.html")
-
-
-@app.route("/store/game_rate_result")
-@login_required
-def game_rate_page_result_page():
-    return render_template("game_rate_result.html")
 
 
 @app.route("/store/<int:game_id>/game_purchase")

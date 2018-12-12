@@ -325,20 +325,50 @@ class Database:
             games.append(game_)
         return games
 
-    def update_rating_of_game(self, game_id, user_id, rating, already_rated):
+    def update_user_rating(self, game_id, user_id, new_rating):
         self.connect()
 
-        new_rating = rating
+        statement = "UPDATE RATING_VOTES" \
+                    + " SET VOTE = (%s)" \
+                    + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        data = (new_rating, user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def add_user_rating(self, game_id, user_id, rating):
+        self.connect()
+
+        statement = "INSERT INTO RATING_VOTES VALUES (%s, %s, %s)"
+        data = (user_id, game_id, rating)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def update_rating_of_game(self, game_id, user_id, new_rating, already_rated):
+        self.connect()
+
+        change_in_rating = new_rating
         if already_rated:
             previous_rating = self.get_user_rating(game_id, user_id)
-            new_rating = rating - previous_rating
+            change_in_rating = int(new_rating) - previous_rating
 
-        statement = "UPDATE GAMES" \
-                    + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
-                    + " VOTES = VOTES + 1" \
-                    + " WHERE (GAME_ID = %s)"
+            self.update_user_rating(game_id, user_id, new_rating)
 
-        data = (new_rating, game_id,)
+            statement = "UPDATE GAMES" \
+                        + " SET RATING = (RATING * VOTES + %s) / VOTES" \
+                        + " WHERE (GAME_ID = %s)"
+        else:
+            self.add_user_rating(game_id, user_id, new_rating)
+
+            statement = "UPDATE GAMES" \
+                        + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
+                        + " VOTES = VOTES + 1" \
+                        + " WHERE (GAME_ID = %s)"
+
+        data = (change_in_rating, game_id,)
         query = statement, data
         self.query_database(query)
 
@@ -348,12 +378,12 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
-        data = (game_id, user_id,)
+        data = (user_id, game_id)
         query = statement, data
         self.query_database(query)
 
         user_rating = None
-        if self.cursor is not None:
+        if self.cursor.rowcount != 0:
             user_rating = self.cursor.fetchone()[2]
 
         self.disconnect()
@@ -363,11 +393,11 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
-        data = (game_id, user_id,)
+        data = (user_id, game_id)
         query = statement, data
         self.query_database(query)
 
-        already_rated = self.cursor is None
+        already_rated = self.cursor.rowcount != 0
 
         self.disconnect()
         return already_rated
