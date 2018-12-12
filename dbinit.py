@@ -181,7 +181,7 @@ if __name__ == "__main__":
     #                 VALUES (1, 'Bag', 'Common', 10),
     #                         (1, 'Jacket', 'Rare', 25),
     #                         (1, 'Shoe', 'Very rare', 30)"""
-    cursor.execute(statement)
+    # cursor.execute(statement)
 
     connection.commit()
     cursor.close()

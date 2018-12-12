@@ -558,7 +558,7 @@ class Database:
         self.disconnect()
         return items_of_user
 
-    def edit_item(self, item_id, new_color, new_status):
+    def edit_item(self, item_id, new_color, new_status, is_equipped):
         self.connect()
 
         if new_status == "TRUE":
@@ -569,10 +569,10 @@ class Database:
             self.query_database(query)
 
         statement = """UPDATE ITEMS_OF_USERS
-                           SET COLOR = %s, IS_FAVORITE = %s
+                           SET COLOR = %s, IS_FAVORITE = %s, IS_EQUIPPED = %s
                            WHERE ITEM_ID = %s;
                     """
-        data = [new_color, new_status, item_id]
+        data = [new_color, new_status, is_equipped, item_id]
         query = statement, data
         self.query_database(query)
 
