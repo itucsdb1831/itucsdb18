@@ -93,8 +93,28 @@ class Database:
         self.disconnect()
         return user_id
 
+    def update_users_review_count_for_game(self, user_id, game_id, operation):
+        self.connect()
+
+        if operation == "ADD":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET NUM_OF_REVIEWS = NUM_OF_REVIEWS + 1" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        elif operation == "DELETE":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET NUM_OF_REVIEWS = NUM_OF_REVIEWS - 1" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+
+        data = (user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     def insert_review(self, review):
         self.connect()
+
+        self.update_users_review_count_for_game(review.user_id, review.game_id, "ADD")
 
         statement = """INSERT INTO REVIEWS (USER_ID, GAME_ID, LABEL, CONTENT, ADDED) VALUES (%s, %s, %s, %s, %s)"""
         data = (review.user_id, review.game_id, review.label, review.content, review.added,)
@@ -145,9 +165,25 @@ class Database:
         self.query_database(query)
         
         self.disconnect()
+
+    def get_review(self, review_id):
+        statement = "SELECT * FROM REVIEWS WHERE REVIEW_ID = %s"
+        data = [review_id]
+        query = statement, data
+        self.query_database(query)
+
+        review = None
+        if self.cursor.rowcount != 0:
+            user_id, game_id, label, content, likes, dislikes, id, added, edited = self.cursor.fetchone()
+            review = Review(user_id, game_id, label, content, likes, dislikes, id, added, edited)
+
+        return review
     
     def delete_review(self, review_id):
         self.connect()
+
+        review = self.get_review(review_id)
+        self.update_users_review_count_for_game(review.user_id, review.game_id, "DELETE")
 
         statement = """DELETE FROM REVIEWS WHERE REVIEW_ID=%s"""
         data = (review_id,)
