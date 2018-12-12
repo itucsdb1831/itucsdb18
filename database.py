@@ -167,6 +167,8 @@ class Database:
         self.disconnect()
 
     def get_review(self, review_id):
+        self.connect()
+
         statement = "SELECT * FROM REVIEWS WHERE REVIEW_ID = %s"
         data = [review_id]
         query = statement, data
@@ -177,13 +179,15 @@ class Database:
             user_id, game_id, label, content, likes, dislikes, id, added, edited = self.cursor.fetchone()
             review = Review(user_id, game_id, label, content, likes, dislikes, id, added, edited)
 
+        self.disconnect()
+
         return review
     
     def delete_review(self, review_id):
-        self.connect()
-
         review = self.get_review(review_id)
-        self.update_users_review_count_for_game(review.user_id, review.game_id, "DELETE")
+        self.update_users_review_count_for_game(review.user_id, review.game_id, "DELETE")  # *** BUGGED ***
+
+        self.connect()
 
         statement = """DELETE FROM REVIEWS WHERE REVIEW_ID=%s"""
         data = (review_id,)
@@ -481,8 +485,8 @@ class Database:
 
         games = []
         for row in self.cursor:
-            (user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_screenshots, is_favourite) = row
-            game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_screenshots,
+            (user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_items, is_favourite) = row
+            game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_items,
                               is_favourite)
             games.append(game)
 
