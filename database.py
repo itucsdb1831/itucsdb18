@@ -484,14 +484,28 @@ class Database:
     def add_item_to_user(self, item_id, game_id, user_id):
         self.connect()
 
-        item = self.get_item(game_id, item_id)
-        statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
-                           VALUES(%s, %s, %s, %s, CURRENT_DATE)"""
-        data = (item_id, game_id, user_id, item.name)
+        statement = """SELECT * FROM ITEMS_OF_USERS WHERE (ITEM_ID = %s) AND USER_ID = %s"""
+        data = (item_id, user_id)
         query = statement, data
         self.query_database(query)
 
+        already_has_item = self.cursor.rowcount != 0
+        if already_has_item:
+            statement = """UPDATE ITEMS_OF_USERS
+                               SET LEVEL = LEVEL + 1
+                               WHERE ITEM_ID = %s AND USER_ID = %s;"""
+            query = statement, data
+            self.query_database(query)
+        else:
+            item = self.get_item(game_id, item_id)
+            statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
+                               VALUES(%s, %s, %s, %s, CURRENT_DATE)"""
+            data = (item_id, game_id, user_id, item.name)
+            query = statement, data
+            self.query_database(query)
+
         self.disconnect()
+        return already_has_item
 
     def get_items_of_user(self, user_id):
         self.connect()
