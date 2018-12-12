@@ -94,8 +94,6 @@ class Database:
         return user_id
 
     def update_users_review_count_for_game(self, user_id, game_id, operation):
-        self.connect()
-
         if operation == "ADD":
             statement = "UPDATE GAMES_OF_USERS" \
                         + " SET NUM_OF_REVIEWS = NUM_OF_REVIEWS + 1" \
@@ -108,8 +106,6 @@ class Database:
         data = (user_id, game_id)
         query = statement, data
         self.query_database(query)
-
-        self.disconnect()
 
     def insert_review(self, review):
         self.connect()
@@ -585,6 +581,17 @@ class Database:
         self.disconnect()
         return item
 
+    def update_users_item_count_for_game(self, user_id, game_id, operation):
+        statement = None
+        if operation == "ADD":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET NUM_OF_ITEMS = NUM_OF_ITEMS + 1" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+
+        data = (user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
     def add_item_to_user(self, item_id, game_id, user_id):
         self.connect()
 
@@ -601,6 +608,8 @@ class Database:
             query = statement, data
             self.query_database(query)
         else:
+            self.update_users_item_count_for_game(user_id, game_id, "ADD")
+
             item = self.get_item(game_id, item_id)
             statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
                                VALUES(%s, %s, %s, %s, CURRENT_DATE)"""
