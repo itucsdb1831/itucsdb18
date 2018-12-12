@@ -459,10 +459,6 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        statement = "DELETE FROM ITEMS_OF_USERS WHERE ITEM_ID = %s"
-        query = statement, data
-        self.query_database(query)
-
         self.disconnect()
 
     def get_item(self, game_id, item_id):
