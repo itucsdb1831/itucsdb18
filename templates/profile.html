@@ -19,14 +19,14 @@
             <th>Time Played</th>
             <th>Date Purchased</th>
             <th>Reviews</th>
-            <th>Screenshots</th>
+            <th>Items</th>
             {% for game in games_of_user %}
                 <tr>
                     <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a></td>
                     <td>{{ game.time_played }} hours</td>
                     <td>{{ game.time_purchased }}</td>
                     <td>{{ game.num_of_reviews }}</td>
-                    <td>{{ game.num_of_screenshots }}</td>
+                    <td>{{ game.num_of_items }}</td>
                 </tr>
             {% endfor %}
         </table>
