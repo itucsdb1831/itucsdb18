@@ -183,7 +183,7 @@ def game_page(game_id):
     items = db.get_items(game_id)
     reviews = db.get_reviews_of_game(game_id, current_user.id)
     screenshots = db.get_screenshots_of_game(game_id)
-    return render_template("game.html", game=game, items=items, reviews=reviews, screenshots = screenshots, images = images)
+    return render_template("game.html", game=game, items=items, reviews=reviews, screenshots=screenshots, images=images)
 
 
 @app.route("/game_add", methods=['GET', 'POST'])
@@ -248,7 +248,8 @@ def game_add_page_result_page():
 def game_rate_page(game_id):
     if request.method == "POST":
         form_rating = request.form["rating"]
-        db.update_rating_of_game(game_id, form_rating)
+        already_rated = db.is_already_rated(current_user.id, game_id)
+        db.update_rating_of_game(game_id, current_user.id, form_rating, already_rated)
         return redirect(url_for("game_rate_page_result_page"))
     return render_template("game_rate.html")
 

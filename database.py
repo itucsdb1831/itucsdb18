@@ -321,18 +321,52 @@ class Database:
             games.append(game_)
         return games
 
-    def update_rating_of_game(self, game_id, rating):
+    def update_rating_of_game(self, game_id, user_id, rating, already_rated):
         self.connect()
+
+        new_rating = rating
+        if already_rated:
+            previous_rating = self.get_user_rating(game_id, user_id)
+            new_rating = rating - previous_rating
 
         statement = "UPDATE GAMES" \
                     + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
                     + " VOTES = VOTES + 1" \
                     + " WHERE (GAME_ID = %s)"
-        data = (rating, game_id,)
+
+        data = (new_rating, game_id,)
         query = statement, data
         self.query_database(query)
 
         self.disconnect()
+
+    def get_user_rating(self, game_id, user_id):
+        self.connect()
+
+        statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        data = (game_id, user_id,)
+        query = statement, data
+        self.query_database(query)
+
+        user_rating = None
+        if self.cursor is not None:
+            user_rating = self.cursor.fetchone()[2]
+
+        self.disconnect()
+        return user_rating
+
+    def is_already_rated(self, user_id, game_id):
+        self.connect()
+
+        statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        data = (game_id, user_id,)
+        query = statement, data
+        self.query_database(query)
+
+        already_rated = self.cursor is None
+
+        self.disconnect()
+        return already_rated
 
     def delete_game(self, game_id):
         self.connect()
