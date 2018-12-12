@@ -93,8 +93,24 @@ class Database:
         self.disconnect()
         return user_id
 
+    def update_users_review_count_for_game(self, user_id, game_id, operation):
+        if operation == "ADD":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET NUM_OF_REVIEWS = NUM_OF_REVIEWS + 1" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        elif operation == "DELETE":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET NUM_OF_REVIEWS = NUM_OF_REVIEWS - 1" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+
+        data = (user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
     def insert_review(self, review):
         self.connect()
+
+        self.update_users_review_count_for_game(review.user_id, review.game_id, "ADD")
 
         statement = """INSERT INTO REVIEWS (USER_ID, GAME_ID, LABEL, CONTENT, ADDED) VALUES (%s, %s, %s, %s, %s)"""
         data = (review.user_id, review.game_id, review.label, review.content, review.added,)
@@ -145,8 +161,28 @@ class Database:
         self.query_database(query)
         
         self.disconnect()
+
+    def get_review(self, review_id):
+        self.connect()
+
+        statement = "SELECT * FROM REVIEWS WHERE REVIEW_ID = %s"
+        data = [review_id]
+        query = statement, data
+        self.query_database(query)
+
+        review = None
+        if self.cursor.rowcount != 0:
+            user_id, game_id, label, content, likes, dislikes, id, added, edited = self.cursor.fetchone()
+            review = Review(user_id, game_id, label, content, likes, dislikes, id, added, edited)
+
+        self.disconnect()
+
+        return review
     
     def delete_review(self, review_id):
+        review = self.get_review(review_id)
+        self.update_users_review_count_for_game(review.user_id, review.game_id, "DELETE")  # *** BUGGED ***
+
         self.connect()
 
         statement = """DELETE FROM REVIEWS WHERE REVIEW_ID=%s"""
@@ -325,20 +361,50 @@ class Database:
             games.append(game_)
         return games
 
-    def update_rating_of_game(self, game_id, user_id, rating, already_rated):
+    def update_user_rating(self, game_id, user_id, new_rating):
         self.connect()
 
-        new_rating = rating
+        statement = "UPDATE RATING_VOTES" \
+                    + " SET VOTE = (%s)" \
+                    + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        data = (new_rating, user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def add_user_rating(self, game_id, user_id, rating):
+        self.connect()
+
+        statement = "INSERT INTO RATING_VOTES VALUES (%s, %s, %s)"
+        data = (user_id, game_id, rating)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def update_rating_of_game(self, game_id, user_id, new_rating, already_rated):
+        self.connect()
+
+        change_in_rating = new_rating
         if already_rated:
             previous_rating = self.get_user_rating(game_id, user_id)
-            new_rating = rating - previous_rating
+            change_in_rating = int(new_rating) - previous_rating
 
-        statement = "UPDATE GAMES" \
-                    + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
-                    + " VOTES = VOTES + 1" \
-                    + " WHERE (GAME_ID = %s)"
+            self.update_user_rating(game_id, user_id, new_rating)
 
-        data = (new_rating, game_id,)
+            statement = "UPDATE GAMES" \
+                        + " SET RATING = (RATING * VOTES + %s) / VOTES" \
+                        + " WHERE (GAME_ID = %s)"
+        else:
+            self.add_user_rating(game_id, user_id, new_rating)
+
+            statement = "UPDATE GAMES" \
+                        + " SET RATING = (RATING * VOTES + %s) / (VOTES + 1)," \
+                        + " VOTES = VOTES + 1" \
+                        + " WHERE (GAME_ID = %s)"
+
+        data = (change_in_rating, game_id,)
         query = statement, data
         self.query_database(query)
 
@@ -348,12 +414,12 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
-        data = (game_id, user_id,)
+        data = (user_id, game_id)
         query = statement, data
         self.query_database(query)
 
         user_rating = None
-        if self.cursor is not None:
+        if self.cursor.rowcount != 0:
             user_rating = self.cursor.fetchone()[2]
 
         self.disconnect()
@@ -363,11 +429,11 @@ class Database:
         self.connect()
 
         statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
-        data = (game_id, user_id,)
+        data = (user_id, game_id)
         query = statement, data
         self.query_database(query)
 
-        already_rated = self.cursor is None
+        already_rated = self.cursor.rowcount != 0
 
         self.disconnect()
         return already_rated
@@ -415,8 +481,8 @@ class Database:
 
         games = []
         for row in self.cursor:
-            (user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_screenshots, is_favourite) = row
-            game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_screenshots,
+            (user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_items, is_favourite) = row
+            game = GameOfUser(user_id_, game_id, title, time_played, time_purchased, num_of_reviews, num_of_items,
                               is_favourite)
             games.append(game)
 
@@ -515,6 +581,17 @@ class Database:
         self.disconnect()
         return item
 
+    def update_users_item_count_for_game(self, user_id, game_id, operation):
+        statement = None
+        if operation == "ADD":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET NUM_OF_ITEMS = NUM_OF_ITEMS + 1" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+
+        data = (user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
     def add_item_to_user(self, item_id, game_id, user_id):
         self.connect()
 
@@ -531,6 +608,8 @@ class Database:
             query = statement, data
             self.query_database(query)
         else:
+            self.update_users_item_count_for_game(user_id, game_id, "ADD")
+
             item = self.get_item(game_id, item_id)
             statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
                                VALUES(%s, %s, %s, %s, CURRENT_DATE)"""

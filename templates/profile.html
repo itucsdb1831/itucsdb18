@@ -17,16 +17,21 @@
         <table class="table is-striped is-fullwidth">
             <th>Title</th>
             <th>Time Played</th>
-            <th>Time Purchased</th>
+            <th>Date Purchased</th>
+            <th>Reviews</th>
+            <th>Items</th>
             {% for game in games_of_user %}
                 <tr>
                     <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a></td>
                     <td>{{ game.time_played }} hours</td>
                     <td>{{ game.time_purchased }}</td>
+                    <td>{{ game.num_of_reviews }}</td>
+                    <td>{{ game.num_of_items }}</td>
                 </tr>
             {% endfor %}
         </table>
     {% endif %}
+
     <p>Inventory:</p>
     <table class="table is-striped is-fullwidth">
         <th>Name</th>
@@ -51,6 +56,7 @@
             </tr>
         {% endfor %}
     </table>
+
     <p>Friends List:</p>
     <table class="table is-striped is-fullwidth">
         {% for friend in friends %}

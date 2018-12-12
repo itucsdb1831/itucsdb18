@@ -113,11 +113,13 @@ def add_review(game_id):
     else:
         return render_template("add_review.html", game=db.get_game(game_id), review=None)
 
+
 @app.route("/delete_review/", methods=["POST"])
 @login_required
 def delete_review():
     db.delete_review(request.form.get("review_id"))
     return redirect(url_for('game_page', game_id=request.form.get("game_id")))
+
 
 @app.route("/delete_screenshot/", methods=["POST"])
 @login_required
@@ -125,6 +127,7 @@ def delete_screenshot():
     db.delete_screenshot(request.form.get("shot_name"))
     remove(images.path(request.form.get("shot_name")))
     return redirect(url_for('game_page', game_id=request.form.get("game_id")))
+
 
 @app.route("/process_likes_dislikes/", methods=["POST"])
 @login_required
@@ -273,14 +276,8 @@ def game_rate_page(game_id):
         form_rating = request.form["rating"]
         already_rated = db.is_already_rated(current_user.id, game_id)
         db.update_rating_of_game(game_id, current_user.id, form_rating, already_rated)
-        return redirect(url_for("game_rate_page_result_page"))
+        return render_template("game_rate_result.html", rated_before=already_rated)
     return render_template("game_rate.html")
-
-
-@app.route("/store/game_rate_result")
-@login_required
-def game_rate_page_result_page():
-    return render_template("game_rate_result.html")
 
 
 @app.route("/store/<int:game_id>/game_purchase")
