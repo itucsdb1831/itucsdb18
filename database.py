@@ -174,7 +174,7 @@ class Database:
         self.query_database(query)
         
         statements = {"REVIEWS" : "UPDATE REVIEWS SET LIKES = LIKES + 1 WHERE REVIEW_ID=%s",
-        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES + 1 WHERE SHOT_ID=%s"}
+        "SCREENSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES + 1 WHERE SHOT_ID=%s"}
         data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
@@ -188,7 +188,7 @@ class Database:
         self.query_database(query)
 
         statements = {"REVIEWS" : "UPDATE REVIEWS SET LIKES = LIKES - 1 WHERE REVIEW_ID=%s",
-        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES - 1 WHERE SHOT_ID=%s"}
+        "SCREENSHOTS" : "UPDATE SCREENSHOTS SET LIKES = LIKES - 1 WHERE SHOT_ID=%s"}
         data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
@@ -214,7 +214,7 @@ class Database:
         self.query_database(query)
         
         statements = {"REVIEWS" : "UPDATE REVIEWS SET DISLIKES = DISLIKES + 1 WHERE REVIEW_ID=%s",
-        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES + 1 WHERE SHOT_ID=%s"}
+        "SCREENSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES + 1 WHERE SHOT_ID=%s"}
         data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
@@ -228,7 +228,7 @@ class Database:
         self.query_database(query)
 
         statements = {"REVIEWS" : "UPDATE REVIEWS SET DISLIKES = DISLIKES - 1 WHERE REVIEW_ID=%s",
-        "SCREENTSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES - 1 WHERE SHOT_ID=%s"}
+        "SCREENSHOTS" : "UPDATE SCREENSHOTS SET DISLIKES = DISLIKES - 1 WHERE SHOT_ID=%s"}
         data = (entity_id,)
         query = statements[entity_type], data
         self.query_database(query)
@@ -255,7 +255,7 @@ class Database:
         self.query_database(query)
         self.disconnect()
     
-    def get_screenshots_of_game(self, game_id):
+    def get_screenshots_of_game(self, game_id, cur_user_id):
         self.connect()
 
         statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID FROM SCREENSHOTS WHERE GAME_ID=%s"
@@ -266,6 +266,10 @@ class Database:
         for row in self.cursor:
             name, user_id, caption, date_added, likes, dislikes, shot_id = row
             sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id))
+        
+        for shot in sss:
+            shot.liked_from_current = self.get_like_of_user(shot.id, cur_user_id, "SCREENSHOTS")
+            shot.disliked_from_current = self.get_dislike_of_user(shot.id, cur_user_id, "SCREENSHOTS")
         self.disconnect()
         return sss
     
