@@ -241,7 +241,8 @@ def item_edit_page(item_id):
     if request.method == "POST":
         form_color = request.form["color"]
         form_is_favorite = request.form["is_favorite"]
-        db.edit_item(item_id, form_color, form_is_favorite)
+        form_is_equipped = request.form["is_equipped"]
+        db.edit_item(item_id, form_color, form_is_favorite, form_is_equipped)
         return redirect(url_for("item_edit_result_page"))
     return render_template("item_edit.html")
 

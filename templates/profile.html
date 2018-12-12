@@ -32,7 +32,7 @@
         <th>Name</th>
         <th>Level</th>
         <th>Color</th>
-        <th>Progress</th>
+        <th>Equipped</th>
         <th>Favorite</th>
         <th>Date Purchased</th>
         {% for item in items_of_user %}
@@ -40,7 +40,9 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.level }}</td>
                 <td>{{ item.color }}</td>
-                <td>{{ item.progress }}</td>
+                <td>
+                    {{ "+" if item.is_equipped else "-" }}
+                </td>
                 <td>
                     {{ "+" if item.is_favorite else "-" }}
                 </td>

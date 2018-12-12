@@ -513,8 +513,8 @@ class Database:
 
         items_of_user = []
         for row in self.cursor:
-            (item_id, game_id, user_id, name, level, color, progress, is_favorite, date_purchased) = row
-            item = ItemOfUser(item_id, game_id, user_id, name, level, color, progress, is_favorite, date_purchased)
+            (item_id, game_id, user_id, name, level, color, is_equipped, is_favorite, date_purchased) = row
+            item = ItemOfUser(item_id, game_id, user_id, name, level, color, is_equipped, is_favorite, date_purchased)
             items_of_user.append(item)
 
         self.disconnect()
