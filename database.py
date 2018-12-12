@@ -510,6 +510,26 @@ class Database:
         self.disconnect()
         return items_of_user
 
+    def edit_item(self, item_id, new_color, new_status):
+        self.connect()
+
+        if new_status == "TRUE":
+            statement = """UPDATE ITEMS_OF_USERS
+                               SET IS_FAVORITE = FALSE
+                               WHERE IS_FAVORITE = TRUE"""
+            query = statement, []
+            self.query_database(query)
+
+        statement = """UPDATE ITEMS_OF_USERS
+                           SET COLOR = %s, IS_FAVORITE = %s
+                           WHERE ITEM_ID = %s;
+                    """
+        data = [new_color, new_status, item_id]
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     # -------------------------------------------------------
 
     def send_friend_request(self, user_id_from, user_id_to):

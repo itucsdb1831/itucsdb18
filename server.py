@@ -235,6 +235,23 @@ def item_purchase_result_page(game_id, item_id):
     return render_template("item_purchase_result.html", item=item)
 
 
+@app.route("/store/<int:item_id>/item_edit", methods=['GET', 'POST'])
+@login_required
+def item_edit_page(item_id):
+    if request.method == "POST":
+        form_color = request.form["color"]
+        form_is_favorite = request.form["is_favorite"]
+        db.edit_item(item_id, form_color, form_is_favorite)
+        return redirect(url_for("item_edit_result_page"))
+    return render_template("item_edit.html")
+
+
+@app.route("/store/item_edit_result")
+@login_required
+def item_edit_result_page():
+    return render_template("item_edit_result.html")
+
+
 @app.route("/game_add_result")
 @login_required
 def game_add_page_result_page():
