@@ -177,12 +177,6 @@ if __name__ == "__main__":
     data = ("team fortress 2", "fps")
     cursor.execute(statement, data)
 
-    # statement = """INSERT INTO ITEMS(GAME_ID, NAME, RARITY, LEVEL)
-    #                 VALUES (1, 'Bag', 'Common', 10),
-    #                         (1, 'Jacket', 'Rare', 25),
-    #                         (1, 'Shoe', 'Very rare', 30)"""
-    #cursor.execute(statement)
-
     connection.commit()
     cursor.close()
 
