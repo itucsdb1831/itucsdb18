@@ -235,9 +235,27 @@ def item_purchase_page(game_id, item_id):
 def item_purchase_result_page(game_id, item_id):
     item = db.get_item(game_id, item_id)
     if current_user.is_admin or current_user.balance >= item.price:
-        db.add_item_to_user(item.item_id, game_id, current_user.id)
+        already_has_item = db.add_item_to_user(item.item_id, game_id, current_user.id)
         db.decrease_balance_of_user(current_user.id, item.price)
-    return render_template("item_purchase_result.html", item=item)
+    return render_template("item_purchase_result.html", item=item, already_has_item=already_has_item)
+
+
+@app.route("/store/<int:item_id>/item_edit", methods=['GET', 'POST'])
+@login_required
+def item_edit_page(item_id):
+    if request.method == "POST":
+        form_color = request.form["color"]
+        form_is_favorite = request.form["is_favorite"]
+        form_is_equipped = request.form["is_equipped"]
+        db.edit_item(item_id, form_color, form_is_favorite, form_is_equipped)
+        return redirect(url_for("item_edit_result_page"))
+    return render_template("item_edit.html")
+
+
+@app.route("/store/item_edit_result")
+@login_required
+def item_edit_result_page():
+    return render_template("item_edit_result.html")
 
 
 @app.route("/game_add_result")

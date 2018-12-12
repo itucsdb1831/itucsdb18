@@ -4,7 +4,11 @@
     {% if item.price > current_user.balance and not current_user.is_admin %}
         <p>You do not have enough balance.</p>
     {% else %}
-        <p>"{{ item.name }}" has been added to your inventory!</p>
+        {% if already_has_item %}
+            <p>{{ item.name }} has been leveled up!</p>
+        {% else %}
+            <p>"{{ item.name }}" has been added to your inventory!</p>
+        {% endif %}
         <a class="button is-link" href="{{ url_for('profile', user=current_user) }}">View the item in your profile</a>
     {% endif %}
 {% endblock %}

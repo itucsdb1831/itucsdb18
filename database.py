@@ -497,10 +497,6 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-        statement = "DELETE FROM ITEMS_OF_USERS WHERE ITEM_ID = %s"
-        query = statement, data
-        self.query_database(query)
-
         self.disconnect()
 
     def get_item(self, game_id, item_id):
@@ -522,14 +518,28 @@ class Database:
     def add_item_to_user(self, item_id, game_id, user_id):
         self.connect()
 
-        item = self.get_item(game_id, item_id)
-        statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
-                           VALUES(%s, %s, %s, %s, CURRENT_DATE)"""
-        data = (item_id, game_id, user_id, item.name)
+        statement = """SELECT * FROM ITEMS_OF_USERS WHERE (ITEM_ID = %s) AND USER_ID = %s"""
+        data = (item_id, user_id)
         query = statement, data
         self.query_database(query)
 
+        already_has_item = self.cursor.rowcount != 0
+        if already_has_item:
+            statement = """UPDATE ITEMS_OF_USERS
+                               SET LEVEL = LEVEL + 1
+                               WHERE ITEM_ID = %s AND USER_ID = %s;"""
+            query = statement, data
+            self.query_database(query)
+        else:
+            item = self.get_item(game_id, item_id)
+            statement = """INSERT INTO ITEMS_OF_USERS(ITEM_ID, GAME_ID, USER_ID, NAME, DATE_PURCHASED)
+                               VALUES(%s, %s, %s, %s, CURRENT_DATE)"""
+            data = (item_id, game_id, user_id, item.name)
+            query = statement, data
+            self.query_database(query)
+
         self.disconnect()
+        return already_has_item
 
     def get_items_of_user(self, user_id):
         self.connect()
@@ -541,12 +551,32 @@ class Database:
 
         items_of_user = []
         for row in self.cursor:
-            (item_id, game_id, user_id, name, level, color, progress, is_favorite, date_purchased) = row
-            item = ItemOfUser(item_id, game_id, user_id, name, level, color, progress, is_favorite, date_purchased)
+            (item_id, game_id, user_id, name, level, color, is_equipped, is_favorite, date_purchased) = row
+            item = ItemOfUser(item_id, game_id, user_id, name, level, color, is_equipped, is_favorite, date_purchased)
             items_of_user.append(item)
 
         self.disconnect()
         return items_of_user
+
+    def edit_item(self, item_id, new_color, new_status):
+        self.connect()
+
+        if new_status == "TRUE":
+            statement = """UPDATE ITEMS_OF_USERS
+                               SET IS_FAVORITE = FALSE
+                               WHERE IS_FAVORITE = TRUE"""
+            query = statement, []
+            self.query_database(query)
+
+        statement = """UPDATE ITEMS_OF_USERS
+                           SET COLOR = %s, IS_FAVORITE = %s
+                           WHERE ITEM_ID = %s;
+                    """
+        data = [new_color, new_status, item_id]
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
 
     # -------------------------------------------------------
 

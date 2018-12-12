@@ -59,7 +59,7 @@ INIT_STATEMENTS = [
     """
     CREATE TABLE IF NOT EXISTS ITEMS (
         ITEM_ID SERIAL PRIMARY KEY,
-        GAME_ID INTEGER REFERENCES GAMES (GAME_ID),
+        GAME_ID INTEGER REFERENCES GAMES (GAME_ID) ON DELETE CASCADE,
         PICTURE VARCHAR(50),
         NAME VARCHAR(100) UNIQUE,
         ITEM_TYPE VARCHAR(50),
@@ -123,15 +123,15 @@ INIT_STATEMENTS = [
     """,
     """
     CREATE TABLE IF NOT EXISTS ITEMS_OF_USERS (
-        ITEM_ID INTEGER REFERENCES ITEMS (ITEM_ID),
-        GAME_ID INTEGER REFERENCES GAMES (GAME_ID),
-        USER_ID INTEGER REFERENCES USERS (USER_ID),
-        NAME VARCHAR(100) REFERENCES ITEMS (NAME), 
+        ITEM_ID INTEGER REFERENCES ITEMS (ITEM_ID) ON DELETE CASCADE,
+        GAME_ID INTEGER REFERENCES GAMES (GAME_ID) ON DELETE CASCADE,
+        USER_ID INTEGER REFERENCES USERS (USER_ID) ON DELETE CASCADE,
+        NAME VARCHAR(100) REFERENCES ITEMS (NAME) ON DELETE CASCADE, 
         LEVEL INTEGER DEFAULT 1,
         COLOR VARCHAR(200),
-        PROGRESS NUMERIC(5, 2) DEFAULT 0,
+        IS_EQUIPPED BOOLEAN DEFAULT FALSE,
         IS_FAVORITE BOOLEAN DEFAULT FALSE,
-        DATE_PURCHASED TIMESTAMP,
+        DATE_PURCHASED DATE,
         PRIMARY KEY (ITEM_ID, GAME_ID, USER_ID)
     )
     """,
@@ -163,15 +163,15 @@ if __name__ == "__main__":
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
 
-    password = "asdf"
-    hashed_password = hasher.hash(password)
-    statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES(%s, %s, %s)"
-    data = ("emre", hashed_password, True)
-    cursor.execute(statement, data)
-    
-    statement = "INSERT INTO BALANCE_CODES VALUES(%s)"
-    data = "1234"
-    cursor.execute(statement, [data])
+    # password = "asdf"
+    # hashed_password = hasher.hash(password)
+    # statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES(%s, %s, %s)"
+    # data = ("emre", hashed_password, True)
+    # cursor.execute(statement, data)
+    #
+    # statement = "INSERT INTO BALANCE_CODES VALUES(%s)"
+    # data = "1234"
+    # cursor.execute(statement, [data])
 
     # statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
     # data = ("team fortress 2", "fps")
