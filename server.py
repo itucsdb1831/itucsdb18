@@ -372,5 +372,17 @@ def process_game_favouriting():
         return jsonify({"responseText": "Removed from favourites"}, {"column_favourite": ""})
 
 
+@app.route("/profile/process_play_game", methods=['POST'])
+@login_required
+def process_play_game():
+    user_id = request.form.get("user_id")
+    game_id = request.form.get("game_id")
+    time_played = request.form.get("time_played")
+
+    db.increment_time_played(user_id, game_id)
+
+    return jsonify({"time_played": str(time_played + 1)})
+
+
 if __name__ == "__main__":
     app.run()

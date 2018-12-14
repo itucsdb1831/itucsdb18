@@ -3,6 +3,7 @@
 {% block content %}
     <script src="{{ url_for('static', filename='friend_request_feedback.js') }}"></script>
     <script src="{{ url_for('static', filename='game_favouriting_handler.js') }}"></script>
+    <script src="{{ url_for('static', filename='play_game_handler.js') }}"></script>
 
     <h1>{{ user.user_name }}</h1>
     <p>hello {{ user.user_name }}</p>
@@ -24,16 +25,16 @@
             {% for game in games_of_user %}
                 <tr id="{{ game.game_id }}">
                     <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a></td>
-                    <td>{{ game.time_played }} hours</td>
+                    <td id="column_time_played">{{ game.time_played }} hours</td>
                     <td>{{ game.time_purchased }}</td>
                     <td>{{ game.num_of_reviews }}</td>
                     <td>{{ game.num_of_items }}</td>
-                    {% if game.is_favourite %}
-                        <td id="column_favourite">*FAVOURITE*</td>
+                    <td><button onclick="playGame({{ current_user.id }}, {{ game.game_id }}, {{ game.time_played }})">Play</button></td>
+                    <div id="div_favourite">
+                        <td>*FAVOURITE*</td>
                         <td><button onclick="removeFromFavourites({{ current_user.id }}, {{ game.game_id }})">Unfavourite</button></td>
-                    {% else %}
                         <td><button onclick="addToFavourites({{ current_user.id }}, {{ game.game_id }})">Favourite</button></td>
-                    {% endif %}
+                    </div>
                 </tr>
             {% endfor %}
         </table>

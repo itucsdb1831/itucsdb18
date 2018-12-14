@@ -507,6 +507,18 @@ class Database:
         self.disconnect()
         return games
 
+    def increment_time_played(self, user_id, game_id):
+        self.connect()
+
+        statement = "UPDATE GAMES_OF_USERS" \
+                    + " SET TIME_PLAYED = TIME_PLAYED + 1" \
+                    + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        data = (user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     def check_code(self, code):
         self.connect()
 
