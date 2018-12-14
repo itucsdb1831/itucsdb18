@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-    <form action="" method="post" name="item_add">
+    <form action="" method="post" name="item_add" enctype="multipart/form-data">
         <div class="field">
             <label for="picture" class="label">Item Picture</label>
             <input type="file" name="picture" accept=".jpg,.png" required>
