@@ -2,6 +2,7 @@
 {% block title %}Mercury{% endblock %}
 {% block content %}
     <script src="{{ url_for('static', filename='friend_request_feedback.js') }}"></script>
+    <script src="{{ url_for('static', filename='game_favouriting_handler.js') }}"></script>
 
     <h1>{{ user.user_name }}</h1>
     <p>hello {{ user.user_name }}</p>
@@ -12,7 +13,7 @@
         <p>Your balance: :)</p>
     {% endif %}
 
-    <p>Library:</p>
+    <h2>Library:</h2>
     {% if games_of_user %}
         <table class="table is-striped is-fullwidth">
             <th>Title</th>
@@ -21,18 +22,24 @@
             <th>Reviews</th>
             <th>Items</th>
             {% for game in games_of_user %}
-                <tr>
+                <tr id="{{ game.game_id }}">
                     <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a></td>
                     <td>{{ game.time_played }} hours</td>
                     <td>{{ game.time_purchased }}</td>
                     <td>{{ game.num_of_reviews }}</td>
                     <td>{{ game.num_of_items }}</td>
+                    {% if game.is_favourite %}
+                        <td id="column_favourite">*FAVOURITE*</td>
+                        <td><button onclick="removeFromFavourites({{ current_user.id }}, {{ game.game_id }})">Unfavourite</button></td>
+                    {% else %}
+                        <td><button onclick="addToFavourites({{ current_user.id }}, {{ game.game_id }})">Favourite</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
     {% endif %}
 
-    <p>Inventory:</p>
+    <h3>Inventory:</h3>
     <table class="table is-striped is-fullwidth">
         <th>Name</th>
         <th>Level</th>
@@ -57,7 +64,7 @@
         {% endfor %}
     </table>
 
-    <p>Friends List:</p>
+    <h4>Friends List:</h4>
     <table class="table is-striped is-fullwidth">
         {% for friend in friends %}
             <tr>

@@ -471,6 +471,24 @@ class Database:
         self.disconnect()
         return is_successful
 
+    def update_game_favourite_variable(self, user_id, game_id, operation):
+        self.connect()
+
+        if operation == "ADD":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET IS_FAVOURITE = TRUE" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+        elif operation == "REMOVE":
+            statement = "UPDATE GAMES_OF_USERS" \
+                        + " SET IS_FAVOURITE = FALSE" \
+                        + " WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+
+        data = (user_id, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     def get_games_of_user(self, user_id):
         self.connect()
 

@@ -357,5 +357,20 @@ def friend_add_page():
     return render_template("friend_add.html")
 
 
+@app.route("/profile/process_game_favouriting", methods=['POST'])
+@login_required
+def process_game_favouriting():
+    operation = request.form.get("operation")
+    user_id = request.form.get("user_id")
+    game_id = request.form.get("game_id")
+
+    if operation == "ADD":
+        db.update_game_favourite_variable(user_id, game_id, "ADD")
+        return jsonify({"responseText": "Added to favourites"}, {"column_favourite": "*FAVOURITE*"})
+    else:
+        db.update_game_favourite_variable(user_id, game_id, "REMOVE")
+        return jsonify({"responseText": "Removed from favourites"}, {"column_favourite": ""})
+
+
 if __name__ == "__main__":
     app.run()
