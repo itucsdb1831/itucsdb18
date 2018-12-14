@@ -14,6 +14,9 @@
             <span class="navbar-item">
             <a class="button is-link" href="{{ url_for('store_page') }}">Store</a>
           </span>
+          <span class="navbar-item">
+            <a class="button is-link" href="{{ url_for('social_page') }}">Social</a>
+          </span>
             {% if current_user.is_admin %}
                 <span class="navbar-item">
             <a class="button is-link" href="{{ url_for('game_add_page') }}">Add game</a>
