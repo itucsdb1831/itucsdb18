@@ -8,7 +8,7 @@ from friend import Friend
 from friend_request import FriendRequest
 from screenshot import Screenshot
 from item_of_user import ItemOfUser
-
+from screenshot_comment import ScreenshotComment
 
 class Database:
     def __init__(self, dsn):
@@ -656,6 +656,27 @@ class Database:
         self.query_database(query)
 
         self.disconnect()
+
+    # Screenshot Comments
+    def get_screenshot_comments(self, game_id, screenshot_id):
+        self.connect()
+
+        statement = """SELECT * FROM SCREENSHOT_COMMENTS WHERE (GAME_ID = %s) AND (SCREENSHOT_ID = %s)"""
+        data = [game_id, screenshot_id]
+        query = statement, data
+        self.query_database(query)
+
+        screenshot_comments = []
+        for row in self.cursor:
+            (comment_id, user_id, game_id, screenshot_id, username, content,
+                date_commented, reaction, likes, dislikes) = row
+            comment = ScreenshotComment(comment_id, user_id, game_id, screenshot_id,
+                                        username, content, date_commented, reaction, likes, dislikes)
+            screenshot_comments.append(comment)
+
+        self.disconnect()
+        return screenshot_comments
+
 
     # -------------------------------------------------------
 

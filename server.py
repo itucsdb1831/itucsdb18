@@ -265,6 +265,14 @@ def item_edit_result_page():
     return render_template("item_edit_result.html")
 
 
+# Screenshot Comments
+@app.route("/store/<int:game_id>/<int:screenshot_id>/comments")
+def screenshot_comments_page(game_id, screenshot_id):
+    screenshot_comments = db.get_screenshot_comments(game_id, screenshot_id)
+    return render_template("screenshot_comments.html", game_id=game_id, screenshot_id=screenshot_id,
+                           screenshot_comments=screenshot_comments)
+
+
 @app.route("/game_add_result")
 @login_required
 def game_add_page_result_page():

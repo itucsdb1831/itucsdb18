@@ -136,12 +136,17 @@ INIT_STATEMENTS = [
     )
     """,
     """
-    CREATE TABLE IF NOT EXISTS SCREENSHOT_COMMENTS(
+    CREATE TABLE IF NOT EXISTS SCREENSHOT_COMMENTS (
         COMMENT_ID SERIAL PRIMARY KEY,
-        USER_ID INTEGER REFERENCES USERS(USER_ID),
-        SCREENSHOT_ID INTEGER REFERENCES SCREENSHOTS(SHOT_ID),
-        COMMENT VARCHAR(500),
-        COMMENT_DATE DATE
+        USER_ID INTEGER REFERENCES USERS (USER_ID) ON DELETE CASCADE,
+        GAME_ID INTEGER REFERENCES GAMES (GAME_ID) ON DELETE CASCADE,
+        SCREENSHOT_ID INTEGER REFERENCES SCREENSHOTS (SHOT_ID) ON DELETE CASCADE,
+        USERNAME VARCHAR(20) REFERENCES USERS (NAME) ON DELETE CASCADE,
+        CONTENT VARCHAR(500),
+        DATE_COMMENTED DATE,
+        REACTION VARCHAR(50),
+        LIKES INTEGER DEFAULT 0,
+        DISLIKES INTEGER DEFAULT 0
     )
     """,
     """
@@ -158,26 +163,25 @@ if __name__ == "__main__":
           + " port=5432" \
           + " dbname=dd7j2nqkjb2bs9"
     connection = dbapi2.connect(dsn)
-
     cursor = connection.cursor()
+
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
 
-    password = "asdf"
-    hashed_password = hasher.hash(password)
-    statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES (%s, %s, %s)"
-    data = ("emre", hashed_password, True)
-    cursor.execute(statement, data)
-
-    statement = "INSERT INTO BALANCE_CODES VALUES (%s)"
-    data = "1234"
-    cursor.execute(statement, [data])
-
-    statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
-    data = ("team fortress 2", "fps")
-    cursor.execute(statement, data)
+    # password = "asdf"
+    # hashed_password = hasher.hash(password)
+    # statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES (%s, %s, %s)"
+    # data = ("emre", hashed_password, True)
+    # cursor.execute(statement, data)
+    #
+    # statement = "INSERT INTO BALANCE_CODES VALUES (%s)"
+    # data = "1234"
+    # cursor.execute(statement, [data])
+    #
+    # statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, 12, 0.00)"
+    # data = ("team fortress 2", "fps")
+    # cursor.execute(statement, data)
 
     connection.commit()
     cursor.close()
-
     connection.close()
