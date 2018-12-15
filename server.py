@@ -77,15 +77,20 @@ def home_page():
     return render_template("home.html")
 
 
-@app.route("/profile/")
+@app.route("/profile/<int:user_id>/")
 @login_required
-def profile():
-    games_of_user = db.get_games_of_user(current_user.id)
-    received_friend_requests = db.get_received_friend_requests(current_user.id)
-    sent_friend_requests = db.get_sent_friend_requests(current_user.id)
-    friends = db.get_friends(current_user.id)
-    items_of_user = db.get_items_of_user(current_user.id)
-    return render_template("profile.html", user=current_user, games_of_user=games_of_user,
+def profile(user_id):
+    games_of_user = db.get_games_of_user(user_id)
+    items_of_user = db.get_items_of_user(user_id)
+    if user_id == current_user.id:
+        received_friend_requests = db.get_received_friend_requests(current_user.id)
+        sent_friend_requests = db.get_sent_friend_requests(current_user.id)
+        friends = db.get_friends(current_user.id)
+    else:
+        received_friend_requests = []
+        sent_friend_requests = []
+        friends = []
+    return render_template("profile.html", user=db.get_user(user_id), games_of_user=games_of_user,
                            received_friend_requests=received_friend_requests,
                            sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user)
 
