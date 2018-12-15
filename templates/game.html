@@ -71,10 +71,10 @@
         {% for review in reviews %}
             <li><div class="reviews">{{ review.label }}: {{ review.content }} (Likes: {{review.likes}}, Dislikes: {{review.dislikes}})(Submitted: <span class="timeobj">{{review.added.timestamp()*1000}}</span>{% if review.edited != None %}Last change: <span class="timeobj">{{review.edited.timestamp()*1000}}</span>{% endif %})
                 <form id="like">
-                    <button class="likes" id="{{review.id}}l" value="{{review.id}}" {% if review.disliked_from_current %} disabled {% endif %}>{% if review.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
+                    <button class="likes" id="{{review.id}}l" value="{{review.id}}" data-ent_type="REVIEWS" {% if review.disliked_from_current %} disabled {% endif %}>{% if review.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
                 </form>
                 <form id="dislike">
-                    <button class="dislikes" id="{{review.id}}d" value="{{review.id}}" {% if review.liked_from_current %} disabled {% endif %}>{% if review.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
+                    <button class="dislikes" id="{{review.id}}d" value="{{review.id}}" data-ent_type="REVIEWS" {% if review.liked_from_current %} disabled {% endif %}>{% if review.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
                 </form>
                 {% if review.user_id == current_user.id or current_user.is_admin%}
                 <form action="{{url_for('delete_review', review_id=review.id)}}" method="POST">
