@@ -221,6 +221,7 @@ def game_add_page():
 
 
 @app.route("/store/<int:game_id>/item_add", methods=['GET', 'POST'])
+@login_required
 def item_add_page(game_id):
     if request.method == 'POST':
         try:
