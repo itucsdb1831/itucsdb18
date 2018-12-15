@@ -74,7 +74,7 @@
     <table class="table is-striped is-fullwidth">
         {% for friend in friends %}
             <tr>
-                <td>{{ friend.user2_name}}</td>
+                <td><a href="{{ url_for('profile', user_id=friend.user2_id) }}">{{ friend.user2_name}}</a></td>
             </tr>
         {% endfor %}
     </table>
