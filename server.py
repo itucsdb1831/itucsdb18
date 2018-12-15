@@ -397,7 +397,7 @@ def process_play_game():
 
     db.increment_time_played(user_id, game_id)
 
-    return jsonify({"time_played": str(time_played + 1)})
+    return jsonify({"time_played": str(int(time_played) + 1)})
 
 
 if __name__ == "__main__":
