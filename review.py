@@ -4,8 +4,8 @@ class Review:
         self.game_id = game_id
         self.label = label
         self.content = content
-        self.likes = 0
-        self.dislikes = 0
+        self.likes = likes
+        self.dislikes = dislikes
         self.id=id
         self.added = added
         self.edited = edited
