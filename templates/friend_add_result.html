@@ -13,5 +13,5 @@
     {% else %}
         <p>Request has been sent!</p>
     {% endif %}
-    <a class="button is-link" href="{{ url_for('profile') }}">Back to your profile</a>
+    <a class="button is-link" href="{{ url_for('profile', user_id = current_user.id) }}">Back to your profile</a>
 {% endblock %}
