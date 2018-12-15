@@ -309,6 +309,19 @@ class Database:
         self.disconnect()
         return sss
     
+    def get_screenshot(self, shot_id):
+        self.connect()
+
+        statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, GAME_ID FROM SCREENSHOTS WHERE SHOT_ID=%s"
+        data = (str(shot_id),)
+        query = statement, data
+        self.query_database(query)
+        name, user_id, caption, date_added, likes, dislikes, game_id = self.cursor.fetchone()
+        shot = Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id)
+        self.disconnect()
+
+        return shot
+    
     def delete_screenshot(self, shot_name):
         self.connect()
 
