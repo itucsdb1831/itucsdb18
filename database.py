@@ -808,11 +808,3 @@ class Database:
 
         self.disconnect()
         return already_sent
-
-    def add_message(self, user_id_from, user_id_to, message):
-        self.connect()
-        self.disconnect()
-
-    def get_messages(self,):
-        self.connect()
-        self.disconnect()

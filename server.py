@@ -179,15 +179,6 @@ def store_page():
 
 @app.route("/community", methods=['GET', 'POST'])
 def community_page():
-    if request.method == "GET":
-        messages = db.get_messages()
-        return render_template("community.html", messages=messages)
-
-    form_user_id_from = request.form["user_id_from"]
-    form_user_name_to = request.form["user_name_to"]
-    user_id_to = db.get_user_id(form_user_name_to)
-    form_message = request.form["message"]
-    db.add_message(form_user_id_from, user_id_to, form_message)
     return redirect(url_for("community_page"))
 
 
