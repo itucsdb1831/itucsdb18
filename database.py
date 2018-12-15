@@ -8,7 +8,7 @@ from friend import Friend
 from friend_request import FriendRequest
 from screenshot import Screenshot
 from item_of_user import ItemOfUser
-
+from screenshot_comment import ScreenshotComment
 
 class Database:
     def __init__(self, dsn):
@@ -118,6 +118,25 @@ class Database:
         self.query_database(query)
 
         self.disconnect()
+    
+    def get_reviews_of_user(self, user_id, cur_user_id):
+        self.connect()
+
+        statement = """SELECT REVIEW_ID, REVIEWS.GAME_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED, TITLE FROM (REVIEWS JOIN GAMES ON ((REVIEWS.GAME_ID=GAMES.GAME_ID) AND (REVIEWS.USER_ID=%s))) ORDER BY ADDED DESC"""
+        data = (user_id,)
+        query = statement, data
+        self.query_database(query)
+
+        reviews = []
+        for row in self.cursor:
+            review_id, game_id, label, content, added, likes, dislikes, edited, game_title = row
+            reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id, game_title))
+
+        for review in reviews:
+            review.liked_from_current = self.get_like_of_user(review.id, cur_user_id, "REVIEWS")
+            review.disliked_from_current = self.get_dislike_of_user(review.id, cur_user_id, "REVIEWS")
+        self.disconnect()
+        return reviews
 
     def get_reviews_of_game(self, game_id, cur_user_id):
         self.connect()
@@ -291,6 +310,24 @@ class Database:
         self.query_database(query)
         self.disconnect()
     
+    def get_screenshots_of_user(self, user_id, cur_user_id):
+        self.connect()
+
+        statement = "SELECT NAME, SCREENSHOTS.GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID, TITLE FROM (SCREENSHOTS JOIN GAMES ON ((SCREENSHOTS.GAME_ID=GAMES.GAME_ID) AND (SCREENSHOTS.USER_ID=%s))) ORDER BY DATE_ADDED DESC"
+        data = (str(user_id),)
+        query = statement, data
+        self.query_database(query)
+        sss = []
+        for row in self.cursor:
+            name, game_id, caption, date_added, likes, dislikes, shot_id, game_title = row
+            sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id, game_title))
+        
+        for shot in sss:
+            shot.liked_from_current = self.get_like_of_user(shot.id, cur_user_id, "SCREENSHOTS")
+            shot.disliked_from_current = self.get_dislike_of_user(shot.id, cur_user_id, "SCREENSHOTS")
+        self.disconnect()
+        return sss
+    
     def get_screenshots_of_game(self, game_id, cur_user_id):
         self.connect()
 
@@ -308,6 +345,19 @@ class Database:
             shot.disliked_from_current = self.get_dislike_of_user(shot.id, cur_user_id, "SCREENSHOTS")
         self.disconnect()
         return sss
+    
+    def get_screenshot(self, shot_id):
+        self.connect()
+
+        statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, GAME_ID FROM SCREENSHOTS WHERE SHOT_ID=%s"
+        data = (str(shot_id),)
+        query = statement, data
+        self.query_database(query)
+        name, user_id, caption, date_added, likes, dislikes, game_id = self.cursor.fetchone()
+        shot = Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id)
+        self.disconnect()
+
+        return shot
     
     def delete_screenshot(self, shot_name):
         self.connect()
@@ -687,6 +737,50 @@ class Database:
 
         self.disconnect()
 
+    # Screenshot Comments
+    def get_screenshot_comments(self, game_id, screenshot_id):
+        self.connect()
+
+        statement = """SELECT * FROM SCREENSHOT_COMMENTS WHERE (GAME_ID = %s) AND (SCREENSHOT_ID = %s)"""
+        data = [game_id, screenshot_id]
+        query = statement, data
+        self.query_database(query)
+
+        screenshot_comments = []
+        for row in self.cursor:
+            (comment_id, user_id, game_id, screenshot_id, username, content,
+                date_commented, reaction, likes, dislikes) = row
+            comment = ScreenshotComment(comment_id, user_id, game_id, screenshot_id,
+                                        username, content, date_commented, reaction, likes, dislikes)
+            screenshot_comments.append(comment)
+
+        self.disconnect()
+        return screenshot_comments
+
+    def add_screenshot_comment(self, user_id, game_id, screenshot_id, content, reaction, font_size, color):
+        self.connect()
+
+        statement = """INSERT INTO
+                            SCREENSHOT_COMMENTS(USER_ID, GAME_ID, SCREENSHOT_ID, USERNAME,
+                                CONTENT, DATE_COMMENTED, REACTION, FONT_SIZE, COLOR)
+                            VALUES (%s, %s, %s, %s, %s, CURRENT_DATE, %s, %s, %s)"""
+        username = self.get_user(user_id).user_name
+        data = (user_id, game_id, screenshot_id, username, content, reaction, font_size, color)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def delete_screenshot_comment(self, comment_id):
+        self.connect()
+
+        statement = """DELETE FROM SCREENSHOT_COMMENTS WHERE COMMENT_ID = %s"""
+        data = [comment_id]
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     # -------------------------------------------------------
 
     def send_friend_request(self, user_id_from, user_id_to):
@@ -808,7 +902,7 @@ class Database:
 
         self.disconnect()
         return already_sent
-
+      
     def get_all_reviews_of_user_for_community(self, user_id):
         self.connect()
 

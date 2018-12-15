@@ -1,0 +1,30 @@
+div.gallery {
+  margin: 5px;
+  border: 1px solid #ccc;
+  float: left;
+  width: 180px;
+  overflow: auto;
+}
+
+div.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+div.desc {
+  padding: 15px;
+  text-align: center;
+}
+form.like_form {
+    display: inline;
+}
+form.dislike_form {
+    display: inline;
+}
+form.delete_form {
+  display: inline;
+}

@@ -103,6 +103,9 @@
                         <button>Delete screenshot</button>
                     </form>
                 {% endif %}
+                <div>
+                    <a href="{{ url_for('screenshot_comments_page', game_id=game.game_id, screenshot_id=shot.id) }}">View comments</a>
+                </div>
             </li>
         {% endfor %}
     </ul>
