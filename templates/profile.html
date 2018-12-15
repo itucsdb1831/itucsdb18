@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='profile_style.css')}}">
+{% endblock %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
     <script src="{{ url_for('static', filename='friend_request_feedback.js') }}"></script>
@@ -97,4 +100,52 @@
                 {% endfor %}
             </ul>
     {% endif %}
+    <div style="display:block;">
+    <h4>Reviews</h4>
+    <ul>
+        {% for review in reviews %}
+            <li>
+            <div class="reviews">{{ review.label }}: {{ review.content }} (Likes: {{review.likes}}, Dislikes: {{review.dislikes}})(Submitted: <span class="timeobj">{{review.added.timestamp()*1000}}</span>{% if review.edited != None %}Last change: <span class="timeobj">{{review.edited.timestamp()*1000}}</span>{% endif %})
+                <div><form id="like" class="like_form">
+                    <button class="likes" id="{{review.id}}l" value="{{review.id}}" {% if review.disliked_from_current %} disabled {% endif %}>{% if review.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
+                </form>
+                <form id="dislike" class="dislike_form">
+                    <button class="dislikes" id="{{review.id}}d" value="{{review.id}}" {% if review.liked_from_current %} disabled {% endif %}>{% if review.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
+                </form>
+                {% if review.user_id == current_user.id or current_user.is_admin%}
+                <form class="delete_form" action="{{url_for('delete_review', review_id=review.id)}}" method="POST">
+                    <input type="hidden" name="review_id" value="{{review.id}}" />
+                    <input type="hidden" name="game_id" value="{{review.game_id}}" />
+                    <button>Delete review</button>
+                </form>
+                {% endif %}</div>
+            </div>
+            </li>
+        {% endfor %}
+    </ul>
+    </div>
+    <h4>Screenshots:</h4>
+    {% for shot in screenshots %}
+        <a href="{{url_for('screenshot', shot_id=shot.id)}}">
+        <div class="gallery"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"></a>
+        <div class="desc">{{shot.caption}}</div>
+        <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
+        <div>{{shot.game_title}}</div>
+            <div>
+                <form id="like" class="like_form">
+                    <button class="likes" id="{{shot.id}}l" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.disliked_from_current %} disabled {% endif %}>{% if shot.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
+                </form>
+                <form id="dislike" class="dislike_form">
+                    <button class="dislikes" id="{{shot.id}}d" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.liked_from_current %} disabled {% endif %}>{% if shot.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
+                </form>
+                {% if shot.user_id == current_user.id or current_user.is_admin %}
+                    <form class="delete_form" action="{{url_for('delete_screenshot')}}" method="POST">
+                        <input type="hidden" name="shot_name" value="{{shot.name}}">
+                        <input type="hidden" name="game_id" value="{{shot.game_id}}">
+                        <button>Delete screenshot</button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
