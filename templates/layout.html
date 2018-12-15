@@ -29,7 +29,7 @@
           {% else %}
               <a class="button is-link" href="{{ url_for('code_enter_page') }}">Add balance</a>
               <a class="button is-link"
-                 href="{{ url_for('profile', user=current_user) }}">{{ current_user.user_name }}</a>
+                 href="{{ url_for('profile', user_id=current_user.id) }}">{{ current_user.user_name }}</a>
               <a class="button is-link" href="{{ url_for('logout') }}">Log out</a>
           {% endif %}
           </span>
