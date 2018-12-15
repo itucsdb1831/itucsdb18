@@ -11,6 +11,10 @@ from screenshot import Screenshot
 from datetime import datetime
 from os import remove
 
+
+def select_timestamp_for_sort(element):
+    return element[3]
+
 # from database import get_user
 
 with open("dsn.txt") as file:
@@ -200,9 +204,25 @@ def store_page():
     return redirect(url_for("store_page"))
 
 
-@app.route("/community", methods=['GET', 'POST'])
+@app.route("/community", methods=['GET'])
+@login_required
 def community_page():
-    return redirect(url_for("community_page"))
+    friends_of_user = db.get_all_friends_for_community(current_user.id)
+
+    reviews = []
+    screenshots = []
+
+    reviews += db.get_all_reviews_of_user_for_community(current_user.id)
+    screenshots += db.get_all_screenshots_of_user_for_community(current_user.id)
+    for friend_id in friends_of_user:
+        reviews += db.get_all_reviews_of_user_for_community(friend_id)
+        screenshots += db.get_all_screenshots_of_user_for_community(friend_id)
+
+    reviews.sort(key=select_timestamp_for_sort, reverse=True)
+    screenshots.sort(key=select_timestamp_for_sort, reverse=True)
+
+    return render_template("community.html", reviews=reviews, screenshots=screenshots, friends_of_user=friends_of_user,
+                           images=images)
 
 
 @app.route("/store/<int:game_id>", methods=['GET', 'POST'])

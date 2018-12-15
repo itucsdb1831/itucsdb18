@@ -902,3 +902,55 @@ class Database:
 
         self.disconnect()
         return already_sent
+      
+    def get_all_reviews_of_user_for_community(self, user_id):
+        self.connect()
+
+        statement = "SELECT USER_ID, GAME_ID, CONTENT, ADDED FROM REVIEWS WHERE USER_ID = %s"
+        data = [user_id]
+        query = statement, data
+        self.query_database(query)
+
+        reviews = []
+        for row in self.cursor:
+            (user_id_, game_id, content, timestamp) = row
+            user_name = self.get_user(user_id_).user_name
+            game_title = self.get_game(game_id).title
+            reviews.append((user_name, game_title, content, timestamp))
+
+        self.disconnect()
+        return reviews
+
+    def get_all_screenshots_of_user_for_community(self, user_id):
+        self.connect()
+
+        statement = "SELECT NAME, USER_ID, GAME_ID, DATE_ADDED FROM SCREENSHOTS WHERE USER_ID = %s"
+        data = [user_id]
+        query = statement, data
+        self.query_database(query)
+
+        screenshots = []
+        for row in self.cursor:
+            (name, user_id_, game_id, timestamp) = row
+            user_name = self.get_user(user_id_).user_name
+            game_title = self.get_game(game_id).title
+            screenshots.append((name, user_name, game_title, timestamp))
+
+        self.disconnect()
+        return screenshots
+
+    def get_all_friends_for_community(self, user_id):
+        self.connect()
+
+        statement = "SELECT USER2_ID, IS_BLOCKED FROM FRIENDS WHERE USER1_ID = %s"
+        data = [user_id]
+        query = statement, data
+        self.query_database(query)
+
+        friends = {}
+        for row in self.cursor:
+            (friend_id, is_blocked) = row
+            friends[friend_id] = is_blocked
+
+        self.disconnect()
+        return friends
