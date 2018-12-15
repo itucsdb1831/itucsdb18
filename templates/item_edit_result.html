@@ -2,5 +2,5 @@
 {% block title %}Mercury{% endblock %}
 {% block content %}
     <p>Your changes have been saved!</p>
-    <p><a class="button is-link" href="{{ url_for('profile', user=current_user) }}">View the item in your profile</a></p>
+    <p><a class="button is-link" href="{{ url_for('profile', user_id=current_user.id) }}">View the item in your profile</a></p>
 {% endblock %}

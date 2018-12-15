@@ -9,6 +9,6 @@
         {% else %}
             <p>"{{ item.name }}" has been added to your inventory!</p>
         {% endif %}
-        <a class="button is-link" href="{{ url_for('profile', user=current_user) }}">View the item in your profile</a>
+        <a class="button is-link" href="{{ url_for('profile', user_id=current_user.id) }}">View the item in your profile</a>
     {% endif %}
 {% endblock %}
