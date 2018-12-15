@@ -12,7 +12,7 @@ INIT_STATEMENTS = [
         PASSWORD VARCHAR(87),
         IS_ACTIVE BOOLEAN DEFAULT TRUE,
         IS_ADMIN BOOLEAN DEFAULT FALSE,
-        BALANCE NUMERIC(5,2) DEFAULT 0
+        BALANCE NUMERIC(7, 2) DEFAULT 0
     )
     """,
     """
@@ -23,7 +23,7 @@ INIT_STATEMENTS = [
         RATING NUMERIC(3, 1) DEFAULT 0,
         VOTES INTEGER DEFAULT 0, 
         AGE_RESTRICTION INTEGER,
-        PRICE NUMERIC(5, 2) DEFAULT 0
+        PRICE NUMERIC(7, 2) DEFAULT 0
     )
     """,
     """
@@ -64,7 +64,7 @@ INIT_STATEMENTS = [
         NAME VARCHAR(100) UNIQUE,
         ITEM_TYPE VARCHAR(50),
         RARITY VARCHAR(50),
-        PRICE NUMERIC(5, 2)
+        PRICE NUMERIC(7, 2)
     )
     """,
     """
@@ -165,8 +165,8 @@ if __name__ == "__main__":
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
 
-    for statement in INIT_STATEMENTS:
-        cursor.execute(statement)
+    # for statement in INIT_STATEMENTS:
+    #     cursor.execute(statement)
 
     # password = "asdf"
     # hashed_password = hasher.hash(password)
