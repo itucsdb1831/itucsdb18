@@ -128,7 +128,7 @@
     </div>
     <h4>Screenshots:</h4>
     {% for shot in screenshots %}
-        <a href="{{url_for('screenshot', shot_id=shot.id)}}">
+        <a href="{{url_for('screenshot', shot_id=shot.id, game_id=shot.game_id)}}">
         <div class="gallery"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"></a>
         <div class="desc">{{shot.caption}}</div>
         <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
