@@ -163,6 +163,11 @@ def add_screenshot(game_id):
     else:
         return "unsuccessful!!!"
 
+@app.route("/screenshot/<int:shot_id>/")
+@login_required
+def screenshot(shot_id):
+    return render_template("screenshot.html", shot=db.get_screenshot(shot_id), images=images)
+
 # -----------------------------------------------------------------------
 
 
