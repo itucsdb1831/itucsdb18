@@ -276,7 +276,10 @@ def screenshot_comments_page(game_id, screenshot_id):
         else:
             form_content = request.form["content"]
             form_reaction = request.form["reaction"]
-            db.add_screenshot_comment(current_user.id, game_id, screenshot_id, form_content, form_reaction)
+            form_font_size = request.form["font_size"]
+            form_color = request.form["color"]
+            db.add_screenshot_comment(current_user.id, game_id, screenshot_id,
+                                      form_content, form_reaction, form_font_size, form_color)
         return redirect(url_for("screenshot_comments_page", game_id=game_id, screenshot_id=screenshot_id))
 
     screenshot_comments = db.get_screenshot_comments(game_id, screenshot_id)
