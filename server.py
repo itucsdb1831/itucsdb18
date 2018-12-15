@@ -274,6 +274,28 @@ def item_edit_result_page():
     return render_template("item_edit_result.html")
 
 
+# Screenshot Comments
+@app.route("/store/<int:game_id>/<int:screenshot_id>/comments", methods=['GET', 'POST'])
+def screenshot_comments_page(game_id, screenshot_id):
+    if request.method == "POST":
+        comment_id_to_delete = request.form.get("delete-button")
+        is_getting_deleted = comment_id_to_delete is not None
+        if is_getting_deleted:
+            db.delete_screenshot_comment(comment_id_to_delete)
+        else:
+            form_content = request.form["content"]
+            form_reaction = request.form["reaction"]
+            form_font_size = request.form["font_size"]
+            form_color = request.form["color"]
+            db.add_screenshot_comment(current_user.id, game_id, screenshot_id,
+                                      form_content, form_reaction, form_font_size, form_color)
+        return redirect(url_for("screenshot_comments_page", game_id=game_id, screenshot_id=screenshot_id))
+
+    screenshot_comments = db.get_screenshot_comments(game_id, screenshot_id)
+    return render_template("screenshot_comments.html", game_id=game_id, screenshot_id=screenshot_id,
+                           screenshot_comments=screenshot_comments)
+
+
 @app.route("/game_add_result")
 @login_required
 def game_add_page_result_page():

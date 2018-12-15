@@ -8,7 +8,7 @@ from friend import Friend
 from friend_request import FriendRequest
 from screenshot import Screenshot
 from item_of_user import ItemOfUser
-
+from screenshot_comment import ScreenshotComment
 
 class Database:
     def __init__(self, dsn):
@@ -732,6 +732,50 @@ class Database:
                            WHERE ITEM_ID = %s;
                     """
         data = [new_color, new_status, is_equipped, item_id]
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    # Screenshot Comments
+    def get_screenshot_comments(self, game_id, screenshot_id):
+        self.connect()
+
+        statement = """SELECT * FROM SCREENSHOT_COMMENTS WHERE (GAME_ID = %s) AND (SCREENSHOT_ID = %s)"""
+        data = [game_id, screenshot_id]
+        query = statement, data
+        self.query_database(query)
+
+        screenshot_comments = []
+        for row in self.cursor:
+            (comment_id, user_id, game_id, screenshot_id, username, content,
+                date_commented, reaction, likes, dislikes) = row
+            comment = ScreenshotComment(comment_id, user_id, game_id, screenshot_id,
+                                        username, content, date_commented, reaction, likes, dislikes)
+            screenshot_comments.append(comment)
+
+        self.disconnect()
+        return screenshot_comments
+
+    def add_screenshot_comment(self, user_id, game_id, screenshot_id, content, reaction, font_size, color):
+        self.connect()
+
+        statement = """INSERT INTO
+                            SCREENSHOT_COMMENTS(USER_ID, GAME_ID, SCREENSHOT_ID, USERNAME,
+                                CONTENT, DATE_COMMENTED, REACTION, FONT_SIZE, COLOR)
+                            VALUES (%s, %s, %s, %s, %s, CURRENT_DATE, %s, %s, %s)"""
+        username = self.get_user(user_id).user_name
+        data = (user_id, game_id, screenshot_id, username, content, reaction, font_size, color)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def delete_screenshot_comment(self, comment_id):
+        self.connect()
+
+        statement = """DELETE FROM SCREENSHOT_COMMENTS WHERE COMMENT_ID = %s"""
+        data = [comment_id]
         query = statement, data
         self.query_database(query)
 
