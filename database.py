@@ -118,6 +118,25 @@ class Database:
         self.query_database(query)
 
         self.disconnect()
+    
+    def get_reviews_of_user(self, user_id, cur_user_id):
+        self.connect()
+
+        statement = """SELECT REVIEW_ID, REVIEWS.GAME_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED, TITLE FROM (REVIEWS JOIN GAMES ON ((REVIEWS.GAME_ID=GAMES.GAME_ID) AND (REVIEWS.USER_ID=%s))) ORDER BY ADDED DESC"""
+        data = (user_id,)
+        query = statement, data
+        self.query_database(query)
+
+        reviews = []
+        for row in self.cursor:
+            review_id, game_id, label, content, added, likes, dislikes, edited, game_title = row
+            reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id, game_title))
+
+        for review in reviews:
+            review.liked_from_current = self.get_like_of_user(review.id, cur_user_id, "REVIEWS")
+            review.disliked_from_current = self.get_dislike_of_user(review.id, cur_user_id, "REVIEWS")
+        self.disconnect()
+        return reviews
 
     def get_reviews_of_game(self, game_id, cur_user_id):
         self.connect()
@@ -290,6 +309,24 @@ class Database:
         query = statement, data
         self.query_database(query)
         self.disconnect()
+    
+    def get_screenshots_of_user(self, user_id, cur_user_id):
+        self.connect()
+
+        statement = "SELECT NAME, SCREENSHOTS.GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID, TITLE FROM (SCREENSHOTS JOIN GAMES ON ((SCREENSHOTS.GAME_ID=GAMES.GAME_ID) AND (SCREENSHOTS.USER_ID=%s))) ORDER BY DATE_ADDED DESC"
+        data = (str(user_id),)
+        query = statement, data
+        self.query_database(query)
+        sss = []
+        for row in self.cursor:
+            name, game_id, caption, date_added, likes, dislikes, shot_id, game_title = row
+            sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id, game_title))
+        
+        for shot in sss:
+            shot.liked_from_current = self.get_like_of_user(shot.id, cur_user_id, "SCREENSHOTS")
+            shot.disliked_from_current = self.get_dislike_of_user(shot.id, cur_user_id, "SCREENSHOTS")
+        self.disconnect()
+        return sss
     
     def get_screenshots_of_game(self, game_id, cur_user_id):
         self.connect()
