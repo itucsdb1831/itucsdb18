@@ -177,18 +177,18 @@ def store_page():
     return redirect(url_for("store_page"))
 
 
-@app.route("/social", methods=['GET', 'POST'])
-def social_page():
+@app.route("/community", methods=['GET', 'POST'])
+def community_page():
     if request.method == "GET":
         messages = db.get_messages()
-        return render_template("social.html", messages=messages)
+        return render_template("community.html", messages=messages)
 
     form_user_id_from = request.form["user_id_from"]
     form_user_name_to = request.form["user_name_to"]
     user_id_to = db.get_user_id(form_user_name_to)
     form_message = request.form["message"]
     db.add_message(form_user_id_from, user_id_to, form_message)
-    return redirect(url_for("social_page"))
+    return redirect(url_for("community_page"))
 
 
 @app.route("/store/<int:game_id>", methods=['GET', 'POST'])
