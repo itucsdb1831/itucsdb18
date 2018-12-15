@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='profile_style.css')}}">
+{% endblock %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <script src="{{ url_for('static', filename='timezone_handler.js') }}"></script>
+    <img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}">
+    <div>{{shot.caption}}</div>
+    <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
+    <div>{{shot.game_title}}</div>
+{% endblock %}
