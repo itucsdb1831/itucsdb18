@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8"/>
-        <title>Mercury</title>
-    </head>
-    <body>
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
         <h1>Add a Screenshot of {{game.title}}</h1>
         <p>
             You can add a screenshot of <a href="url_for('game_page', game_id=game.game_id)">{{game.title}}</a> here.
@@ -15,5 +11,4 @@
                 <input type="submit">
             </form>
         </p>
-    </body>
-</html>
+{% endblock %}
