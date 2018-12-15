@@ -677,6 +677,28 @@ class Database:
         self.disconnect()
         return screenshot_comments
 
+    def add_screenshot_comment(self, user_id, game_id, screenshot_id, content, reaction):
+        self.connect()
+
+        statement = """INSERT INTO
+                            SCREENSHOT_COMMENTS(USER_ID, GAME_ID, SCREENSHOT_ID, USERNAME, CONTENT, DATE_COMMENTED, REACTION) 
+                            VALUES (%s, %s, %s, %s, %s, CURRENT_DATE, %s)"""
+        username = self.get_user(user_id).user_name
+        data = (user_id, game_id, screenshot_id, username, content, reaction)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def delete_screenshot_comment(self, comment_id):
+        self.connect()
+
+        statement = """DELETE FROM SCREENSHOT_COMMENTS WHERE COMMENT_ID = %s"""
+        data = [comment_id]
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
 
     # -------------------------------------------------------
 

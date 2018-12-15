@@ -6,9 +6,11 @@
         {% for comment in screenshot_comments %}
             <li>
                 <table>
-                    <th>
-                        {{ comment.username }}'s {{ comment.reaction }} Comment:
-                    </th>
+                    <tr>
+                        <td>
+                            <b>{{ comment.username }} is {{ comment.reaction }}</b>
+                        </td>
+                    </tr>
                     <tr>
                         <td>
                             {{ comment.content }}
@@ -16,19 +18,40 @@
                     </tr>
                     <tr>
                         <td>
-                            Posted on: {{ comment.date_commented }}
+                            <em>Posted on: {{ comment.date_commented }}</em>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            Likes: {{ comment.likes }}
+                            <em>Likes: {{ comment.likes }}</em>
                         </td>
                         <td>
-                            Dislikes: {{ comment.dislikes }}
+                            <em>Dislikes: {{ comment.dislikes }}</em>
                         </td>
                     </tr>
                 </table>
             </li>
+            {% if comment.user_id == current_user.id or current_user.is_admin%}
+                <form action="{{ url_for('screenshot_comments_page', game_id=comment.game_id, screenshot_id=comment.screenshot_id) }}" method="POST">
+                    <button name="delete-button" value="{{ comment.comment_id }}">Delete comment</button>
+                </form>
+            {% endif %}
         {% endfor %}
     </ul>
+    <form action="{{ url_for('screenshot_comments_page', game_id=game_id, screenshot_id=screenshot_id) }}" method="post">
+        <div class="field">
+            <label for="reaction" class="reaction"><b>Your Reaction</b></label>
+            <select id="reaction" name="reaction" required>
+                <option value="Neutral">Neutral</option>
+                <option value="Happy">Happy</option>
+                <option value="Entertained">Entertained</option>
+                <option value="Angry">Angry</option>
+                <option value="Sad">Sad</option>
+            </select>
+        </div>
+        <div>
+            <textarea name="content" rows="7" cols="40" required maxlength="500" placeholder="Leave a comment..."></textarea>
+        </div>
+        <input type="submit">
+    </form>
 {% endblock %}
