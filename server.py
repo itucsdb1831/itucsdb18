@@ -56,14 +56,7 @@ def login():
             if hasher.verify(request.form.get("password"), user.get_pw()):
                 login_user(user)
                 next = request.args.get('next')
-                games_of_user = db.get_games_of_user(current_user.id)
-                received_friend_requests = db.get_received_friend_requests(current_user.id)
-                sent_friend_requests = db.get_sent_friend_requests(current_user.id)
-                friends = db.get_friends(current_user.id)
-                items_of_user = db.get_items_of_user(current_user.id)
-                return render_template('profile.html', user=current_user, games_of_user=games_of_user,
-                                       received_friend_requests=received_friend_requests,
-                                       sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user)
+                return redirect(url_for("profile", user_id = current_user.id))
     return render_template('login.html')
 
 
