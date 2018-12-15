@@ -75,6 +75,8 @@ def home_page():
 def profile(user_id):
     games_of_user = db.get_games_of_user(user_id)
     items_of_user = db.get_items_of_user(user_id)
+    screenshots = db.get_screenshots_of_user(user_id, current_user.id)
+    reviews = db.get_reviews_of_user(user_id, current_user.id)
     if user_id == current_user.id:
         received_friend_requests = db.get_received_friend_requests(current_user.id)
         sent_friend_requests = db.get_sent_friend_requests(current_user.id)
@@ -85,8 +87,7 @@ def profile(user_id):
         friends = []
     return render_template("profile.html", user=db.get_user(user_id), games_of_user=games_of_user,
                            received_friend_requests=received_friend_requests,
-                           sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user)
-
+                           sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user, screenshots=screenshots, images=images, reviews=reviews)
 
 @app.route("/logout/")
 @login_required
