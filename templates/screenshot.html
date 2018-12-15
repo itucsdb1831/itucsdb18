@@ -9,4 +9,80 @@
     <div>{{shot.caption}}</div>
     <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
     <div>{{shot.game_title}}</div>
+
+    <div>
+        <h3>Comments</h3>
+        <ul>
+            {% for comment in screenshot_comments %}
+                <li>
+                    <table>
+                        <tr>
+                            <td>
+                                <b>{{ comment.username }} is {{ comment.reaction }}</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div style="font-size:{{ comment.font_size }}px">
+                                <span style="color: {{ comment.color }}">
+                                    {{ comment.content }}
+                                </span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <em>Posted on: {{ comment.date_commented }}</em>
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+                {% if comment.user_id == current_user.id or current_user.is_admin %}
+                    <form action="{{ url_for('screenshot', game_id=comment.game_id, shot_id=comment.screenshot_id) }}"
+                          method="POST">
+                        <button name="delete-button" value="{{ comment.comment_id }}">Delete comment</button>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </ul>
+        <form action="{{ url_for('screenshot', game_id=shot.game_id, shot_id=shot.id) }}"
+              method="post">
+            <div class="field">
+                <label for="reaction" class="reaction"><b>Your Reaction</b></label>
+                <select id="reaction" name="reaction" required>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Happy">Happy</option>
+                    <option value="Entertained">Entertained</option>
+                    <option value="Angry">Angry</option>
+                    <option value="Sad">Sad</option>
+                </select>
+            </div>
+
+            <div>
+                <textarea name="content" rows="7" cols="40" required maxlength="500"
+                          placeholder="Leave a comment..."></textarea>
+            </div>
+
+            <label for="font_size" class="font_size"><b>Font size</b></label>
+            <select id="font_size" name="font_size" required>
+                {% for i in range(8, 49) %}
+                    <option value="{{ i }}" {% if i == 16 %}selected{% endif %}>{{ i }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="color" class="label"><b>Color</b></label>
+            <select name="color" required>
+                <option value="black">Black</option>
+                <option value="red">Red</option>
+                <option value="orange">Orange</option>
+                <option value="yellow">Yellow</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="indigo">Indigo</option>
+                <option value="violet">Violet</option>
+            </select>
+            <input type="submit">
+        </form>
+    </div>
+
 {% endblock %}

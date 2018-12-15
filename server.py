@@ -164,10 +164,27 @@ def add_screenshot(game_id):
     else:
         return "unsuccessful!!!"
 
-@app.route("/screenshot/<int:shot_id>/")
+
+@app.route("/store/<int:game_id>/screenshot/<int:shot_id>/", methods=["GET", "POST"])
 @login_required
-def screenshot(shot_id):
-    return render_template("screenshot.html", shot=db.get_screenshot(shot_id), images=images)
+def screenshot(game_id, shot_id):
+    if request.method == "POST":
+        comment_id_to_delete = request.form.get("delete-button")
+        is_getting_deleted = comment_id_to_delete is not None
+        if is_getting_deleted:
+            db.delete_screenshot_comment(comment_id_to_delete)
+        else:
+            form_content = request.form["content"]
+            form_reaction = request.form["reaction"]
+            form_font_size = request.form["font_size"]
+            form_color = request.form["color"]
+            db.add_screenshot_comment(current_user.id, game_id, shot_id,
+                                      form_content, form_reaction, form_font_size, form_color)
+        return redirect(url_for("screenshot", game_id=game_id, shot_id=shot_id))
+
+    screenshot_comments = db.get_screenshot_comments(game_id, shot_id)
+    return render_template("screenshot.html", shot=db.get_screenshot(shot_id), images=images,
+                           screenshot_comments=screenshot_comments)
 
 # -----------------------------------------------------------------------
 
