@@ -76,9 +76,14 @@ def home_page():
     return render_template("home.html")
 
 
-@app.route("/profile/<int:user_id>/")
+@app.route("/profile/<int:user_id>/", methods=["GET", "POST"])
 @login_required
 def profile(user_id):
+    if request.method == "POST":
+        form_item_id = request.form["item_id"]
+        db.delete_item_from_user(form_item_id, user_id)
+        return redirect(url_for("profile", user_id=user_id))
+
     profile_photo_name = db.get_profile_photo_of_user(user_id)
     games_of_user = db.get_games_of_user(user_id)
     items_of_user = db.get_items_of_user(user_id)
