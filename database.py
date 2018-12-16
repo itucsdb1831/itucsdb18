@@ -813,19 +813,27 @@ class Database:
         query = statement, data
         self.query_database(query)
 
-    def add_item_to_user(self, item_id, game_id, user_id):
+    def check_item_ownership(self, item_id, user_id):
         self.connect()
 
         statement = """SELECT * FROM ITEMS_OF_USERS WHERE (ITEM_ID = %s) AND USER_ID = %s"""
         data = (item_id, user_id)
         query = statement, data
         self.query_database(query)
-
         already_has_item = self.cursor.rowcount != 0
+
+        self.disconnect()
+        return already_has_item
+
+    def add_item_to_user(self, item_id, game_id, user_id):
+        self.connect()
+
+        already_has_item = self.check_item_ownership(item_id, user_id)
         if already_has_item:
             statement = """UPDATE ITEMS_OF_USERS
                                SET LEVEL = LEVEL + 1
                                WHERE ITEM_ID = %s AND USER_ID = %s;"""
+            data = (item_id, user_id)
             query = statement, data
             self.query_database(query)
         else:

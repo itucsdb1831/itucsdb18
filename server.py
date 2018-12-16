@@ -339,8 +339,9 @@ def item_purchase_page(game_id, item_id):
 @login_required
 def item_purchase_result_page(game_id, item_id):
     item = db.get_item(game_id, item_id)
+    already_has_item = db.check_item_ownership(item_id, current_user.id)
     if current_user.is_admin or current_user.balance >= item.price:
-        already_has_item = db.add_item_to_user(item.item_id, game_id, current_user.id)
+        db.add_item_to_user(item.item_id, game_id, current_user.id)
         db.decrease_balance_of_user(current_user.id, item.price)
         db.set_num_of_shared_items_for_all_friends(current_user.id)
     return render_template("item_purchase_result.html", item=item, already_has_item=already_has_item)
