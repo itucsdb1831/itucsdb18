@@ -142,7 +142,7 @@ class Database:
     def get_reviews_of_game(self, game_id, cur_user_id):
         self.connect()
 
-        statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED FROM REVIEWS WHERE GAME_ID=%s"""
+        statement = """SELECT REVIEW_ID, REVIEWS.USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED, NAME FROM (REVIEWS JOIN USERS ON ((REVIEWS.USER_ID=USERS.USER_ID) AND (REVIEWS.GAME_ID=%s))) ORDER BY ADDED DESC"""
         data = (game_id,)
         query = statement, data
         self.query_database(query)
