@@ -35,17 +35,17 @@
 
     <form action="" method="post" name="item_list">
         <p>Items List:</p>
-        <table class="table">
+        <table class="table" border="1">
             <tr>
-                <th>Item Picture:</th>
-                <th>Item Name:</th>
-                <th>Type:</th>
-                <th>Rarity:</th>
-                <th>Price:</th>
+                <th>Item Picture</th>
+                <th>Item Name</th>
+                <th>Type</th>
+                <th>Rarity</th>
+                <th>Price</th>
             </tr>
             {% for item in items %}
                 <tr>
-                    <td>
+                    <td align="middle">
                         {% if current_user.is_admin %}
                             <label class="checkbox">
                                 <input type="checkbox" name="item_ids" value="{{ item.item_id }}"/>
@@ -53,12 +53,12 @@
                         {% endif %}
                         <img src="{{images.url(item.picture)}}">
                     </td>
-                    <td><a href="{{ url_for('item_purchase_page', game_id=game.game_id, item_id=item.item_id) }}">{{ item.name }}</a></td>
-                    <td>{{ item.item_type }}</td>
-                    <td>{{ item.rarity }}</td>
-                    <td>{{ item.price }}</td>
+                    <td align="middle"><a href="{{ url_for('item_purchase_page', game_id=game.game_id, item_id=item.item_id) }}">{{ item.name }}</a></td>
+                    <td align="middle">{{ item.item_type }}</td>
+                    <td align="middle">{{ item.rarity }}</td>
+                    <td align="middle">{{ item.price }}</td>
                     {% if current_user.is_admin %}
-                        <td><a href="{{ url_for('item_update_page', game_id=game.game_id, item_id=item.item_id) }}">Update item</a></td>
+                        <td align="right"><a href="{{ url_for('item_update_page', game_id=game.game_id, item_id=item.item_id) }}">Update item</a></td>
                     {% endif %}
                 </tr>
             {% endfor %}
