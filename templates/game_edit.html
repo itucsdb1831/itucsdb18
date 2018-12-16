@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <form action="" method="post" name="game_edit">
+        <div class="field">
+            <label for="genre" class="label">Genre</label>
+            <div class="control">
+                <input type="text" name="genre" class="input"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="age_restriction" class="label">Age Restriction</label>
+            <div class="control">
+                <input type="number" name="age_restriction" class="input"/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="price" class="label">Price</label>
+            <div class="control">
+                <input type="number" name="price" class="input"/>
+            </div>
+        </div>
+
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary is-small">Save</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

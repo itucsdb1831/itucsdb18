@@ -416,6 +416,32 @@ class Database:
 
         self.disconnect()
 
+    def edit_game(self, game_id, new_genre, new_age_restriction, new_price):
+        game = self.get_game(game_id)
+
+        self.connect()
+
+        statement = "UPDATE GAMES" \
+                    + " SET GENRE = %s, AGE_RESTRICTION = %s, PRICE = %s" \
+                    + " WHERE GAME_ID = %s"
+
+        new_genre_ = new_genre
+        new_age_restriction_ = new_age_restriction
+        new_price_ = new_price
+
+        if new_genre == "":
+            new_genre_ = game.genre
+        if new_age_restriction == "":
+            new_age_restriction_ = game.age_restriction
+        if new_price == "":
+            new_price_ = game.price
+
+        data = (new_genre_, new_age_restriction_, new_price_, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     def get_game(self, game_id):
         self.connect()
 
@@ -549,12 +575,29 @@ class Database:
         if is_successful:
             game = self.get_game(game_id)
             statement = "INSERT INTO GAMES_OF_USERS(USER_ID, GAME_ID, TITLE, TIME_PURCHASED) VALUES(%s, %s, %s, CURRENT_DATE)"
-            data = (user_id, game_id, game.title,)
+            data = (user_id, game_id, game.title)
             query = statement, data
             self.query_database(query)
 
         self.disconnect()
         return is_successful
+
+    def remove_game_from_user(self, user_id, game_id):
+        self.connect()
+
+        statement = "SELECT * FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
+        data = (game_id, user_id,)
+        query = statement, data
+        self.query_database(query)
+
+        user_has_game = self.cursor.rowcount != 0
+        if user_has_game:
+            statement = "DELETE FROM GAMES_OF_USERS WHERE (USER_ID = %s) AND (GAME_ID = %s)"
+            data = (user_id, game_id)
+            query = statement, data
+            self.query_database(query)
+
+        self.disconnect()
 
     def update_game_favourite_variable(self, user_id, game_id, operation):
         self.connect()
@@ -1112,6 +1155,7 @@ class Database:
         self.connect()
 
         response = None
+        statement = None
         if operation == "BLOCK":
             response = "Blocked"
             statement = "UPDATE FRIENDS" \
@@ -1132,6 +1176,21 @@ class Database:
             statement = "UPDATE FRIENDS" \
                         + " SET IS_FAVOURITE = FALSE" \
                         + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        elif operation == "REMOVE":
+            are_friends = self.check_if_already_friends(user1_id, user2_id)
+            if are_friends:
+                response = "Removed"
+                statement = "DELETE FROM FRIENDS WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+
+                data = (user2_id, user1_id)
+                query = statement, data
+                self.query_database(query)
+
+                data = (user1_id, user2_id)
+                query = statement, data
+                self.query_database(query)
+
+            return response
 
         data = (user1_id, user2_id)
         query = statement, data

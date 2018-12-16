@@ -3,7 +3,7 @@
 {% block content %}
     <h1 class="title">Add game</h1>
 
-    <form action="" method="post" name="game_edit">
+    <form action="" method="post" name="game_add">
         <div class="field">
             <label for="title" class="label">Title</label>
             <div class="control">
@@ -12,7 +12,7 @@
         </div>
 
         <div class="field">
-            <label for="year" class="label">Genre</label>
+            <label for="genre" class="label">Genre</label>
             <div class="control">
                 <input type="text" name="genre" class="input"
                        required="required"/>
@@ -20,7 +20,7 @@
         </div>
 
         <div class="field">
-            <label for="year" class="label">Age Restriction</label>
+            <label for="age_restriction" class="label">Age Restriction</label>
             <div class="control">
                 <input type="number" name="age_restriction" class="input"
                        required="required"/>
@@ -28,7 +28,7 @@
         </div>
 
         <div class="field">
-            <label for="year" class="label">Price</label>
+            <label for="price" class="label">Price</label>
             <div class="control">
                 <input type="number" name="price" class="input"
                        required="required"/>
@@ -37,7 +37,7 @@
 
         <div class="field is-grouped">
             <div class="control">
-                <button class="button is-primary is-small">Save</button>
+                <button class="button is-primary is-small">Add</button>
             </div>
         </div>
     </form>
