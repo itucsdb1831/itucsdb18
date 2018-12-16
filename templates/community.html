@@ -19,28 +19,25 @@
         }
     </style>
     <h1>Friends Activity</h1>
+    <p>All activities of friends who are not blocked</p>
     <div class="row">
         <div class="column" style="background-color:#aaa;">Reviews:
             <ul>
                 {% for review in reviews %}
-                    {% if review[0] == current_user.user_name or not friends_of_user[review[0]] %}
-                        <li><p>{{ review[0] }} reviewed {{ review[1] }}:</p>
-                            <p>{{ review[2] }}</p>
-                            <p>({{ review[3] }})</p>
-                        </li>
-                    {% endif %}
+                    <li><p>{{ review[0] }} reviewed {{ review[1] }}:</p>
+                        <p>{{ review[2] }}</p>
+                        <p>({{ review[3] }})</p>
+                    </li>
                 {% endfor %}
             </ul>
         </div>
         <div class="column" style="background-color:#bbb;">Screenshots:
             <ul>
                 {% for screenshot in screenshots %}
-                    {% if screenshot[1] == current_user.user_name or not friends_of_user[screenshot[1]] %}
-                        <li><p>{{ screenshot[1] }} uploaded a screenshot for {{ screenshot[2] }}:</p>
-                            <p><img src="{{ images.url(screenshot[0]) }}"></p>
-                            <p>({{ screenshot[3] }})</p>
-                        </li>
-                    {% endif %}
+                    <li><p>{{ screenshot[1] }} uploaded a screenshot for {{ screenshot[2] }}:</p>
+                        <p><img src="{{ images.url(screenshot[0]) }}"></p>
+                        <p>({{ screenshot[3] }})</p>
+                    </li>
                 {% endfor %}
             </ul>
         </div>

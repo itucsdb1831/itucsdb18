@@ -10,6 +10,7 @@ from screenshot import Screenshot
 from item_of_user import ItemOfUser
 from screenshot_comment import ScreenshotComment
 
+
 class Database:
     def __init__(self, dsn):
         self.dsn = dsn
@@ -557,6 +558,88 @@ class Database:
         self.disconnect()
         return games
 
+    def get_num_of_shared_games(self, user1_id, user2_id):
+        self.connect()
+
+        statement = "SELECT COUNT(*) FROM (" \
+                    + "(SELECT DISTINCT TITLE FROM GAMES_OF_USERS WHERE USER_ID = %s)" \
+                    + " INTERSECT" \
+                    + " (SELECT DISTINCT TITLE FROM GAMES_OF_USERS WHERE USER_ID = %s)" \
+                    + ") AS SHARED_GAME"
+        data = (user1_id, user2_id)
+        query = statement, data
+        self.query_database(query)
+
+        num_of_shared_games = self.cursor.fetchone()[0]
+
+        self.disconnect()
+        return num_of_shared_games
+
+    def get_num_of_shared_items(self, user1_id, user2_id):
+        self.connect()
+
+        statement = "SELECT COUNT(*) FROM (" \
+                    + "(SELECT DISTINCT NAME FROM ITEMS_OF_USERS WHERE USER_ID = %s)" \
+                    + " INTERSECT" \
+                    + " (SELECT DISTINCT NAME FROM ITEMS_OF_USERS WHERE USER_ID = %s)" \
+                    + ") AS SHARED_ITEM"
+        data = (user1_id, user2_id)
+        query = statement, data
+        self.query_database(query)
+
+        num_of_shared_items = self.cursor.fetchone()[0]
+
+        self.disconnect()
+        return num_of_shared_items
+
+    def set_num_of_shared_games(self, user1_id, user2_id):
+        num_of_shared_games = self.get_num_of_shared_games(user1_id, user2_id)
+
+        self.connect()
+
+        statement = "UPDATE FRIENDS" \
+                    + " SET NUM_OF_SHARED_GAMES = %s" \
+                    + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        data = (num_of_shared_games, user1_id, user2_id)
+        query = statement, data
+        self.query_database(query)
+
+        data = (num_of_shared_games, user2_id, user1_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def set_num_of_shared_items(self, user1_id, user2_id):
+        num_of_shared_items = self.get_num_of_shared_items(user1_id, user2_id)
+
+        self.connect()
+
+        statement = "UPDATE FRIENDS" \
+                    + " SET NUM_OF_SHARED_ITEMS = %s" \
+                    + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        data = (num_of_shared_items, user1_id, user2_id)
+        query = statement, data
+        self.query_database(query)
+
+        data = (num_of_shared_items, user2_id, user1_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def set_num_of_shared_games_for_all_friends(self, user_id):
+        friends_of_user = self.get_friends(user_id)
+
+        for friend in friends_of_user:
+            self.set_num_of_shared_games(user_id, friend.user2_id)
+
+    def set_num_of_shared_items_for_all_friends(self, user_id):
+        friends_of_user = self.get_friends(user_id)
+
+        for friend in friends_of_user:
+            self.set_num_of_shared_items(user_id, friend.user2_id)
+
     def increment_time_played(self, user_id, game_id):
         self.connect()
 
@@ -868,9 +951,9 @@ class Database:
 
         friends = []
         for row in self.cursor:
-            (user1_id, user2_id, user2_name, date_befriended, is_blocked, is_following,
+            (user1_id, user2_id, user2_name, date_befriended, is_blocked, num_of_shared_items,
              num_of_shared_games, is_favourite) = row
-            friend = Friend(user1_id, user2_id, user2_name, date_befriended, is_blocked, is_following,
+            friend = Friend(user1_id, user2_id, user2_name, date_befriended, is_blocked, num_of_shared_items,
                             num_of_shared_games, is_favourite)
             friends.append(friend)
 
@@ -939,18 +1022,50 @@ class Database:
         self.disconnect()
         return screenshots
 
-    def get_all_friends_for_community(self, user_id):
+    def get_all_not_blocked_friends_for_community(self, user_id):
         self.connect()
 
-        statement = "SELECT USER2_ID, IS_BLOCKED FROM FRIENDS WHERE USER1_ID = %s"
+        statement = "SELECT USER2_ID FROM FRIENDS WHERE (USER1_ID = %s) AND (IS_BLOCKED = FALSE)"
         data = [user_id]
         query = statement, data
         self.query_database(query)
 
-        friends = {}
+        not_blocked_friends = []
         for row in self.cursor:
-            (friend_id, is_blocked) = row
-            friends[friend_id] = is_blocked
+            not_blocked_friends.append(row[0])
 
         self.disconnect()
-        return friends
+        return not_blocked_friends
+
+    def update_friend_variable(self, user1_id, user2_id, operation):
+        self.connect()
+
+        response = None
+        if operation == "BLOCK":
+            response = "Blocked"
+            statement = "UPDATE FRIENDS" \
+                        + " SET IS_BLOCKED = TRUE" \
+                        + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        elif operation == "UNBLOCK":
+            response = "Unblocked"
+            statement = "UPDATE FRIENDS" \
+                        + " SET IS_BLOCKED = FALSE" \
+                        + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        elif operation == "FAVOURITE":
+            response = "Favourited"
+            statement = "UPDATE FRIENDS" \
+                        + " SET IS_FAVOURITE = TRUE" \
+                        + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        elif operation == "UNFAVOURITE":
+            response = "Unfavourited"
+            statement = "UPDATE FRIENDS" \
+                        + " SET IS_FAVOURITE = FALSE" \
+                        + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+
+        data = (user1_id, user2_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+        return response
+
