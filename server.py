@@ -536,5 +536,15 @@ def process_friend_operations():
 
     return jsonify({"responseText": response})
 
+
+@app.route("/remove_friend/<int:user1_id>/<int:user2_id>", methods=["GET", 'POST'])
+@login_required
+def process_remove_friend(user1_id, user2_id):
+    operation = "REMOVE"
+    db.update_friend_variable(user1_id, user2_id, operation)
+
+    return redirect(url_for("profile", user_id=user1_id))
+
+
 if __name__ == "__main__":
     app.run()
