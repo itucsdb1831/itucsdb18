@@ -81,8 +81,8 @@
             <tr id="{{ friend.user2_id }}">
                 <td><a href="{{ url_for('profile', user_id=friend.user2_id) }}">{{ friend.user2_name}}</a></td>
                 <td>{{ friend.date_befriended }}</td>
-                <td></td>
-                <td></td>
+                <td>{{ friend.num_of_shared_games }}</td>
+                <td>{{ friend.num_of_shared_items }}</td>
                 <td>{% if friend.is_blocked %}*BLOCKED*{% endif %}</td>
                 <td>{% if friend.is_favourite %}*FAVOURITE*{% endif %}</td>
                 {%if friend.is_blocked %}
@@ -122,6 +122,7 @@
                 {% endfor %}
             </ul>
     {% endif %}
+
     <div style="display:block;">
     <h4>Reviews</h4>
     <ul>
@@ -146,6 +147,7 @@
         {% endfor %}
     </ul>
     </div>
+
     <h4>Screenshots:</h4>
     {% for shot in screenshots %}
         <a href="{{url_for('screenshot', shot_id=shot.id, game_id=shot.game_id)}}">

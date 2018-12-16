@@ -10,6 +10,7 @@ from screenshot import Screenshot
 from item_of_user import ItemOfUser
 from screenshot_comment import ScreenshotComment
 
+
 class Database:
     def __init__(self, dsn):
         self.dsn = dsn
@@ -560,10 +561,11 @@ class Database:
     def get_num_of_shared_games(self, user1_id, user2_id):
         self.connect()
 
-        statement = "SELECT COUNT(*) FROM" \
-                    + " (SELECT TITLE FROM GAMES_OF_USERS WHERE USER_ID = %s)" \
+        statement = "SELECT COUNT(*) FROM (" \
+                    + "(SELECT DISTINCT TITLE FROM GAMES_OF_USERS WHERE USER_ID = %s)" \
                     + " INTERSECT" \
-                    + " (SELECT TITLE FROM GAMES_OF_USERS WHERE USER_ID = %s)"
+                    + " (SELECT DISTINCT TITLE FROM GAMES_OF_USERS WHERE USER_ID = %s)" \
+                    + ") AS SHARED_GAME"
         data = (user1_id, user2_id)
         query = statement, data
         self.query_database(query)
@@ -576,10 +578,11 @@ class Database:
     def get_num_of_shared_items(self, user1_id, user2_id):
         self.connect()
 
-        statement = "SELECT COUNT(*) FROM" \
-                    + " (SELECT NAME FROM ITEMS_OF_USERS WHERE USER_ID = %s)" \
+        statement = "SELECT COUNT(*) FROM (" \
+                    + "(SELECT DISTINCT NAME FROM ITEMS_OF_USERS WHERE USER_ID = %s)" \
                     + " INTERSECT" \
-                    + " (SELECT NAME FROM ITEMS_OF_USERS WHERE USER_ID = %s)"
+                    + " (SELECT DISTINCT NAME FROM ITEMS_OF_USERS WHERE USER_ID = %s)" \
+                    + ") AS SHARED_ITEM"
         data = (user1_id, user2_id)
         query = statement, data
         self.query_database(query)
@@ -626,8 +629,16 @@ class Database:
         self.disconnect()
 
     def set_num_of_shared_games_for_all_friends(self, user_id):
+        friends_of_user = self.get_friends(user_id)
+
+        for friend in friends_of_user:
+            self.set_num_of_shared_games(user_id, friend.user2_id)
 
     def set_num_of_shared_items_for_all_friends(self, user_id):
+        friends_of_user = self.get_friends(user_id)
+
+        for friend in friends_of_user:
+            self.set_num_of_shared_items(user_id, friend.user2_id)
 
     def increment_time_played(self, user_id, game_id):
         self.connect()
@@ -940,9 +951,9 @@ class Database:
 
         friends = []
         for row in self.cursor:
-            (user1_id, user2_id, user2_name, date_befriended, is_blocked, is_following,
+            (user1_id, user2_id, user2_name, date_befriended, is_blocked, num_of_shared_items,
              num_of_shared_games, is_favourite) = row
-            friend = Friend(user1_id, user2_id, user2_name, date_befriended, is_blocked, is_following,
+            friend = Friend(user1_id, user2_id, user2_name, date_befriended, is_blocked, num_of_shared_items,
                             num_of_shared_games, is_favourite)
             friends.append(friend)
 
