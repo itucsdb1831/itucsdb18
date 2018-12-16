@@ -15,7 +15,6 @@ from os import remove, path
 def select_timestamp_for_sort(element):
     return element[3]
 
-# from database import get_user
 
 with open("dsn.txt") as file:
     dsn = file.read()
@@ -237,8 +236,11 @@ def game_page(game_id):
 
     game = db.get_game(game_id)
     items = db.get_items(game_id)
-    reviews = db.get_reviews_of_game(game_id, current_user.id)
-    screenshots = db.get_screenshots_of_game(game_id, current_user.id)
+    reviews = []
+    screenshots = []
+    if current_user.is_authenticated:
+        reviews = db.get_reviews_of_game(game_id, current_user.id)
+        screenshots = db.get_screenshots_of_game(game_id, current_user.id)
     return render_template("game.html", game=game, items=items, reviews=reviews, screenshots=screenshots, images=images)
 
 
