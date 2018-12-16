@@ -2,4 +2,3 @@ Flask>=1.0
 psycopg2-binary>=2.7
 gunicorn>=19.9
 passlib==1.7.1
-https://sourceforge.net/projects/pyke/files/pyke/1.1.1/pyke3-1.1.1.zip/download
