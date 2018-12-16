@@ -130,6 +130,7 @@
         {% for review in reviews %}
             <li>
             <div class="reviews">{{ review.label }}: {{ review.content }} (Likes: {{review.likes}}, Dislikes: {{review.dislikes}})(Submitted: <span class="timeobj">{{review.added.timestamp()*1000}}</span>{% if review.edited != None %}Last change: <span class="timeobj">{{review.edited.timestamp()*1000}}</span>{% endif %})
+                <div>Game: {{review.game_title}}
                 <div><form id="like" class="like_form">
                     <button class="likes" id="{{review.id}}l" value="{{review.id}}" data-ent_type="REVIEWS" {% if review.disliked_from_current %} disabled {% endif %}>{% if review.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
                 </form>
