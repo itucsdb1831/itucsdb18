@@ -332,6 +332,7 @@ class Database:
         query = statement, data
         self.query_database(query)
 
+        profile_foto_name = None
         if self.cursor.rowcount != 0:
             profile_foto_name = self.cursor.fetchone()[0]
 

@@ -2,10 +2,9 @@
 {% block title %}Mercury{% endblock %}
 {% block content %}
     <h1>Select an image to upload</h1>
-    <p>Valid extensions are ".jpg" and ".png".
+    <p>Valid extensions are ".jpg" and ".png".</p>
         <form action="{{url_for('upload_profile_foto_page', user_id=user_id)}}" method="post" enctype="multipart/form-data">
-                <input type="file" name="img" accept=".jpg,.png">
-                <input type="submit">
+                <p><input type="file" name="profile_foto" accept=".jpg,.png" required></p>
+                <p><input type="submit"></p>
         </form>
-    </p>
 {% endblock %}
