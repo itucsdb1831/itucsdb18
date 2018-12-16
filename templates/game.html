@@ -100,7 +100,7 @@
         <div class="gallery"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"></a>
         <div class="desc">{{shot.caption}}</div>
         <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
-        <div>{{shot.game_title}}</div>
+        <div>{{shot.user_name}}</div>
             <div>
                 <form id="like" class="like_form">
                     <button class="likes" id="{{shot.id}}l" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.disliked_from_current %} disabled {% endif %}>{% if shot.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
