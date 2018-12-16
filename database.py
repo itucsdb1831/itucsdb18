@@ -350,12 +350,12 @@ class Database:
     def get_screenshot(self, shot_id):
         self.connect()
 
-        statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, GAME_ID FROM SCREENSHOTS WHERE SHOT_ID=%s"
+        statement = "SELECT SCREENSHOTS.NAME, SCREENSHOTS.USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SCREENSHOTS.GAME_ID, GAMES.TITLE, USERS.NAME FROM (USERS JOIN (SCREENSHOTS JOIN GAMES ON SCREENSHOTS.GAME_ID=GAMES.GAME_ID) ON USERS.USER_ID=SCREENSHOTS.USER_ID) WHERE SHOT_ID=%s"
         data = (str(shot_id),)
         query = statement, data
         self.query_database(query)
-        name, user_id, caption, date_added, likes, dislikes, game_id = self.cursor.fetchone()
-        shot = Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id)
+        name, user_id, caption, date_added, likes, dislikes, game_id, game_title, user_name = self.cursor.fetchone()
+        shot = Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id, game_title, user_name)
         self.disconnect()
 
         return shot
