@@ -417,6 +417,32 @@ class Database:
 
         self.disconnect()
 
+    def edit_game(self, game_id, new_genre, new_age_restriction, new_price):
+        game = self.get_game(game_id)
+
+        self.connect()
+
+        statement = "UPDATE GAMES" \
+                    + " SET GENRE = %s, AGE_RESTRICTION = %s, PRICE = %s" \
+                    + " WHERE GAME_ID = %s"
+
+        new_genre_ = new_genre
+        new_age_restriction_ = new_age_restriction
+        new_price_ = new_price
+        
+        if new_genre == "":
+            new_genre_ = game.genre
+        if new_age_restriction == "":
+            new_age_restriction_ = game.age_restriction
+        if new_price == "":
+            new_price_ = game.price
+
+        data = (new_genre_, new_age_restriction_, new_price_, game_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     def get_game(self, game_id):
         self.connect()
 

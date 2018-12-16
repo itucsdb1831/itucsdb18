@@ -288,6 +288,20 @@ def game_add_page():
     return render_template("game_add.html")
 
 
+@app.route("/game_edit/<int:game_id>", methods=['GET', 'POST'])
+@login_required
+def game_edit_page(game_id):
+    if request.method == "POST":
+        new_genre = request.form["genre"]
+        new_age_restriction = request.form["age_restriction"]
+        new_price = request.form["price"]
+        db.edit_game(game_id, new_genre, new_age_restriction, new_price)
+
+        return redirect(url_for("game_page", game_id=game_id))
+
+    return render_template("game_edit.html")
+
+
 @app.route("/store/<int:game_id>/item_add", methods=['GET', 'POST'])
 @login_required
 def item_add_page(game_id):
