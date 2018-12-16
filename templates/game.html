@@ -57,6 +57,9 @@
                     <td>{{ item.item_type }}</td>
                     <td>{{ item.rarity }}</td>
                     <td>{{ item.price }}</td>
+                    {% if current_user.is_admin %}
+                        <td><a href="{{ url_for('item_update_page', game_id=game.game_id, item_id=item.item_id) }}">Update item</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>

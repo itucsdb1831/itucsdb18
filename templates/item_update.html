@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <form action="" method="post" name="item_update" enctype="multipart/form-data">
+        <div class="field">
+            <label for="picture" class="label">Item Picture</label>
+            <input type="file" name="picture" accept=".jpg,.png" required>
+        </div>
+
+        <div class="field">
+            <label for="name" class="label">Item Name</label>
+            <div class="control">
+                <input type="text" name="name" class="input" required/>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="rarity" class="label">Item Type</label>
+            <div class="control">
+                <select name="item_type" required>
+                    <option value="Weapon">Weapon</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Accessory">Accessory</option>
+                    <option value="Consumable">Consumable</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="rarity" class="label">Item Rarity</label>
+            <div class="control">
+                <select name="rarity" required>
+                    <option value="Common">Common</option>
+                    <option value="Uncommon">Uncommon</option>
+                    <option value="Rare">Rare</option>
+                    <option value="Exotic">Exotic</option>
+                    <option value="Legendary">Legendary</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="level" class="label">Item Price</label>
+            <div class="control">
+                <input type="text" name="price" class="input" required/>
+            </div>
+        </div>
+        <div class="field is-grouped">
+            <div class="control">
+                <button class="button is-primary is-small">Update</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
