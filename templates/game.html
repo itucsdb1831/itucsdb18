@@ -1,7 +1,10 @@
 {% extends "layout.html" %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='profile_style.css')}}">
+{% endblock %}
 {% block title %}Mercury{% endblock %}
 {% block content %}
-<script src="{{ url_for('static', filename='review_feedback.js') }}"></script>
+<script src="{{ url_for('static', filename='likesdislikes_handler.js') }}"></script>
 <script src="{{ url_for('static', filename='timezone_handler.js') }}"></script>
 
     <h1 class="title">{{ game.title }}</h1>
@@ -87,37 +90,42 @@
         {% endfor %}
     </ul>
     <p>Screenshots</p>
-    <ul>
+    <div>
         {% for shot in screenshots %}
-            <li><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{game.title}}">Caption: {{shot.caption}}, (Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)
-                <form id="like">
+         <a href="{{url_for('screenshot', shot_id=shot.id, game_id=shot.game_id)}}">
+        <div class="gallery"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"></a>
+        <div class="desc">{{shot.caption}}</div>
+        <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
+        <div>{{shot.game_title}}</div>
+            <div>
+                <form id="like" class="like_form">
                     <button class="likes" id="{{shot.id}}l" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.disliked_from_current %} disabled {% endif %}>{% if shot.liked_from_current %}You Liked It{% else %}Like{% endif %}</button>
                 </form>
-                <form id="dislike">
+                <form id="dislike" class="dislike_form">
                     <button class="dislikes" id="{{shot.id}}d" value="{{shot.id}}" data-ent_type="SCREENSHOTS" {% if shot.liked_from_current %} disabled {% endif %}>{% if shot.disliked_from_current %}You Disliked It{% else %}Dislike{% endif %}</button>
                 </form>
                 {% if shot.user_id == current_user.id or current_user.is_admin %}
-                    <form action="{{url_for('delete_screenshot')}}" method="POST">
+                    <form class="delete_form" action="{{url_for('delete_screenshot')}}" method="POST">
                         <input type="hidden" name="shot_name" value="{{shot.name}}">
-                        <input type="hidden" name="game_id" value="{{game.game_id}}">
+                        <input type="hidden" name="game_id" value="{{shot.game_id}}">
                         <button>Delete screenshot</button>
                     </form>
                 {% endif %}
-                <div>
-                    <a href="{{ url_for('screenshot_comments_page', game_id=game.game_id, screenshot_id=shot.id) }}">View comments</a>
-                </div>
-            </li>
+            </div>
+        </div>
         {% endfor %}
-    </ul>
+    </div>
+    <div style="clear: both;">
+        {% if current_user.is_authenticated %}
+            <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
+            <p><a href="{{ url_for('game_purchase_page', game_id=game.game_id) }}">Purchase</a></p>
+            <p><a href="{{ url_for('add_review', game_id=game.game_id) }}">Add review</a></p>
+            <p><a href="{{ url_for('add_screenshot', game_id=game.game_id) }}">Add screenshot</a></p>
+        {% endif %}
+        <p><a href="{{ url_for('store_page') }}">Back</a></p>
 
-    {% if current_user.is_authenticated %}
-        <p><a href="{{ url_for('game_rate_page', game_id=game.game_id) }}">Rate the game</a></p>
-        <p><a href="{{ url_for('game_purchase_page', game_id=game.game_id) }}">Purchase</a></p>
-        <p><a href="{{ url_for('add_review', game_id=game.game_id) }}">Add review</a></p>
-    {% endif %}
-    <p><a href="{{ url_for('store_page') }}">Back</a></p>
-
-    {% if current_user.is_admin %}
-        <p><a href="{{ url_for('item_add_page', game_id=game.game_id) }}">Add item</a></p>
-    {% endif %}
+        {% if current_user.is_admin %}
+            <p><a href="{{ url_for('item_add_page', game_id=game.game_id) }}">Add item</a></p>
+        {% endif %}
+    </div>
 {% endblock %}
