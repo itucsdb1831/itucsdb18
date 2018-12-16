@@ -93,6 +93,17 @@ class Database:
 
         self.disconnect()
         return user_id
+    
+        
+    def delete_user(self, user_id):
+        self.connect()
+
+        statement = "DELETE FROM USERS WHERE USER_ID=%s"
+        data = (user_id,)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
 
     def update_users_review_count_for_game(self, user_id, game_id, operation):
         if operation == "ADD":
