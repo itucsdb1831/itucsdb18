@@ -366,15 +366,14 @@ class Database:
     
     def get_screenshots_of_game(self, game_id, cur_user_id):
         self.connect()
-
-        statement = "SELECT NAME, USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID FROM SCREENSHOTS WHERE GAME_ID=%s"
+        statement = "SELECT SCREENSHOTS.NAME, SCREENSHOTS.GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID, USERS.NAME FROM (SCREENSHOTS JOIN USERS ON ((SCREENSHOTS.USER_ID=USERS.USER_ID) AND (SCREENSHOTS.GAME_ID=%s))) ORDER BY DATE_ADDED DESC"
         data = (str(game_id),)
         query = statement, data
         self.query_database(query)
         sss = []
         for row in self.cursor:
-            name, user_id, caption, date_added, likes, dislikes, shot_id = row
-            sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id))
+            name, user_id, caption, date_added, likes, dislikes, shot_id, user_name = row
+            sss.append(Screenshot(name, user_id, game_id, caption, date_added, likes, dislikes, shot_id, None, user_name))
         
         for shot in sss:
             shot.liked_from_current = self.get_like_of_user(shot.id, cur_user_id, "SCREENSHOTS")
