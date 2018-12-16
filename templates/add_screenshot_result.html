@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+        {% if success %}
+            <p>{{img_name}} has been added.
+            <a href="{{url_for('game_page', game_id=game_id)}}">Go back to game page</a></p>
+        {% else %}
+            <p>{{img_name}} could not be added.
+            <a href="{{url_for('add_screenshot', game_id=game_id)}}">Try again</a></p>
+        {% endif %}
+{% endblock %}
