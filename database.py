@@ -429,7 +429,7 @@ class Database:
         new_genre_ = new_genre
         new_age_restriction_ = new_age_restriction
         new_price_ = new_price
-        
+
         if new_genre == "":
             new_genre_ = game.genre
         if new_age_restriction == "":
@@ -1125,6 +1125,7 @@ class Database:
         self.connect()
 
         response = None
+        statement = None
         if operation == "BLOCK":
             response = "Blocked"
             statement = "UPDATE FRIENDS" \
@@ -1145,6 +1146,13 @@ class Database:
             statement = "UPDATE FRIENDS" \
                         + " SET IS_FAVOURITE = FALSE" \
                         + " WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+        elif operation == "REMOVE":
+            response = "Removed"
+            statement = "DELETE FROM FRIENDS WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
+
+            data = (user2_id, user1_id)
+            query = statement, data
+            self.query_database(query)
 
         data = (user1_id, user2_id)
         query = statement, data

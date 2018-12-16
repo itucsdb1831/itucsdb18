@@ -110,6 +110,7 @@
                 {% else %}
                     <td><button onclick="addFriendToFavourites({{ current_user.id }}, {{ friend.user2_id }})">Favourite</button></td>
                 {% endif %}
+                <td><button onclick="removeFriend({{ current_user.id }}, {{ friend.user2_id }})">Remove</button></td>
             </tr>
         {% endfor %}
     </table>
