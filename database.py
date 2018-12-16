@@ -149,8 +149,8 @@ class Database:
 
         reviews = []
         for row in self.cursor:
-            review_id, user_id, label, content, added, likes, dislikes, edited = row
-            reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id))
+            review_id, user_id, label, content, added, likes, dislikes, edited, name = row
+            reviews.append(Review(user_id, game_id, label, added, content, likes, dislikes, edited, review_id, None, name))
 
         for review in reviews:
             review.liked_from_current = self.get_like_of_user(review.id, cur_user_id, "REVIEWS")
