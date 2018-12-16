@@ -166,9 +166,9 @@ def add_screenshot(game_id):
         if img.filename[len(img.filename)-4:] in valid_ext:
             img_name = images.save(img)
             db.insert_screenshot(Screenshot(img_name,current_user.id,game_id,request.form.get("caption"),str(datetime.utcnow())))
-            return img_name + " has been added!"
-    else:
-        return "unsuccessful!!!"
+            return render_template("add_screenshot_result.html", success=True, img_name=img_name, game_id=game_id)
+        else:
+            return render_template("add_screenshot_result.html", success=False, img_name=img_name, game_id=game_id)
 
 
 @app.route("/store/<int:game_id>/screenshot/<int:shot_id>/", methods=["GET", "POST"])
