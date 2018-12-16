@@ -9,6 +9,6 @@
         {% endif %}
     {% else %}
         <p>"{{ game.title }}" has been added to your library!</p>
-        <a class="button is-link" href="{{ url_for('profile', user=current_user) }}">View the game in your profile</a>
+        <a class="button is-link" href="{{ url_for('profile', user_id=current_user.id) }}">View the game in your profile</a>
     {% endif %}
 {% endblock %}
