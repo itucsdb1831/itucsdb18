@@ -191,6 +191,9 @@
         </div>
     {% endfor %}
 
-    <p style="clear: both;"><a href="{{ url_for('upload_profile_photo_page', user_id=user.id) }}">Change avatar</a></p>
+    <p style="clear: both;"><a href="{{ url_for('upload_profile_photo_page', user_id=user.id) }}">Change avatar</a>
+{% if current_user.id == user.id or current_user.is_admin %}
+        <a href="{{url_for('delete_user', user_id=user.id)}}">Delete account</a>
+    {% endif %}</p>
 
 {% endblock %}
