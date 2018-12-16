@@ -95,7 +95,7 @@ def profile(user_id):
     return render_template("profile.html", user=db.get_user(user_id), games_of_user=games_of_user,
                            received_friend_requests=received_friend_requests,
                            sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user,
-                           screenshots=screenshots, images=images, reviews=reviews, profile_foto_name=profile_foto_name)
+                           screenshots=screenshots, images=images, reviews=reviews)
 
 
 @app.route("/logout/")
