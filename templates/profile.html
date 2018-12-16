@@ -54,28 +54,32 @@
     {% endif %}
 
     <h2>Inventory</h2>
-    <table class="table is-striped is-fullwidth">
-        <th>Name</th>
-        <th>Level</th>
-        <th>Color</th>
-        <th>Equipped</th>
-        <th>Favorite</th>
-        <th>Date Purchased</th>
-        {% for item in items_of_user %}
-            <tr>
-                <td align="middle"><a href="{{ url_for("item_edit_page", item_id=item.item_id) }}">{{ item.name }}</a></td>
-                <td align="middle">{{ item.level }}</td>
-                <td align="middle">{{ item.color }}</td>
-                <td align="middle">
-                    {{ "+" if item.is_equipped else "-" }}
-                </td>
-                <td align="middle">
-                    {{ "+" if item.is_favorite else "-" }}
-                </td>
-                <td align="middle">{{ item.date_purchased }}</td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% if items_of_user %}
+        <table class="table is-striped is-fullwidth" border="1">
+            <th>Name</th>
+            <th>Level</th>
+            <th>Color</th>
+            <th>Equipped</th>
+            <th>Favorite</th>
+            <th>Date Purchased</th>
+            {% for item in items_of_user %}
+                <tr>
+                    <td align="middle"><a
+                            href="{{ url_for("item_edit_page", item_id=item.item_id) }}">{{ item.name }}</a></td>
+                    <td align="middle">{{ item.level }}</td>
+                    <td align="middle">{{ item.color }}</td>
+                    <td align="middle">
+                        {{ "+" if item.is_equipped else "-" }}
+                    </td>
+                    <td align="middle">
+                        {{ "+" if item.is_favorite else "-" }}
+                    </td>
+                    <td align="middle">{{ item.date_purchased }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
 
     <h2>Friends List</h2>
     <table class="table is-striped is-fullwidth">
