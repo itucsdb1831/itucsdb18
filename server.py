@@ -94,6 +94,7 @@ def profile(user_id):
                            sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user,
                            screenshots=screenshots, images=images, reviews=reviews)
 
+
 @app.route("/logout/")
 @login_required
 def logout():
@@ -208,22 +209,21 @@ def store_page():
 @app.route("/community", methods=['GET'])
 @login_required
 def community_page():
-    friends_of_user = db.get_all_friends_for_community(current_user.id)
+    not_blocked_friends_of_user = db.get_all_not_blocked_friends_for_community(current_user.id)
 
     reviews = []
     screenshots = []
 
     reviews += db.get_all_reviews_of_user_for_community(current_user.id)
     screenshots += db.get_all_screenshots_of_user_for_community(current_user.id)
-    for friend_id in friends_of_user:
+    for friend_id in not_blocked_friends_of_user:
         reviews += db.get_all_reviews_of_user_for_community(friend_id)
         screenshots += db.get_all_screenshots_of_user_for_community(friend_id)
 
     reviews.sort(key=select_timestamp_for_sort, reverse=True)
     screenshots.sort(key=select_timestamp_for_sort, reverse=True)
 
-    return render_template("community.html", reviews=reviews, screenshots=screenshots, friends_of_user=friends_of_user,
-                           images=images)
+    return render_template("community.html", reviews=reviews, screenshots=screenshots, images=images)
 
 
 @app.route("/store/<int:game_id>", methods=['GET', 'POST'])
@@ -292,6 +292,7 @@ def item_purchase_result_page(game_id, item_id):
     if current_user.is_admin or current_user.balance >= item.price:
         already_has_item = db.add_item_to_user(item.item_id, game_id, current_user.id)
         db.decrease_balance_of_user(current_user.id, item.price)
+        db.set_num_of_shared_items_for_all_friends(current_user.id)
     return render_template("item_purchase_result.html", item=item, already_has_item=already_has_item)
 
 
@@ -370,6 +371,7 @@ def game_purchase_result_page(game_id):
         success = db.add_game_to_user(game.game_id, current_user.id)
         if success:
             db.decrease_balance_of_user(current_user.id, game.price)
+            db.set_num_of_shared_games_for_all_friends(current_user.id)
     return render_template("game_purchase_result.html", game=game, success=success)
 
 
@@ -396,6 +398,8 @@ def process_friend_request_response():
 
     if request.form.get("response") == "accepted":
         db.add_friend(user_id_to, user_id_from)
+        db.set_num_of_shared_games(user_id_to, user_id_from)
+        db.set_num_of_shared_items(user_id_to, user_id_from)
         return jsonify({"fillerText": user_name_from + " has been added to your friends!"})
     elif request.form.get("response") == "declined":
         db.remove_request(user_id_from, user_id_to)
@@ -457,6 +461,17 @@ def process_play_game():
 
     return jsonify({"time_played": str(int(time_played) + 1)})
 
+
+@app.route("/profile/process_friend_operations", methods=['POST'])
+@login_required
+def process_friend_operations():
+    operation = request.form.get("operation")
+    user1_id = request.form.get("user1_id")
+    user2_id = request.form.get("user2_id")
+
+    response = db.update_friend_variable(user1_id, user2_id, operation)
+
+    return jsonify({"responseText": response})
 
 if __name__ == "__main__":
     app.run()

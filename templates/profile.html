@@ -8,7 +8,7 @@
     <script src="{{ url_for('static', filename='game_favouriting_handler.js') }}"></script>
     <script src="{{ url_for('static', filename='play_game_handler.js') }}"></script>
     <script src="{{ url_for('static', filename='timezone_handler.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='friend_operations_handler.js') }}"></script>
 
     <h1>{{ user.user_name }}</h1>
     <p>hello {{ user.user_name }}</p>
@@ -25,8 +25,8 @@
             <th>Title</th>
             <th>Time Played</th>
             <th>Date Purchased</th>
-            <th>Reviews</th>
-            <th>Items</th>
+            <th>#Reviews</th>
+            <th>#Items</th>
             {% for game in games_of_user %}
                 <tr id="{{ game.game_id }}">
                     <td><a href="{{ url_for('game_page', game_id=game.game_id) }}"> {{ game.title }} </a></td>
@@ -34,12 +34,13 @@
                     <td>{{ game.time_purchased }}</td>
                     <td>{{ game.num_of_reviews }}</td>
                     <td>{{ game.num_of_items }}</td>
+                    <td id="is_game_favourite">{% if game.is_favourite %}*FAVOURITE*{% endif %}</td>
                     <td><button onclick="playGame({{ current_user.id }}, {{ game.game_id }}, {{ game.time_played }})">Play</button></td>
-                    <div id="div_favourite">
-                        <td>*FAVOURITE*</td>
-                        <td><button onclick="removeFromFavourites({{ current_user.id }}, {{ game.game_id }})">Unfavourite</button></td>
-                        <td><button onclick="addToFavourites({{ current_user.id }}, {{ game.game_id }})">Favourite</button></td>
-                    </div>
+                    {% if game.is_favourite %}
+                    <td id="unfavourite_game_button"><button onclick="removeGameFromFavourites({{ current_user.id }}, {{ game.game_id }})">Unfavourite</button></td>
+                    {% else %}
+                    <td id="favourite_game_button"><button onclick="addGameToFavourites({{ current_user.id }}, {{ game.game_id }})">Favourite</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
@@ -72,9 +73,28 @@
 
     <h4>Friends List:</h4>
     <table class="table is-striped is-fullwidth">
+        <th>Name</th>
+        <th>Since</th>
+        <th>#Shared games</th>
+        <th>#Shared items</th>
         {% for friend in friends %}
-            <tr>
+            <tr id="{{ friend.user2_id }}">
                 <td><a href="{{ url_for('profile', user_id=friend.user2_id) }}">{{ friend.user2_name}}</a></td>
+                <td>{{ friend.date_befriended }}</td>
+                <td></td>
+                <td></td>
+                <td>{% if friend.is_blocked %}*BLOCKED*{% endif %}</td>
+                <td>{% if friend.is_favourite %}*FAVOURITE*{% endif %}</td>
+                {%if friend.is_blocked %}
+                    <td><button onclick="unblockFriend({{ current_user.id }}, {{ friend.user2_id }})">Unblock</button></td>
+                {% else %}
+                    <td><button onclick="blockFriend({{ current_user.id }}, {{ friend.user2_id }})">Block</button></td>
+                {% endif %}
+                {% if friend.is_favourite %}
+                    <td><button onclick="removeFriendFromFavourites({{ current_user.id }}, {{ friend.user2_id }})">Unfavourite</button></td>
+                {% else %}
+                    <td><button onclick="addFriendToFavourites({{ current_user.id }}, {{ friend.user2_id }})">Favourite</button></td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>
