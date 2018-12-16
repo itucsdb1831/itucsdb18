@@ -12,6 +12,13 @@
     <script src="{{ url_for('static', filename='likesdislikes_handler.js') }}"></script>
 
     <h1>{{ user.user_name }}</h1>
+
+    <div id="profile_photo">
+        {% if profile_photo_name is not none %}
+            <img src="{{images.url(profile_photo_name)}}">
+        {% endif %}
+    </div>
+
     <p>hello {{ user.user_name }}</p>
 
     {% if not current_user.is_admin %}
@@ -19,12 +26,6 @@
     {% else %}
         <p>Your balance: :)</p>
     {% endif %}
-
-    <div id="profile_foto">
-        {% if profile_foto_name is not none %}
-            <img src="{{images.url(profile_foto_name)}}">
-        {% endif %}
-    </div>
 
     <h2>Library</h2>
     {% if games_of_user %}
@@ -179,5 +180,5 @@
             </div>
     {% endfor %}
 
-    <p><a href="{{ url_for('upload_profile_foto_page', user_id=user.id) }}">Change avatar</a></p>
+    <p><a href="{{ url_for('upload_profile_photo_page', user_id=user.id) }}">Change avatar</a></p>
 {% endblock %}

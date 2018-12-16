@@ -122,8 +122,8 @@ INIT_STATEMENTS = [
     )
     """,
     """
-    CREATE TABLE IF NOT EXISTS PROFILE_FOTOS (
-        FOTO_ID SERIAL PRIMARY KEY,
+    CREATE TABLE IF NOT EXISTS PROFILE_PHOTOS (
+        PHOTO_ID SERIAL PRIMARY KEY,
         NAME VARCHAR(40) DEFAULT NULL,
         USER_ID INTEGER REFERENCES USERS (USER_ID)
     )
@@ -179,6 +179,10 @@ if __name__ == "__main__":
     hashed_password = hasher.hash(password)
     statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES (%s, %s, %s)"
     data = ("emre", hashed_password, True)
+    cursor.execute(statement, data)
+
+    statement = "INSERT INTO PROFILE_PHOTOS (USER_ID) VALUES (%s)"
+    data = [1]
     cursor.execute(statement, data)
 
     statement = "INSERT INTO BALANCE_CODES VALUES (%s)"

@@ -300,42 +300,42 @@ class Database:
         self.disconnect()
         return is_disliked
 
-    def initialize_profile_foto(self, user_id):
+    def initialize_profile_photo(self, user_id):
         self.connect()
 
-        statement = "INSERT INTO PROFILE_FOTOS (USER_ID) VALUES (%s)"
+        statement = "INSERT INTO PROFILE_PHOTOS (USER_ID) VALUES (%s)"
         data = [user_id]
         query = statement, data
         self.query_database(query)
 
         self.disconnect()
 
-    def change_profile_foto(self, profile_foto):
+    def change_profile_photo(self, profile_photo):
         self.connect()
 
-        statement = "UPDATE PROFILE_FOTOS" \
+        statement = "UPDATE PROFILE_PHOTOS" \
                     + " SET NAME = %s" \
                     + " WHERE USER_ID = %s"
-        data = (profile_foto.name, profile_foto.user_id)
+        data = (profile_photo.name, profile_photo.user_id)
         query = statement, data
         self.query_database(query)
 
         self.disconnect()
 
-    def get_profile_foto_of_user(self, user_id):
+    def get_profile_photo_of_user(self, user_id):
         self.connect()
 
-        statement = "SELECT NAME FROM PROFILE_FOTOS WHERE USER_ID = %s"
+        statement = "SELECT NAME FROM PROFILE_PHOTOS WHERE USER_ID = %s"
         data = [user_id]
         query = statement, data
         self.query_database(query)
 
-        profile_foto_name = None
+        profile_photo_name = None
         if self.cursor.rowcount != 0:
-            profile_foto_name = self.cursor.fetchone()[0]
+            profile_photo_name = self.cursor.fetchone()[0]
 
         self.disconnect()
-        return profile_foto_name
+        return profile_photo_name
     
     def insert_screenshot(self, ss):
         self.connect()

@@ -8,7 +8,7 @@ from game import Game
 from review import Review
 from item import Item
 from screenshot import Screenshot
-from profile_foto import ProfileFoto
+from profile_photo import ProfilePhoto
 from datetime import datetime
 from os import remove, path
 
@@ -49,7 +49,7 @@ def sign_up_result():
     if is_successful:
         db.insert_user(User(form_name, hasher.hash(form_pw), True, False, 0))
         user_id = db.get_user_id(form_name)
-        db.initialize_profile_foto(user_id)
+        db.initialize_profile_photo(user_id)
     return render_template("signupresult.html", successful=is_successful)
 
 
@@ -79,7 +79,7 @@ def home_page():
 @app.route("/profile/<int:user_id>/")
 @login_required
 def profile(user_id):
-    profile_foto_name = db.get_profile_foto_of_user(user_id)
+    profile_photo_name = db.get_profile_photo_of_user(user_id)
     games_of_user = db.get_games_of_user(user_id)
     items_of_user = db.get_items_of_user(user_id)
     screenshots = db.get_screenshots_of_user(user_id, current_user.id)
@@ -95,7 +95,8 @@ def profile(user_id):
     return render_template("profile.html", user=db.get_user(user_id), games_of_user=games_of_user,
                            received_friend_requests=received_friend_requests,
                            sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user,
-                           screenshots=screenshots, images=images, reviews=reviews)
+                           screenshots=screenshots, images=images, reviews=reviews,
+                           profile_photo_name=profile_photo_name)
 
 
 @app.route("/logout/")
@@ -159,18 +160,18 @@ def process_likes_dislikes():
     return jsonify({"success": True})
 
 
-@app.route("/profile/<int:user_id>/upload_profile_foto", methods=["GET", "POST"])
+@app.route("/profile/<int:user_id>/upload_profile_photo", methods=["GET", "POST"])
 @login_required
-def upload_profile_foto_page(user_id):
+def upload_profile_photo_page(user_id):
     if request.method == "GET":
-        return render_template("upload_profile_foto.html", user_id=user_id)
+        return render_template("upload_profile_photo.html", user_id=user_id)
 
-    profile_foto = request.files["profile_foto"]
+    profile_photo = request.files["profile_photo"]
     valid_extentions = [".jpg", ".png"]
 
-    if profile_foto.filename[len(profile_foto.filename) - 4:] in valid_extentions:
-        profile_foto_name = images.save(profile_foto)
-        db.change_profile_foto(ProfileFoto(profile_foto_name, user_id))
+    if profile_photo.filename[len(profile_photo.filename) - 4:] in valid_extentions:
+        profile_photo_name = images.save(profile_photo)
+        db.change_profile_photo(ProfilePhoto(profile_photo_name, user_id))
 
     return redirect(url_for("profile", user_id=user_id))
 
@@ -183,6 +184,7 @@ def add_screenshot(game_id):
     if "img" in request.files:
         img = request.files["img"]
         valid_ext = [".jpg", ".png"]
+        img_name = None
         if img.filename[len(img.filename)-4:] in valid_ext:
             img_name = images.save(img)
             db.insert_screenshot(Screenshot(img_name,current_user.id,game_id,request.form.get("caption"),str(datetime.utcnow())))
