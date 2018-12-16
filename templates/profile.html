@@ -12,14 +12,13 @@
     <script src="{{ url_for('static', filename='likesdislikes_handler.js') }}"></script>
 
     <h1>{{ user.user_name }}</h1>
+    <p>hello {{ user.user_name }}</p>
 
     <div id="profile_photo">
         {% if profile_photo_name is not none %}
             <img src="{{images.url(profile_photo_name)}}">
         {% endif %}
     </div>
-
-    <p>hello {{ user.user_name }}</p>
 
     {% if not current_user.is_admin %}
         <p>Your balance: {{ current_user.balance }}$</p>
