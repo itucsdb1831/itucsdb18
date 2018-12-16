@@ -301,6 +301,42 @@ class Database:
         self.disconnect()
         print(is_disliked)
         return is_disliked
+
+    def initialize_profile_foto(self, user_id):
+        self.connect()
+
+        statement = "INSERT INTO PROFILE_FOTOS (USER_ID) VALUES %s"
+        data = [user_id]
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def change_profile_foto(self, profile_foto):
+        self.connect()
+
+        statement = "UPDATE PROFILE_FOTOS" \
+                    + " SET NAME = %s" \
+                    + " WHERE USER_ID = %s"
+        data = (profile_foto.name, profile_foto.user_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
+    def get_profile_foto_of_user(self, user_id):
+        self.connect()
+
+        statement = "SELECT NAME FROM PROFILE_FOTOS WHERE USER_ID = %s"
+        data = [user_id]
+        query = statement, data
+        self.query_database(query)
+
+        if self.cursor.rowcount != 0:
+            profile_foto_name = self.cursor.fetchone()[0]
+
+        self.disconnect()
+        return profile_foto_name
     
     def insert_screenshot(self, ss):
         self.connect()

@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <h1>Select an image to upload</h1>
+    <p>Valid extensions are ".jpg" and ".png".
+        <form action="{{url_for('upload_profile_foto_page', user_id=user_id)}}" method="post" enctype="multipart/form-data">
+                <input type="file" name="img" accept=".jpg,.png">
+                <input type="submit">
+        </form>
+    </p>
+{% endblock %}

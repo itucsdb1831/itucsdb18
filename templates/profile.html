@@ -20,6 +20,12 @@
         <p>Your balance: :)</p>
     {% endif %}
 
+    <div id="profile_foto">
+        {% if profile_foto_name is not none %}
+            <img src="{{images.url(profile_foto_name)}}">
+        {% endif %}
+    </div>
+
     <h2>Library</h2>
     {% if games_of_user %}
         <table class="table is-striped is-fullwidth">

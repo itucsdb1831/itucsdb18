@@ -8,6 +8,7 @@ from game import Game
 from review import Review
 from item import Item
 from screenshot import Screenshot
+from profile_foto import ProfileFoto
 from datetime import datetime
 from os import remove, path
 
@@ -48,6 +49,8 @@ def sign_up_result():
     is_successful = db.query_user_name(form_name) is None
     if is_successful:
         db.insert_user(User(form_name, hasher.hash(form_pw), True, False, 0))
+        user_id = db.get_user_id(form_name)
+        db.initialize_profile_foto(user_id)
     return render_template("signupresult.html", successful=is_successful)
 
 
@@ -77,6 +80,7 @@ def home_page():
 @app.route("/profile/<int:user_id>/")
 @login_required
 def profile(user_id):
+    profile_foto_name = db.get_profile_foto_of_user(user_id)
     games_of_user = db.get_games_of_user(user_id)
     items_of_user = db.get_items_of_user(user_id)
     screenshots = db.get_screenshots_of_user(user_id, current_user.id)
@@ -92,7 +96,7 @@ def profile(user_id):
     return render_template("profile.html", user=db.get_user(user_id), games_of_user=games_of_user,
                            received_friend_requests=received_friend_requests,
                            sent_friend_requests=sent_friend_requests, friends=friends, items_of_user=items_of_user,
-                           screenshots=screenshots, images=images, reviews=reviews)
+                           screenshots=screenshots, images=images, reviews=reviews, profile_foto_name=profile_foto_name)
 
 
 @app.route("/logout/")
@@ -154,6 +158,22 @@ def process_likes_dislikes():
             if request.form.get("entity_type") in entities:
                 db.remove_dislike(request.form.get("entity_id"), current_user.id, request.form.get("entity_type"))
     return jsonify({"success": True})
+
+
+@app.route("/profile/<int:user_id>/upload_profile_foto", methods=["GET", "POST"])
+@login_required
+def upload_profile_foto_page(user_id):
+    if request.method == "GET":
+        return render_template("upload_profile_foto.html", user_id=user_id)
+
+    profile_foto = request.files["profile_foto"]
+    valid_extentions = [".jpg", ".png"]
+
+    if profile_foto.filename[len(profile_foto.filename) - 4:] in valid_extentions:
+        profile_foto_name = images.save(profile_foto)
+        db.change_profile_foto(ProfileFoto(profile_foto_name, user_id))
+
+    return redirect(url_for("profile", user_id=user_id))
 
 
 @app.route("/store/<int:game_id>/add_screenshot/", methods=["GET", "POST"])
