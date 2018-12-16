@@ -65,6 +65,7 @@ def login():
                 return redirect(url_for("profile", user_id = current_user.id))
     return render_template('login.html')
 
+@app.route('/profile/<int:user_id>/delete_user/', methods=["GET", "POST"])
 @login_required
 def delete_user(user_id):
     if current_user.id == user_id or current_user.is_admin:
