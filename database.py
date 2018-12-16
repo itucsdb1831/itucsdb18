@@ -259,7 +259,6 @@ class Database:
         
         is_liked = self.cursor.rowcount != 0
         self.disconnect()
-        print(is_liked)
         return is_liked
     
     def add_dislike(self, entity_id, user_id, entity_type):
@@ -299,7 +298,6 @@ class Database:
         is_disliked = self.cursor.rowcount != 0
 
         self.disconnect()
-        print(is_disliked)
         return is_disliked
     
     def insert_screenshot(self, ss):
