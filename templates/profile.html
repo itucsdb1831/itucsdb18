@@ -20,7 +20,7 @@
         <p>Your balance: :)</p>
     {% endif %}
 
-    <h2>Library:</h2>
+    <h2>Library</h2>
     {% if games_of_user %}
         <table class="table is-striped is-fullwidth">
             <th>Title</th>
@@ -47,7 +47,7 @@
         </table>
     {% endif %}
 
-    <h3>Inventory:</h3>
+    <h2>Inventory</h2>
     <table class="table is-striped is-fullwidth">
         <th>Name</th>
         <th>Level</th>
@@ -72,7 +72,7 @@
         {% endfor %}
     </table>
 
-    <h4>Friends List:</h4>
+    <h2>Friends List</h2>
     <table class="table is-striped is-fullwidth">
         <th>Name</th>
         <th>Since</th>
@@ -125,7 +125,7 @@
     {% endif %}
 
     <div style="display:block;">
-    <h4>Reviews</h4>
+    <h2>Reviews</h2>
     <ul>
         {% for review in reviews %}
             <li>
@@ -149,7 +149,7 @@
     </ul>
     </div>
 
-    <h4>Screenshots:</h4>
+    <h2>Screenshots</h2>
     {% for shot in screenshots %}
         <a href="{{url_for('screenshot', shot_id=shot.id, game_id=shot.game_id)}}">
         <div class="gallery"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"></a>
