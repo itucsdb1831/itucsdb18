@@ -21,7 +21,7 @@
     </div>
 
     {% if not current_user.is_admin %}
-        <p>Your balance: {{ current_user.balance }}$</p>
+        <p>Your balance: {{ user.balance }}$</p>
     {% else %}
         <p>Your balance: :)</p>
     {% endif %}
