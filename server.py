@@ -216,8 +216,9 @@ def screenshot(game_id, shot_id):
         return redirect(url_for("screenshot", game_id=game_id, shot_id=shot_id))
 
     screenshot_comments = db.get_screenshot_comments(game_id, shot_id)
+    sorted_screenshot_comments = sorted(screenshot_comments, key=lambda x: x.comment_id)
     return render_template("screenshot.html", shot=db.get_screenshot(shot_id), images=images,
-                           screenshot_comments=screenshot_comments)
+                           screenshot_comments=sorted_screenshot_comments)
 
 # -----------------------------------------------------------------------
 
@@ -364,25 +365,24 @@ def item_edit_result_page():
 
 
 # Screenshot Comments
-@app.route("/store/<int:game_id>/<int:screenshot_id>/comments", methods=['GET', 'POST'])
-def screenshot_comments_page(game_id, screenshot_id):
+@app.route("/store/<int:game_id>/<int:screenshot_id>/<int:comment_id>/edit", methods=['GET', 'POST'])
+def screenshot_comment_edit_page(game_id, screenshot_id, comment_id):
     if request.method == "POST":
-        comment_id_to_delete = request.form.get("delete-button")
-        is_getting_deleted = comment_id_to_delete is not None
-        if is_getting_deleted:
-            db.delete_screenshot_comment(comment_id_to_delete)
-        else:
-            form_content = request.form["content"]
-            form_reaction = request.form["reaction"]
-            form_font_size = request.form["font_size"]
-            form_color = request.form["color"]
-            db.add_screenshot_comment(current_user.id, game_id, screenshot_id,
-                                      form_content, form_reaction, form_font_size, form_color)
-        return redirect(url_for("screenshot_comments_page", game_id=game_id, screenshot_id=screenshot_id))
+        form_content = request.form["content"]
+        form_reaction = request.form["reaction"]
+        form_font_size = request.form["font_size"]
+        form_color = request.form["color"]
+        db.update_screenshot_comment(comment_id, current_user.id, game_id, screenshot_id,
+                                     form_content, form_reaction, form_font_size, form_color)
+        return redirect(url_for("screenshot_comment_edit_result_page", game_id=game_id, screenshot_id=screenshot_id))
 
-    screenshot_comments = db.get_screenshot_comments(game_id, screenshot_id)
-    return render_template("screenshot_comments.html", game_id=game_id, screenshot_id=screenshot_id,
-                           screenshot_comments=screenshot_comments)
+    return render_template("screenshot_comment_edit.html", game_id=game_id, screenshot_id=screenshot_id,
+                           comment_id=comment_id)
+
+
+@app.route("/store/<int:game_id>/<int:screenshot_id>/comment_edit_result")
+def screenshot_comment_edit_result_page(game_id, screenshot_id):
+    return render_template("screenshot_comment_edit_result.html", game_id=game_id, screenshot_id=screenshot_id)
 
 
 @app.route("/game_add_result")

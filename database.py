@@ -922,6 +922,20 @@ class Database:
 
         self.disconnect()
 
+    def update_screenshot_comment(self, comment_id, user_id, game_id, screenshot_id, content, reaction, font_size, color):
+        self.connect()
+
+        statement = """UPDATE SCREENSHOT_COMMENTS
+                           SET CONTENT = %s, DATE_COMMENTED = CURRENT_DATE,
+                               REACTION = %s, FONT_SIZE = %s, COLOR = %s
+                           WHERE (COMMENT_ID = %s) AND (GAME_ID = %s) AND (USER_ID = %s) AND (SCREENSHOT_ID = %s)"""
+        data = (content, reaction, font_size, color,
+                comment_id, game_id, user_id, screenshot_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     # -------------------------------------------------------
 
     def send_friend_request(self, user_id_from, user_id_to):

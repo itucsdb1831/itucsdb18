@@ -37,6 +37,11 @@
                         </tr>
                     </table>
                 </li>
+
+                {% if comment.user_id == current_user.id %}
+                    <a href="{{ url_for("screenshot_comment_edit_page", game_id=comment.game_id, screenshot_id=comment.screenshot_id, comment_id=comment.comment_id) }}">Edit</a>
+                {% endif %}
+
                 {% if comment.user_id == current_user.id or current_user.is_admin %}
                     <form action="{{ url_for('screenshot', game_id=comment.game_id, shot_id=comment.screenshot_id) }}"
                           method="POST">
