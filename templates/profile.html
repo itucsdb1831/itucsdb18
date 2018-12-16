@@ -57,17 +57,16 @@
         <th>Date Purchased</th>
         {% for item in items_of_user %}
             <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.level }}</td>
-                <td>{{ item.color }}</td>
-                <td>
+                <td align="middle"><a href="{{ url_for("item_edit_page", item_id=item.item_id) }}">{{ item.name }}</a></td>
+                <td align="middle">{{ item.level }}</td>
+                <td align="middle">{{ item.color }}</td>
+                <td align="middle">
                     {{ "+" if item.is_equipped else "-" }}
                 </td>
-                <td>
+                <td align="middle">
                     {{ "+" if item.is_favorite else "-" }}
                 </td>
-                <td>{{ item.date_purchased }}</td>
-                <td><a href="{{ url_for("item_edit_page", item_id=item.item_id) }}">Edit item</a></td>
+                <td align="middle">{{ item.date_purchased }}</td>
             </tr>
         {% endfor %}
     </table>

@@ -3,34 +3,24 @@
 {% block content %}
     <form action="" method="post" name="item_edit">
         <div class="field">
-            <label for="color" class="label">Item Color</label>
-            <div class="control">
-                <select name="color" required>
-                    <option value="Red">Red</option>
-                    <option value="Green">Green</option>
-                    <option value="Blue">Blue</option>
-                </select>
-            </div>
+            <label for="color" class="label"><b>Item Color:</b></label>
+            <input type="radio" name="color" value="Black" checked> Black
+            <input type="radio" name="color" value="White"> White
+            <input type="radio" name="color" value="Red"> Red
+            <input type="radio" name="color" value="Green"> Green
+            <input type="radio" name="color" value="Blue"> Blue
         </div>
 
         <div class="field">
-            <label for="is_favorite" class="label">Your Favorite?</label>
-            <div class="is_favorite">
-                <select name="is_favorite" required>
-                    <option value="FALSE">No</option>
-                    <option value="TRUE">Yes</option>
-                </select>
-            </div>
+            <input id="is_favorite" type="checkbox" name="is_favorite" value="TRUE">
+            <input id="is_favorite_hidden" type="hidden" name="is_favorite" value="FALSE">
+            <label for="is_favorite" class="label">Make this my favorite item</label>
         </div>
 
         <div class="field">
-            <label for="is_equipped" class="label">Equip Item?</label>
-            <div class="is_equipped">
-                <select name="is_equipped" required>
-                    <option value="FALSE">No</option>
-                    <option value="TRUE">Yes</option>
-                </select>
-            </div>
+            <input id="is_equipped" type="checkbox" name="is_equipped" value="TRUE">
+            <input id="is_equipped_hidden" type="hidden" name="is_equipped" value="FALSE">
+            <label for="is_equipped" class="label">Equip item</label>
         </div>
 
         <div class="field is-grouped">
