@@ -75,6 +75,11 @@
                         {{ "+" if item.is_favorite else "-" }}
                     </td>
                     <td align="middle">{{ item.date_purchased }}</td>
+                    <td>
+                        <form action="{{ url_for('profile', user_id=user.id) }}" method="POST">
+                            <button name="item_id" value="{{ item.item_id }}">Discard item</button>
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
