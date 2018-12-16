@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block title %}Mercury{% endblock %}
+{% block content %}
+    <p>Edit your comment</p>
+    <form action="{{ url_for('screenshot_comment_edit_page', game_id=game_id, screenshot_id=screenshot_id, comment_id=comment_id) }}" method="post">
+            <div class="field">
+                <label for="reaction" class="reaction"><b>Your Reaction</b></label>
+                <select id="reaction" name="reaction" required>
+                    <option value="Neutral">Neutral</option>
+                    <option value="Happy">Happy</option>
+                    <option value="Entertained">Entertained</option>
+                    <option value="Angry">Angry</option>
+                    <option value="Sad">Sad</option>
+                </select>
+            </div>
+
+            <div>
+                <textarea name="content" rows="7" cols="40" required maxlength="500" placeholder="Leave a comment..."></textarea>
+            </div>
+
+            <div class="stylistic-choices">
+                <label for="font_size" class="label"><b>Font size</b></label>
+                <input id="font_size" type="number" name="font_size" class="input" min="8" value="16" max="48" required/>
+
+                <label for="color" class="label"><b>Color</b></label>
+                <select name="color" required>
+                    <option value="black">Black</option>
+                    <option value="red">Red</option>
+                    <option value="orange">Orange</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="green">Green</option>
+                    <option value="blue">Blue</option>
+                    <option value="indigo">Indigo</option>
+                    <option value="violet">Violet</option>
+                </select>
+                <input type="submit">
+            </div>
+
+        </form>
+{% endblock %}
