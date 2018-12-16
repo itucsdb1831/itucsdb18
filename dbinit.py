@@ -122,6 +122,13 @@ INIT_STATEMENTS = [
     )
     """,
     """
+    CREATE TABLE IF NOT EXISTS PROFILE_FOTOS (
+        FOTO_ID SERIAL PRIMARY KEY,
+        NAME VARCHAR(40) DEFAULT NULL,
+        USER_ID INTEGER REFERENCES USERS (USER_ID)
+    )
+    """,
+    """
     CREATE TABLE IF NOT EXISTS ITEMS_OF_USERS (
         ITEM_ID INTEGER REFERENCES ITEMS (ITEM_ID) ON DELETE CASCADE,
         GAME_ID INTEGER REFERENCES GAMES (GAME_ID) ON DELETE CASCADE,
@@ -165,8 +172,8 @@ if __name__ == "__main__":
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
 
-    # for statement in INIT_STATEMENTS:
-    #     cursor.execute(statement)
+    for statement in INIT_STATEMENTS:
+        cursor.execute(statement)
 
     password = "asdf"
     hashed_password = hasher.hash(password)

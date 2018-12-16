@@ -1,3 +1,8 @@
+div.profile_foto {
+    width: 20%
+    height: 20%
+}
+
 div.gallery {
   margin: 5px;
   border: 1px solid #ccc;
