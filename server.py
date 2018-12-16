@@ -461,6 +461,7 @@ def process_friend_request_response():
 
     if request.form.get("response") == "accepted":
         db.add_friend(user_id_to, user_id_from)
+        db.remove_request(user_id_from, user_id_to)
         db.set_num_of_shared_games(user_id_to, user_id_from)
         db.set_num_of_shared_items(user_id_to, user_id_from)
         return jsonify({"fillerText": user_name_from + " has been added to your friends!"})
