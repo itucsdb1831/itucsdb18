@@ -736,6 +736,18 @@ class Database:
 
         self.disconnect()
 
+    def update_item(self, item):
+        self.connect()
+
+        statement = """UPDATE ITEMS
+                           SET PICTURE = %s, NAME = %s, ITEM_TYPE = %s, RARITY = %s, PRICE = %s
+                           WHERE ITEM_ID = %s"""
+        data = (item.picture, item.name, item.item_type, item.rarity, item.price, item.item_id)
+        query = statement, data
+        self.query_database(query)
+
+        self.disconnect()
+
     def get_items(self, game_id):
         self.connect()
 

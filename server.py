@@ -302,6 +302,25 @@ def item_add_page(game_id):
     return render_template("item_add.html")
 
 
+@app.route("/store/<int:game_id>/<int:item_id>/item_update", methods=['GET', 'POST'])
+@login_required
+def item_update_page(game_id, item_id):
+    if request.method == "POST":
+        try:
+            file_picture = request.files["picture"]
+            uploaded_picture = images.save(file_picture)
+            form_name = request.form["name"]
+            form_item_type = request.form["item_type"]
+            form_rarity = request.form["rarity"]
+            form_price = request.form["price"]
+            item = Item(item_id, game_id, uploaded_picture, form_name, form_item_type, form_rarity, form_price)
+            db.update_item(item)
+            return render_template("item_update_result.html", game_id=game_id)
+        except Exception:
+            return redirect(url_for("item_update_page", game_id=game_id, item_id=item_id))
+    return render_template("item_update.html")
+
+
 @app.route("/store/<int:game_id>/<int:item_id>/item_purchase")
 @login_required
 def item_purchase_page(game_id, item_id):
