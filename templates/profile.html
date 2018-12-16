@@ -157,8 +157,8 @@
 
     <h2>Screenshots</h2>
     {% for shot in screenshots %}
-        <a href="{{url_for('screenshot', shot_id=shot.id, game_id=shot.game_id)}}">
-        <div class="gallery"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"><</div>
+        
+        <div class="gallery"><a href="{{url_for('screenshot', shot_id=shot.id, game_id=shot.game_id)}}"><img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}"></a>
         <div class="desc">{{shot.caption}}</div>
         <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
         <div>{{shot.game_title}}</div>
@@ -177,7 +177,7 @@
                     </form>
                 {% endif %}
             </div>
+        </div>
     {% endfor %}
-
-    <p><a href="{{ url_for('upload_profile_foto_page', user_id=user.id) }}">Change avatar</a></p>
+    <p style="clear: both;"><a href="{{ url_for('upload_profile_foto_page', user_id=user.id) }}">Change avatar</a></p>
 {% endblock %}
