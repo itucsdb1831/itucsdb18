@@ -541,10 +541,21 @@ def process_friend_operations():
 @app.route("/remove_friend/<int:user1_id>/<int:user2_id>", methods=["GET", 'POST'])
 @login_required
 def process_remove_friend(user1_id, user2_id):
-    operation = "REMOVE"
-    db.update_friend_variable(user1_id, user2_id, operation)
+    if user1_id == current_user.id:
+        operation = "REMOVE"
+        db.update_friend_variable(user1_id, user2_id, operation)
 
     return redirect(url_for("profile", user_id=user1_id))
+
+
+@app.route("/drop_game/<int:user_id>/<int:game_id>", methods=["GET", 'POST'])
+@login_required
+def process_drop_game(user_id, game_id):
+    if user_id == current_user.id:
+        db.remove_game_from_user(user_id, game_id)
+        db.set_num_of_shared_games_for_all_friends(user_id)
+
+    return redirect(url_for("profile", user_id=user_id))
 
 
 if __name__ == "__main__":
