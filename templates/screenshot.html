@@ -8,8 +8,8 @@
     <img src="{{images.url(shot.name)}}" alt="A Screenshot of {{shot.game_title}}">
     <div>{{shot.caption}}</div>
     <div>(Added: <span class="timeobj">{{shot.date_added.timestamp()*1000}}</span>)</div>
-    <div>{{shot.game_title}}</div>
-
+    <div>Game: <a href="{{url_for('game_page', game_id=shot.game_id)}}">{{shot.game_title}}</a></div>
+    <div>User: <a href="{{url_for('profile', user_id=shot.user_id)}}">{{shot.user_name}}</a></div>
     <div>
         <h3>Comments</h3>
         <ul>
