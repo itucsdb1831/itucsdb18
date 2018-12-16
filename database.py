@@ -305,7 +305,7 @@ class Database:
     def initialize_profile_foto(self, user_id):
         self.connect()
 
-        statement = "INSERT INTO PROFILE_FOTOS (USER_ID) VALUES %s"
+        statement = "INSERT INTO PROFILE_FOTOS (USER_ID) VALUES (%s)"
         data = [user_id]
         query = statement, data
         self.query_database(query)
