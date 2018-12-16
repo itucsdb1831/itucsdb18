@@ -172,8 +172,8 @@ if __name__ == "__main__":
     connection = dbapi2.connect(dsn)
     cursor = connection.cursor()
 
-    # for statement in INIT_STATEMENTS:
-    #     cursor.execute(statement)
+    for statement in INIT_STATEMENTS:
+        cursor.execute(statement)
 
     password = "asdf"
     hashed_password = hasher.hash(password)
