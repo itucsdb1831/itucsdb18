@@ -35,7 +35,7 @@
             <ul>
                 {% for screenshot in screenshots %}
                     <li><p>{{ screenshot[1] }} uploaded a screenshot for {{ screenshot[2] }}:</p>
-                        <p><img src="{{ images.url(screenshot[0]) }}"></p>
+                        <p><img src="{{ images.url(screenshot[0]) }}" height="461" width="820"></p>
                         <p>({{ screenshot[3] }})</p>
                     </li>
                 {% endfor %}

@@ -289,6 +289,20 @@ def game_add_page():
     return render_template("game_add.html")
 
 
+@app.route("/game_edit/<int:game_id>", methods=['GET', 'POST'])
+@login_required
+def game_edit_page(game_id):
+    if request.method == "POST":
+        new_genre = request.form["genre"]
+        new_age_restriction = request.form["age_restriction"]
+        new_price = request.form["price"]
+        db.edit_game(game_id, new_genre, new_age_restriction, new_price)
+
+        return redirect(url_for("game_page", game_id=game_id))
+
+    return render_template("game_edit.html")
+
+
 @app.route("/store/<int:game_id>/item_add", methods=['GET', 'POST'])
 @login_required
 def item_add_page(game_id):
@@ -448,6 +462,7 @@ def process_friend_request_response():
 
     if request.form.get("response") == "accepted":
         db.add_friend(user_id_to, user_id_from)
+        db.remove_request(user_id_from, user_id_to)
         db.set_num_of_shared_games(user_id_to, user_id_from)
         db.set_num_of_shared_items(user_id_to, user_id_from)
         return jsonify({"fillerText": user_name_from + " has been added to your friends!"})
@@ -522,6 +537,27 @@ def process_friend_operations():
     response = db.update_friend_variable(user1_id, user2_id, operation)
 
     return jsonify({"responseText": response})
+
+
+@app.route("/remove_friend/<int:user1_id>/<int:user2_id>", methods=["GET", 'POST'])
+@login_required
+def process_remove_friend(user1_id, user2_id):
+    if user1_id == current_user.id:
+        operation = "REMOVE"
+        db.update_friend_variable(user1_id, user2_id, operation)
+
+    return redirect(url_for("profile", user_id=user1_id))
+
+
+@app.route("/drop_game/<int:user_id>/<int:game_id>", methods=["GET", 'POST'])
+@login_required
+def process_drop_game(user_id, game_id):
+    if user_id == current_user.id:
+        db.remove_game_from_user(user_id, game_id)
+        db.set_num_of_shared_games_for_all_friends(user_id)
+
+    return redirect(url_for("profile", user_id=user_id))
+
 
 if __name__ == "__main__":
     app.run()

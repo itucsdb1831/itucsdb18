@@ -48,6 +48,7 @@
                     {% else %}
                     <td id="favourite_game_button"><button onclick="addGameToFavourites({{ current_user.id }}, {{ game.game_id }})">Favourite</button></td>
                     {% endif %}
+                    <td><a href="{{ url_for('process_drop_game', user_id=current_user.id, game_id=game.game_id) }}">Drop</a></td>
                 </tr>
             {% endfor %}
         </table>
@@ -110,6 +111,7 @@
                 {% else %}
                     <td><button onclick="addFriendToFavourites({{ current_user.id }}, {{ friend.user2_id }})">Favourite</button></td>
                 {% endif %}
+                <td><a href="{{ url_for('process_remove_friend', user1_id=current_user.id, user2_id=friend.user2_id) }}">Remove</a></td>
             </tr>
         {% endfor %}
     </table>
