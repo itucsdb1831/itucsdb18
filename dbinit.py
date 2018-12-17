@@ -175,6 +175,12 @@ if __name__ == "__main__":
     for statement in INIT_STATEMENTS:
         cursor.execute(statement)
 
+    password = "1234"
+    hashed_password = hasher.hash(password)
+    statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES (%s, %s, %s)"
+    data = ("user", hashed_password, False)
+    cursor.execute(statement, data)
+
     password = "asdf"
     hashed_password = hasher.hash(password)
     statement = "INSERT INTO USERS(NAME, PASSWORD, IS_ADMIN) VALUES (%s, %s, %s)"
