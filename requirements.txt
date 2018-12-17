@@ -2,3 +2,5 @@ Flask>=1.0
 psycopg2-binary>=2.7
 gunicorn>=19.9
 passlib==1.7.1
+Flask-Uploads==0.2.1
+Flask-Login==0.4.1
