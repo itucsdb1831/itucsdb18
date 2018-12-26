@@ -312,6 +312,14 @@ class Database:
         return is_disliked
 
     def initialize_profile_photo(self, user_id):
+        """
+        When the user is created, initializes the profile photo to null which will be changed when the user uploads
+        a photo.
+
+        :type user_id: serial
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "INSERT INTO PROFILE_PHOTOS (USER_ID) VALUES (%s)"
@@ -322,6 +330,13 @@ class Database:
         self.disconnect()
 
     def change_profile_photo(self, profile_photo):
+        """
+        Changes the profile photo of the user.
+
+        :type profile_photo: ProfilePhoto object
+        :param profile_photo: all of the data about the photo uploaded by the user
+        :return:
+        """
         self.connect()
 
         statement = "UPDATE PROFILE_PHOTOS" \
@@ -334,6 +349,13 @@ class Database:
         self.disconnect()
 
     def get_profile_photo_of_user(self, user_id):
+        """
+        Returns the name of the profile photo of the user.
+
+        :type user_id: serial
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT NAME FROM PROFILE_PHOTOS WHERE USER_ID = %s"
@@ -418,6 +440,13 @@ class Database:
     # -------------------------------------------------------
 
     def add_game(self, game):
+        """
+        Adds the game to the GAMES table.
+
+        :type game: Game object
+        :param game: all of the data about the game to be added
+        :return:
+        """
         self.connect()
 
         statement = "INSERT INTO GAMES (TITLE, GENRE, AGE_RESTRICTION, PRICE) VALUES (%s, %s, %s, %s)"
@@ -428,6 +457,15 @@ class Database:
         self.disconnect()
 
     def edit_game(self, game_id, new_genre, new_age_restriction, new_price):
+        """
+        Changes the game's info.
+
+        :param game_id: id of the game to be changed
+        :param new_genre: new genre of the game
+        :param new_age_restriction: new age restriction of the game
+        :param new_price: new price of the game
+        :return:
+        """
         game = self.get_game(game_id)
 
         self.connect()
@@ -454,6 +492,12 @@ class Database:
         self.disconnect()
 
     def get_game(self, game_id):
+        """
+        Returns all of the data about the game.
+
+        :param game_id: id of the game
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM GAMES WHERE GAME_ID=%s"
@@ -471,6 +515,11 @@ class Database:
         return game
 
     def get_games(self):
+        """
+        Returns the list of every game in the database to be listed on the store.
+
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM GAMES"
@@ -484,6 +533,14 @@ class Database:
         return games
 
     def update_user_rating(self, game_id, user_id, new_rating):
+        """
+        Changes the user's existing rating on the game with the new one on the table RATING_VOTES.
+
+        :param game_id: id of the game that is rated
+        :param user_id: id of the user who rated
+        :param new_rating: new rating by the user
+        :return:
+        """
         self.connect()
 
         statement = "UPDATE RATING_VOTES" \
@@ -496,6 +553,14 @@ class Database:
         self.disconnect()
 
     def add_user_rating(self, game_id, user_id, rating):
+        """
+        Adds the user's rating of the game to the table RATING_VOTES.
+
+        :param game_id: id of the game that is rated
+        :param user_id: id of the user who rated
+        :param rating: rating by the user
+        :return:
+        """
         self.connect()
 
         statement = "INSERT INTO RATING_VOTES VALUES (%s, %s, %s)"
@@ -506,6 +571,16 @@ class Database:
         self.disconnect()
 
     def update_rating_of_game(self, game_id, user_id, new_rating, already_rated):
+        """
+        Adds the user's rating to the total and if it is the user's first time voting, increments the vote counter,
+        else keeps the vote counter the same.
+
+        :param game_id: id of the game that is rated
+        :param user_id: id of the user that rated
+        :param new_rating: new rating by the user
+        :param already_rated: if the user rated the game before or not
+        :return:
+        """
         self.connect()
 
         change_in_rating = new_rating
@@ -533,6 +608,13 @@ class Database:
         self.disconnect()
 
     def get_user_rating(self, game_id, user_id):
+        """
+        Returns the rating of the user for the game.
+
+        :param game_id: id of the game that is rated
+        :param user_id: id of the user who rated
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
@@ -548,6 +630,12 @@ class Database:
         return user_rating
 
     def is_already_rated(self, user_id, game_id):
+        """
+        Returns whether the user rated the game before or not.
+        :param user_id: id of the user
+        :param game_id: id of the game
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM RATING_VOTES WHERE (USER_ID = %s) AND (GAME_ID = %s)"
@@ -561,6 +649,12 @@ class Database:
         return already_rated
 
     def delete_game(self, game_id):
+        """
+        Deletes the game from the database.
+
+        :param game_id: id of the game to be deleted
+        :return:
+        """
         self.connect()
 
         statement = "DELETE FROM GAMES WHERE GAME_ID = %s"
@@ -575,6 +669,13 @@ class Database:
         self.disconnect()
 
     def add_game_to_user(self, game_id, user_id):
+        """
+        Adds the game to the user's library.
+
+        :param game_id: id of the game to be added
+        :param user_id: id of the user who purchased the game
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
@@ -594,6 +695,13 @@ class Database:
         return is_successful
 
     def remove_game_from_user(self, user_id, game_id):
+        """
+        Deletes the game from the user's library.
+
+        :param user_id: id of the user who owns the game
+        :param game_id: id of the game to be deleted
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM GAMES_OF_USERS WHERE (GAME_ID = %s) AND (USER_ID = %s)"
@@ -611,6 +719,14 @@ class Database:
         self.disconnect()
 
     def update_game_favourite_variable(self, user_id, game_id, operation):
+        """
+        Sets the game as a favourite of the user or resets it.
+
+        :param user_id: id of the user
+        :param game_id: id of the game
+        :param operation: if the game is to be favourited or unfavourited
+        :return:
+        """
         self.connect()
 
         if operation == "ADD":
@@ -629,6 +745,12 @@ class Database:
         self.disconnect()
 
     def get_games_of_user(self, user_id):
+        """
+        Returns all of the games of the user.
+
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM GAMES_OF_USERS WHERE USER_ID = %s"
@@ -647,6 +769,13 @@ class Database:
         return games
 
     def get_num_of_shared_games(self, user1_id, user2_id):
+        """
+        Returns the number of games owned by both friends.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :return:
+        """
         self.connect()
 
         statement = "SELECT COUNT(*) FROM (" \
@@ -664,6 +793,13 @@ class Database:
         return num_of_shared_games
 
     def get_num_of_shared_items(self, user1_id, user2_id):
+        """
+        Returns the number of items owned by both friends.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :return:
+        """
         self.connect()
 
         statement = "SELECT COUNT(*) FROM (" \
@@ -681,6 +817,13 @@ class Database:
         return num_of_shared_items
 
     def set_num_of_shared_games(self, user1_id, user2_id):
+        """
+        Sets the number of games owned by both friends.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :return:
+        """
         num_of_shared_games = self.get_num_of_shared_games(user1_id, user2_id)
 
         self.connect()
@@ -699,6 +842,13 @@ class Database:
         self.disconnect()
 
     def set_num_of_shared_items(self, user1_id, user2_id):
+        """
+        Sets the number of items owned by both friends.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :return:
+        """
         num_of_shared_items = self.get_num_of_shared_items(user1_id, user2_id)
 
         self.connect()
@@ -717,18 +867,37 @@ class Database:
         self.disconnect()
 
     def set_num_of_shared_games_for_all_friends(self, user_id):
+        """
+        Sets the number of games owned by both friends, between every friend of the user and the user themselves.
+
+        :param user_id: id of the user
+        :return:
+        """
         friends_of_user = self.get_friends(user_id)
 
         for friend in friends_of_user:
             self.set_num_of_shared_games(user_id, friend.user2_id)
 
     def set_num_of_shared_items_for_all_friends(self, user_id):
+        """
+        Sets the number of items owned by both friends, between every friend of the user and the user themselves.
+
+        :param user_id: id of the user
+        :return:
+        """
         friends_of_user = self.get_friends(user_id)
 
         for friend in friends_of_user:
             self.set_num_of_shared_items(user_id, friend.user2_id)
 
     def increment_time_played(self, user_id, game_id):
+        """
+        Increments the play time of the game owned by the user.
+
+        :param user_id: id of the user who owns the game
+        :param game_id: id of the game
+        :return:
+        """
         self.connect()
 
         statement = "UPDATE GAMES_OF_USERS" \
@@ -741,6 +910,12 @@ class Database:
         self.disconnect()
 
     def check_code(self, code):
+        """
+        Returns whether the entered balance code is valid or not.
+
+        :param code: balance code entered by the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM BALANCE_CODES WHERE CODE = %s"
@@ -754,6 +929,12 @@ class Database:
         return is_valid
 
     def add_balance_to_user(self, user_id):
+        """
+        Adds 100$ to the user's balance.
+
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "UPDATE USERS" \
@@ -766,6 +947,13 @@ class Database:
         self.disconnect()
 
     def decrease_balance_of_user(self, user_id, amount):
+        """
+        Subtracts the amount from the user's balance.
+
+        :param user_id: id of the user
+        :param amount: amount of money to be subtracted
+        :return:
+        """
         self.connect()
 
         statement = "UPDATE USERS" \
@@ -1000,6 +1188,13 @@ class Database:
     # -------------------------------------------------------
 
     def send_friend_request(self, user_id_from, user_id_to):
+        """
+        Adds the friend request to the database.
+
+        :param user_id_from: id of the user who sent the request
+        :param user_id_to: id of the user who received the request
+        :return:
+        """
         user_name_from = self.get_user(user_id_from).user_name
         user_name_to = self.get_user(user_id_to).user_name
         self.connect()
@@ -1012,6 +1207,13 @@ class Database:
         self.disconnect()
 
     def add_friend(self, user1_id, user2_id):
+        """
+        Adds the users as friends to the database.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :return:
+        """
         user2_name = self.get_user(user2_id).user_name
         user1_name = self.get_user(user1_id).user_name
         self.connect()
@@ -1029,6 +1231,12 @@ class Database:
         self.disconnect()
 
     def get_received_friend_requests(self, user_id_to):
+        """
+        Returns every friend request sent to the user.
+
+        :param user_id_to: id of the user
+        :return:
+        """
         self.connect()
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
         data = [user_id_to]
@@ -1047,6 +1255,12 @@ class Database:
         return requests
 
     def get_sent_friend_requests(self, user_id_from):
+        """
+        Returns every friend request sent by the user.
+
+        :param user_id_from: id of the user
+        :return:
+        """
         self.connect()
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_FROM = %s"
         data = [user_id_from]
@@ -1065,6 +1279,13 @@ class Database:
         return requests
 
     def remove_request(self, user_id_from, user_id_to):
+        """
+        Removes the sent friend request from the database.
+
+        :param user_id_from: id of the user who sent the request
+        :param user_id_to: id of the user who received the request
+        :return:
+        """
         self.connect()
 
         statement = "DELETE FROM FRIEND_REQUESTS WHERE (USER_ID_FROM = %s) AND (USER_ID_TO = %s)"
@@ -1075,6 +1296,12 @@ class Database:
         self.disconnect()
 
     def get_friends(self, user_id):
+        """
+        Returns the list of the friends of the user.
+
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM FRIENDS WHERE USER1_ID = %s"
@@ -1094,6 +1321,13 @@ class Database:
         return friends
 
     def check_if_already_friends(self, user1_id, user2_id):
+        """
+        Returns whether the users are already friends or not.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM FRIENDS WHERE (USER1_ID = %s) AND (USER2_ID = %s)"
@@ -1107,6 +1341,13 @@ class Database:
         return are_friends
 
     def check_friend_request(self, user_id_from, user_id_to):
+        """
+        Returns if the user already sent the friend request to the other user.
+
+        :param user_id_from: id of the user who sent the request
+        :param user_id_to: id of the user who received the request
+        :return:
+        """
         self.connect()
 
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE (USER_ID_FROM = %s) AND (USER_ID_TO = %s)"
@@ -1120,6 +1361,12 @@ class Database:
         return already_sent
       
     def get_all_reviews_of_user_for_community(self, user_id):
+        """
+        Returns the list of reviews made by the user to be displayed on the community page.
+
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT USER_ID, GAME_ID, CONTENT, ADDED FROM REVIEWS WHERE USER_ID = %s"
@@ -1138,6 +1385,12 @@ class Database:
         return reviews
 
     def get_all_screenshots_of_user_for_community(self, user_id):
+        """
+        Returns the list of screenshots uploaded by the user to be displayed on the community page.
+
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT NAME, USER_ID, GAME_ID, DATE_ADDED FROM SCREENSHOTS WHERE USER_ID = %s"
@@ -1156,6 +1409,12 @@ class Database:
         return screenshots
 
     def get_all_not_blocked_friends_for_community(self, user_id):
+        """
+        Returns the list of friends of the user who are not blocked by the user.
+
+        :param user_id: id of the user
+        :return:
+        """
         self.connect()
 
         statement = "SELECT USER2_ID FROM FRIENDS WHERE (USER1_ID = %s) AND (IS_BLOCKED = FALSE)"
@@ -1171,6 +1430,14 @@ class Database:
         return not_blocked_friends
 
     def update_friend_variable(self, user1_id, user2_id, operation):
+        """
+        Handles the favourite/unfavourite, block/unblock and remove operations related to friends.
+
+        :param user1_id: id of user 1
+        :param user2_id: id of user 2
+        :param operation: favourite/unfavourite, block/unblock or remove
+        :return:
+        """
         self.connect()
 
         response = None
