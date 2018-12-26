@@ -9,7 +9,7 @@ Welcome to ITUCSDB1831's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   emreekici
+   ÖmerEmreEkici
 
 Indices and tables
 ==================
