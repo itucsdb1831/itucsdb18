@@ -174,6 +174,11 @@ def process_likes_dislikes():
 @app.route("/profile/<int:user_id>/upload_profile_photo", methods=["GET", "POST"])
 @login_required
 def upload_profile_photo_page(user_id):
+    """
+    Serves the page and handles the operation for uploading a profile photo by the user.
+    :param user_id: id of the user
+    :return: user's profile page
+    """
     if request.method == "GET":
         return render_template("upload_profile_photo.html", user_id=user_id)
 
@@ -231,6 +236,10 @@ def screenshot(game_id, shot_id):
 
 @app.route("/store", methods=['GET', 'POST'])
 def store_page():
+    """
+    Serves the page and handles the operation for viewing and deleting games.
+    :return: the store page
+    """
     if request.method == "GET":
         games = db.get_games()
         return render_template("store.html", games=games)
@@ -243,6 +252,10 @@ def store_page():
 @app.route("/community", methods=['GET'])
 @login_required
 def community_page():
+    """
+    Serves the page for viewing the activities of unblocked friends.
+    :return: the community page
+    """
     not_blocked_friends_of_user = db.get_all_not_blocked_friends_for_community(current_user.id)
 
     reviews = []
@@ -262,6 +275,11 @@ def community_page():
 
 @app.route("/store/<int:game_id>", methods=['GET', 'POST'])
 def game_page(game_id):
+    """
+    Serves game specific page and handles the operations for deleting items.
+    :param game_id: id of the game
+    :return: the game page
+    """
     if request.method == 'POST':
         form_item_ids = request.form.getlist("item_ids")
         for form_item_id in form_item_ids:
@@ -281,6 +299,10 @@ def game_page(game_id):
 @app.route("/game_add", methods=['GET', 'POST'])
 @login_required
 def game_add_page():
+    """
+    Serves the game adding page for the admin and handles the operation for adding the game to the database.
+    :return: not_allowed for non admins, game_add page or the result page
+    """
     if not current_user.is_admin:
         return render_template('not_allowed.html')
 
@@ -298,6 +320,11 @@ def game_add_page():
 @app.route("/game_edit/<int:game_id>", methods=['GET', 'POST'])
 @login_required
 def game_edit_page(game_id):
+    """
+    Serves the page for editing the game and handles the operations for editing the game.
+    :param game_id: id of the game
+    :return: game page or game_edit page
+    """
     if request.method == "POST":
         new_genre = request.form["genre"]
         new_age_restriction = request.form["age_restriction"]
@@ -409,6 +436,10 @@ def screenshot_comment_edit_result_page(game_id, screenshot_id):
 @app.route("/game_add_result")
 @login_required
 def game_add_page_result_page():
+    """
+    Serves the pages for the result of adding a game.
+    :return: not_allowed for non-admins or the result page
+    """
     if not current_user.is_admin:
         return render_template('not_allowed.html')
     return render_template("game_add_result.html")
@@ -417,6 +448,11 @@ def game_add_page_result_page():
 @app.route("/store/<int:game_id>/game_rate", methods=['GET', 'POST'])
 @login_required
 def game_rate_page(game_id):
+    """
+    Serves the page and handles the operation for rating a game.
+    :param game_id: id of the game
+    :return: game rating page or the result page
+    """
     if request.method == "POST":
         form_rating = request.form["rating"]
         already_rated = db.is_already_rated(current_user.id, game_id)
@@ -428,6 +464,11 @@ def game_rate_page(game_id):
 @app.route("/store/<int:game_id>/game_purchase")
 @login_required
 def game_purchase_page(game_id):
+    """
+    Serves the page and handles the operation for purchasing a game.
+    :param game_id: id of the game
+    :return: game purchase page
+    """
     game = db.get_game(game_id)
     return render_template("game_purchase.html", game=game)
 
@@ -435,6 +476,13 @@ def game_purchase_page(game_id):
 @app.route("/store/<int:game_id>/game_purchase_result")
 @login_required
 def game_purchase_result_page(game_id):
+    """
+    Serves the page for the result of the purchasing of a game and handles the operations of decreasing the user's
+    balance, adding the game to the user's account and setting thr number of shared games between the user and
+    all of their friends.
+    :param game_id: id of the game
+    :return: the result page for purchasing the game
+    """
     game = db.get_game(game_id)
     success = False
     if current_user.is_admin or current_user.balance >= game.price:
@@ -448,6 +496,11 @@ def game_purchase_result_page(game_id):
 @app.route("/profile/code_enter", methods=['GET', 'POST'])
 @login_required
 def code_enter_page():
+    """
+    Serves the pages code_enter and the result and handles the operations of checking the validity of the
+    code and adding the amount to the user's balance.
+    :return: the code enter or the result page
+    """
     if request.method == "POST":
         form_code = request.form["code"]
         valid = db.check_code(form_code)
@@ -462,6 +515,12 @@ def code_enter_page():
 @app.route("/profile/process_friend_request_response", methods=['POST'])
 @login_required
 def process_friend_request_response():
+    """
+    Processes the response given to a friend request. If the user has accepted the request, adds them as friends
+    to the database, removes the request to the database, and sets the number of shared games and items variables
+    correctly. If the request was  or cancelled, removes the friend request from the database.
+    :return: the result of the response as text
+    """
     user_id_from = request.form.get("user_id_from")
     user_id_to = request.form.get("user_id_to")
     user_name_from = db.get_user(user_id_from).user_name
@@ -483,6 +542,12 @@ def process_friend_request_response():
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
 @login_required
 def friend_add_page():
+    """
+    Serves the page for adding a friend and handles the operation of checking if the friend request is valid. The request is
+    not valid if the users are already friends, if the user has sent a request to themselves or the user has already sent a
+    request before which is still pending.
+    :return: friend add page or the result page
+    """
     if request.method == "POST":
         form_user_name = request.form["user_name"]
         user_id_to = db.get_user_id(form_user_name)
@@ -509,6 +574,10 @@ def friend_add_page():
 @app.route("/profile/process_game_favouriting", methods=['POST'])
 @login_required
 def process_game_favouriting():
+    """
+    Processes the operations of favouriting or unfavouriting a game.
+    :return: the response text
+    """
     operation = request.form.get("operation")
     user_id = request.form.get("user_id")
     game_id = request.form.get("game_id")
@@ -524,6 +593,10 @@ def process_game_favouriting():
 @app.route("/profile/process_play_game", methods=['POST'])
 @login_required
 def process_play_game():
+    """
+    Processes the playing the game operation. Simply increments the play time by 1 hour.
+    :return: the incremented play time
+    """
     user_id = request.form.get("user_id")
     game_id = request.form.get("game_id")
     time_played = request.form.get("time_played")
@@ -536,6 +609,10 @@ def process_play_game():
 @app.route("/profile/process_friend_operations", methods=['POST'])
 @login_required
 def process_friend_operations():
+    """
+    Processes the operations related to friends, such as blocking, favouriting and removing the friend.
+    :return: the response text
+    """
     operation = request.form.get("operation")
     user1_id = request.form.get("user1_id")
     user2_id = request.form.get("user2_id")
@@ -548,6 +625,12 @@ def process_friend_operations():
 @app.route("/remove_friend/<int:user1_id>/<int:user2_id>", methods=["GET", 'POST'])
 @login_required
 def process_remove_friend(user1_id, user2_id):
+    """
+    Processes the removing friend operation.
+    :param user1_id: id of the user 1
+    :param user2_id: id of the user 2
+    :return: the profile page
+    """
     if user1_id == current_user.id:
         operation = "REMOVE"
         db.update_friend_variable(user1_id, user2_id, operation)
@@ -558,6 +641,12 @@ def process_remove_friend(user1_id, user2_id):
 @app.route("/drop_game/<int:user_id>/<int:game_id>", methods=["GET", 'POST'])
 @login_required
 def process_drop_game(user_id, game_id):
+    """
+    Processes the operation of user deleting a game from their library.
+    :param user_id: id of the user
+    :param game_id: id of the game
+    :return: the profile page
+    """
     if user_id == current_user.id:
         db.remove_game_from_user(user_id, game_id)
         db.set_num_of_shared_games_for_all_friends(user_id)

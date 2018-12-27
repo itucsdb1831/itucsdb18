@@ -12,6 +12,7 @@ from screenshot_comment import ScreenshotComment
 
 
 class Database:
+    """Database"""
     def __init__(self, dsn):
         self.dsn = dsn
         self.connection = None
@@ -318,7 +319,7 @@ class Database:
 
         :type user_id: serial
         :param user_id: id of the user
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -335,7 +336,7 @@ class Database:
 
         :type profile_photo: ProfilePhoto object
         :param profile_photo: all of the data about the photo uploaded by the user
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -354,7 +355,7 @@ class Database:
 
         :type user_id: serial
         :param user_id: id of the user
-        :return:
+        :return: name of the profile photo
         """
         self.connect()
 
@@ -445,7 +446,7 @@ class Database:
 
         :type game: Game object
         :param game: all of the data about the game to be added
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -464,7 +465,7 @@ class Database:
         :param new_genre: new genre of the game
         :param new_age_restriction: new age restriction of the game
         :param new_price: new price of the game
-        :return:
+        :return: nothing
         """
         game = self.get_game(game_id)
 
@@ -496,7 +497,7 @@ class Database:
         Returns all of the data about the game.
 
         :param game_id: id of the game
-        :return:
+        :return: the game
         """
         self.connect()
 
@@ -518,7 +519,7 @@ class Database:
         """
         Returns the list of every game in the database to be listed on the store.
 
-        :return:
+        :return: the list of all the games
         """
         self.connect()
 
@@ -539,7 +540,7 @@ class Database:
         :param game_id: id of the game that is rated
         :param user_id: id of the user who rated
         :param new_rating: new rating by the user
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -559,7 +560,7 @@ class Database:
         :param game_id: id of the game that is rated
         :param user_id: id of the user who rated
         :param rating: rating by the user
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -579,7 +580,7 @@ class Database:
         :param user_id: id of the user that rated
         :param new_rating: new rating by the user
         :param already_rated: if the user rated the game before or not
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -613,7 +614,7 @@ class Database:
 
         :param game_id: id of the game that is rated
         :param user_id: id of the user who rated
-        :return:
+        :return: rating made by the user
         """
         self.connect()
 
@@ -634,7 +635,7 @@ class Database:
         Returns whether the user rated the game before or not.
         :param user_id: id of the user
         :param game_id: id of the game
-        :return:
+        :return: if the game is already rated or not
         """
         self.connect()
 
@@ -653,7 +654,7 @@ class Database:
         Deletes the game from the database.
 
         :param game_id: id of the game to be deleted
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -674,7 +675,7 @@ class Database:
 
         :param game_id: id of the game to be added
         :param user_id: id of the user who purchased the game
-        :return:
+        :return: if the operation is successful or not
         """
         self.connect()
 
@@ -700,7 +701,7 @@ class Database:
 
         :param user_id: id of the user who owns the game
         :param game_id: id of the game to be deleted
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -725,7 +726,7 @@ class Database:
         :param user_id: id of the user
         :param game_id: id of the game
         :param operation: if the game is to be favourited or unfavourited
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -749,7 +750,7 @@ class Database:
         Returns all of the games of the user.
 
         :param user_id: id of the user
-        :return:
+        :return: the list of the games of the user
         """
         self.connect()
 
@@ -774,7 +775,7 @@ class Database:
 
         :param user1_id: id of user 1
         :param user2_id: id of user 2
-        :return:
+        :return: the number of shared games
         """
         self.connect()
 
@@ -798,7 +799,7 @@ class Database:
 
         :param user1_id: id of user 1
         :param user2_id: id of user 2
-        :return:
+        :return: the number of shared games
         """
         self.connect()
 
@@ -822,7 +823,7 @@ class Database:
 
         :param user1_id: id of user 1
         :param user2_id: id of user 2
-        :return:
+        :return: nothing
         """
         num_of_shared_games = self.get_num_of_shared_games(user1_id, user2_id)
 
@@ -847,7 +848,7 @@ class Database:
 
         :param user1_id: id of user 1
         :param user2_id: id of user 2
-        :return:
+        :return: nothing
         """
         num_of_shared_items = self.get_num_of_shared_items(user1_id, user2_id)
 
@@ -871,7 +872,7 @@ class Database:
         Sets the number of games owned by both friends, between every friend of the user and the user themselves.
 
         :param user_id: id of the user
-        :return:
+        :return: nothing
         """
         friends_of_user = self.get_friends(user_id)
 
@@ -883,7 +884,7 @@ class Database:
         Sets the number of items owned by both friends, between every friend of the user and the user themselves.
 
         :param user_id: id of the user
-        :return:
+        :return: nothing
         """
         friends_of_user = self.get_friends(user_id)
 
@@ -896,7 +897,7 @@ class Database:
 
         :param user_id: id of the user who owns the game
         :param game_id: id of the game
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -914,7 +915,7 @@ class Database:
         Returns whether the entered balance code is valid or not.
 
         :param code: balance code entered by the user
-        :return:
+        :return: if the code is valid or not
         """
         self.connect()
 
@@ -933,7 +934,7 @@ class Database:
         Adds 100$ to the user's balance.
 
         :param user_id: id of the user
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -952,7 +953,7 @@ class Database:
 
         :param user_id: id of the user
         :param amount: amount of money to be subtracted
-        :return:
+        :return: nothing
         """
         self.connect()
 
@@ -1193,7 +1194,7 @@ class Database:
 
         :param user_id_from: id of the user who sent the request
         :param user_id_to: id of the user who received the request
-        :return:
+        :return: nothing
         """
         user_name_from = self.get_user(user_id_from).user_name
         user_name_to = self.get_user(user_id_to).user_name
@@ -1212,7 +1213,7 @@ class Database:
 
         :param user1_id: id of user 1
         :param user2_id: id of user 2
-        :return:
+        :return: nothing
         """
         user2_name = self.get_user(user2_id).user_name
         user1_name = self.get_user(user1_id).user_name
@@ -1235,7 +1236,7 @@ class Database:
         Returns every friend request sent to the user.
 
         :param user_id_to: id of the user
-        :return:
+        :return: the list of the received friend requests
         """
         self.connect()
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_TO = %s"
@@ -1259,7 +1260,7 @@ class Database:
         Returns every friend request sent by the user.
 
         :param user_id_from: id of the user
-        :return:
+        :return: the list of the sent friend requests
         """
         self.connect()
         statement = "SELECT * FROM FRIEND_REQUESTS WHERE USER_ID_FROM = %s"
@@ -1284,7 +1285,7 @@ class Database:
 
         :param user_id_from: id of the user who sent the request
         :param user_id_to: id of the user who received the request
-        :return:
+        :return:  nothing
         """
         self.connect()
 
@@ -1300,7 +1301,7 @@ class Database:
         Returns the list of the friends of the user.
 
         :param user_id: id of the user
-        :return:
+        :return: the list of the friends
         """
         self.connect()
 
@@ -1326,7 +1327,7 @@ class Database:
 
         :param user1_id: id of user 1
         :param user2_id: id of user 2
-        :return:
+        :return: if the users are already friends or not
         """
         self.connect()
 
@@ -1346,7 +1347,7 @@ class Database:
 
         :param user_id_from: id of the user who sent the request
         :param user_id_to: id of the user who received the request
-        :return:
+        :return: if the friend request is already sent or not
         """
         self.connect()
 
@@ -1365,7 +1366,7 @@ class Database:
         Returns the list of reviews made by the user to be displayed on the community page.
 
         :param user_id: id of the user
-        :return:
+        :return: the list of the reviews by the user
         """
         self.connect()
 
@@ -1389,7 +1390,7 @@ class Database:
         Returns the list of screenshots uploaded by the user to be displayed on the community page.
 
         :param user_id: id of the user
-        :return:
+        :return: the list of the screenshots by the user
         """
         self.connect()
 
@@ -1413,7 +1414,7 @@ class Database:
         Returns the list of friends of the user who are not blocked by the user.
 
         :param user_id: id of the user
-        :return:
+        :return: the list of not blocked friends
         """
         self.connect()
 
@@ -1436,7 +1437,7 @@ class Database:
         :param user1_id: id of user 1
         :param user2_id: id of user 2
         :param operation: favourite/unfavourite, block/unblock or remove
-        :return:
+        :return: response text which is the name of the operation
         """
         self.connect()
 
