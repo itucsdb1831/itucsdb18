@@ -6,7 +6,7 @@ Welcome to itucsdb31's documentation!
 :Members:
 
    * Ömer Emre Ekici
-   * Member 2
+   * Cavit Özbay
    * Member 3
    * Member 4
    * Member 5
