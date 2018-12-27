@@ -173,7 +173,7 @@ def process_likes_dislikes():
 
 @app.route("/profile/<int:user_id>/upload_profile_photo", methods=["GET", "POST"])
 @login_required
-def upload_profile_photo_page(user_id):
+def upload_profile_photo_page(user_id):  # Emre
     """
     Serves the page and handles the operation for uploading a profile photo by the user.
     :param user_id: id of the user
@@ -235,7 +235,7 @@ def screenshot(game_id, shot_id):
 
 
 @app.route("/store", methods=['GET', 'POST'])
-def store_page():
+def store_page():  # Emre
     """
     Serves the page and handles the operation for viewing and deleting games.
     :return: the store page
@@ -251,7 +251,7 @@ def store_page():
 
 @app.route("/community", methods=['GET'])
 @login_required
-def community_page():
+def community_page():  # Emre
     """
     Serves the page for viewing the activities of unblocked friends.
     :return: the community page
@@ -274,7 +274,7 @@ def community_page():
 
 
 @app.route("/store/<int:game_id>", methods=['GET', 'POST'])
-def game_page(game_id):
+def game_page(game_id):  # Emre
     """
     Serves game specific page and handles the operations for deleting items.
     :param game_id: id of the game
@@ -298,7 +298,7 @@ def game_page(game_id):
 
 @app.route("/game_add", methods=['GET', 'POST'])
 @login_required
-def game_add_page():
+def game_add_page():  # Emre
     """
     Serves the game adding page for the admin and handles the operation for adding the game to the database.
     :return: not_allowed for non admins, game_add page or the result page
@@ -319,7 +319,7 @@ def game_add_page():
 
 @app.route("/game_edit/<int:game_id>", methods=['GET', 'POST'])
 @login_required
-def game_edit_page(game_id):
+def game_edit_page(game_id):  # Emre
     """
     Serves the page for editing the game and handles the operations for editing the game.
     :param game_id: id of the game
@@ -435,7 +435,7 @@ def screenshot_comment_edit_result_page(game_id, screenshot_id):
 
 @app.route("/game_add_result")
 @login_required
-def game_add_page_result_page():
+def game_add_page_result_page():  # Emre
     """
     Serves the pages for the result of adding a game.
     :return: not_allowed for non-admins or the result page
@@ -447,7 +447,7 @@ def game_add_page_result_page():
 
 @app.route("/store/<int:game_id>/game_rate", methods=['GET', 'POST'])
 @login_required
-def game_rate_page(game_id):
+def game_rate_page(game_id):  # Emre
     """
     Serves the page and handles the operation for rating a game.
     :param game_id: id of the game
@@ -463,7 +463,7 @@ def game_rate_page(game_id):
 
 @app.route("/store/<int:game_id>/game_purchase")
 @login_required
-def game_purchase_page(game_id):
+def game_purchase_page(game_id):  # Emre
     """
     Serves the page and handles the operation for purchasing a game.
     :param game_id: id of the game
@@ -475,7 +475,7 @@ def game_purchase_page(game_id):
 
 @app.route("/store/<int:game_id>/game_purchase_result")
 @login_required
-def game_purchase_result_page(game_id):
+def game_purchase_result_page(game_id):  # Emre
     """
     Serves the page for the result of the purchasing of a game and handles the operations of decreasing the user's
     balance, adding the game to the user's account and setting thr number of shared games between the user and
@@ -495,7 +495,7 @@ def game_purchase_result_page(game_id):
 
 @app.route("/profile/code_enter", methods=['GET', 'POST'])
 @login_required
-def code_enter_page():
+def code_enter_page():  # Emre
     """
     Serves the pages code_enter and the result and handles the operations of checking the validity of the
     code and adding the amount to the user's balance.
@@ -514,7 +514,7 @@ def code_enter_page():
 
 @app.route("/profile/process_friend_request_response", methods=['POST'])
 @login_required
-def process_friend_request_response():
+def process_friend_request_response():  # Emre
     """
     Processes the response given to a friend request. If the user has accepted the request, adds them as friends
     to the database, removes the request to the database, and sets the number of shared games and items variables
@@ -541,7 +541,7 @@ def process_friend_request_response():
 
 @app.route("/profile/friend_add", methods=['GET', 'POST'])
 @login_required
-def friend_add_page():
+def friend_add_page():  # Emre
     """
     Serves the page for adding a friend and handles the operation of checking if the friend request is valid. The request is
     not valid if the users are already friends, if the user has sent a request to themselves or the user has already sent a
@@ -573,7 +573,7 @@ def friend_add_page():
 
 @app.route("/profile/process_game_favouriting", methods=['POST'])
 @login_required
-def process_game_favouriting():
+def process_game_favouriting():  # Emre
     """
     Processes the operations of favouriting or unfavouriting a game.
     :return: the response text
@@ -592,7 +592,7 @@ def process_game_favouriting():
 
 @app.route("/profile/process_play_game", methods=['POST'])
 @login_required
-def process_play_game():
+def process_play_game():  # Emre
     """
     Processes the playing the game operation. Simply increments the play time by 1 hour.
     :return: the incremented play time
@@ -608,7 +608,7 @@ def process_play_game():
 
 @app.route("/profile/process_friend_operations", methods=['POST'])
 @login_required
-def process_friend_operations():
+def process_friend_operations():  # Emre
     """
     Processes the operations related to friends, such as blocking, favouriting and removing the friend.
     :return: the response text
@@ -624,7 +624,7 @@ def process_friend_operations():
 
 @app.route("/remove_friend/<int:user1_id>/<int:user2_id>", methods=["GET", 'POST'])
 @login_required
-def process_remove_friend(user1_id, user2_id):
+def process_remove_friend(user1_id, user2_id):  # Emre
     """
     Processes the removing friend operation.
     :param user1_id: id of the user 1
@@ -640,7 +640,7 @@ def process_remove_friend(user1_id, user2_id):
 
 @app.route("/drop_game/<int:user_id>/<int:game_id>", methods=["GET", 'POST'])
 @login_required
-def process_drop_game(user_id, game_id):
+def process_drop_game(user_id, game_id):  # Emre
     """
     Processes the operation of user deleting a game from their library.
     :param user_id: id of the user

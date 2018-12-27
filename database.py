@@ -312,7 +312,7 @@ class Database:
         self.disconnect()
         return is_disliked
 
-    def initialize_profile_photo(self, user_id):
+    def initialize_profile_photo(self, user_id):  # Emre
         """
         When the user is created, initializes the profile photo to null which will be changed when the user uploads
         a photo.
@@ -330,7 +330,7 @@ class Database:
 
         self.disconnect()
 
-    def change_profile_photo(self, profile_photo):
+    def change_profile_photo(self, profile_photo):  # Emre
         """
         Changes the profile photo of the user.
 
@@ -349,7 +349,7 @@ class Database:
 
         self.disconnect()
 
-    def get_profile_photo_of_user(self, user_id):
+    def get_profile_photo_of_user(self, user_id):  # Emre
         """
         Returns the name of the profile photo of the user.
 
@@ -440,7 +440,7 @@ class Database:
 
     # -------------------------------------------------------
 
-    def add_game(self, game):
+    def add_game(self, game):  # Emre
         """
         Adds the game to the GAMES table.
 
@@ -457,7 +457,7 @@ class Database:
 
         self.disconnect()
 
-    def edit_game(self, game_id, new_genre, new_age_restriction, new_price):
+    def edit_game(self, game_id, new_genre, new_age_restriction, new_price):  # Emre
         """
         Changes the game's info.
 
@@ -492,7 +492,7 @@ class Database:
 
         self.disconnect()
 
-    def get_game(self, game_id):
+    def get_game(self, game_id):  # Emre
         """
         Returns all of the data about the game.
 
@@ -515,7 +515,7 @@ class Database:
         self.disconnect()
         return game
 
-    def get_games(self):
+    def get_games(self):  # Emre
         """
         Returns the list of every game in the database to be listed on the store.
 
@@ -533,7 +533,7 @@ class Database:
             games.append(game_)
         return games
 
-    def update_user_rating(self, game_id, user_id, new_rating):
+    def update_user_rating(self, game_id, user_id, new_rating):  # Emre
         """
         Changes the user's existing rating on the game with the new one on the table RATING_VOTES.
 
@@ -553,7 +553,7 @@ class Database:
 
         self.disconnect()
 
-    def add_user_rating(self, game_id, user_id, rating):
+    def add_user_rating(self, game_id, user_id, rating):  # Emre
         """
         Adds the user's rating of the game to the table RATING_VOTES.
 
@@ -571,7 +571,7 @@ class Database:
 
         self.disconnect()
 
-    def update_rating_of_game(self, game_id, user_id, new_rating, already_rated):
+    def update_rating_of_game(self, game_id, user_id, new_rating, already_rated):  # Emre
         """
         Adds the user's rating to the total and if it is the user's first time voting, increments the vote counter,
         else keeps the vote counter the same.
@@ -608,7 +608,7 @@ class Database:
 
         self.disconnect()
 
-    def get_user_rating(self, game_id, user_id):
+    def get_user_rating(self, game_id, user_id):  # Emre
         """
         Returns the rating of the user for the game.
 
@@ -630,7 +630,7 @@ class Database:
         self.disconnect()
         return user_rating
 
-    def is_already_rated(self, user_id, game_id):
+    def is_already_rated(self, user_id, game_id):  # Emre
         """
         Returns whether the user rated the game before or not.
         :param user_id: id of the user
@@ -649,7 +649,7 @@ class Database:
         self.disconnect()
         return already_rated
 
-    def delete_game(self, game_id):
+    def delete_game(self, game_id):  # Emre
         """
         Deletes the game from the database.
 
@@ -669,7 +669,7 @@ class Database:
 
         self.disconnect()
 
-    def add_game_to_user(self, game_id, user_id):
+    def add_game_to_user(self, game_id, user_id):  # Emre
         """
         Adds the game to the user's library.
 
@@ -695,7 +695,7 @@ class Database:
         self.disconnect()
         return is_successful
 
-    def remove_game_from_user(self, user_id, game_id):
+    def remove_game_from_user(self, user_id, game_id):  # Emre
         """
         Deletes the game from the user's library.
 
@@ -719,7 +719,7 @@ class Database:
 
         self.disconnect()
 
-    def update_game_favourite_variable(self, user_id, game_id, operation):
+    def update_game_favourite_variable(self, user_id, game_id, operation):  # Emre
         """
         Sets the game as a favourite of the user or resets it.
 
@@ -745,7 +745,7 @@ class Database:
 
         self.disconnect()
 
-    def get_games_of_user(self, user_id):
+    def get_games_of_user(self, user_id):  # Emre
         """
         Returns all of the games of the user.
 
@@ -769,7 +769,7 @@ class Database:
         self.disconnect()
         return games
 
-    def get_num_of_shared_games(self, user1_id, user2_id):
+    def get_num_of_shared_games(self, user1_id, user2_id):  # Emre
         """
         Returns the number of games owned by both friends.
 
@@ -793,7 +793,7 @@ class Database:
         self.disconnect()
         return num_of_shared_games
 
-    def get_num_of_shared_items(self, user1_id, user2_id):
+    def get_num_of_shared_items(self, user1_id, user2_id):  # Emre
         """
         Returns the number of items owned by both friends.
 
@@ -817,7 +817,7 @@ class Database:
         self.disconnect()
         return num_of_shared_items
 
-    def set_num_of_shared_games(self, user1_id, user2_id):
+    def set_num_of_shared_games(self, user1_id, user2_id):  # Emre
         """
         Sets the number of games owned by both friends.
 
@@ -842,7 +842,7 @@ class Database:
 
         self.disconnect()
 
-    def set_num_of_shared_items(self, user1_id, user2_id):
+    def set_num_of_shared_items(self, user1_id, user2_id):  # Emre
         """
         Sets the number of items owned by both friends.
 
@@ -867,7 +867,7 @@ class Database:
 
         self.disconnect()
 
-    def set_num_of_shared_games_for_all_friends(self, user_id):
+    def set_num_of_shared_games_for_all_friends(self, user_id):  # Emre
         """
         Sets the number of games owned by both friends, between every friend of the user and the user themselves.
 
@@ -879,7 +879,7 @@ class Database:
         for friend in friends_of_user:
             self.set_num_of_shared_games(user_id, friend.user2_id)
 
-    def set_num_of_shared_items_for_all_friends(self, user_id):
+    def set_num_of_shared_items_for_all_friends(self, user_id):  # Emre
         """
         Sets the number of items owned by both friends, between every friend of the user and the user themselves.
 
@@ -891,7 +891,7 @@ class Database:
         for friend in friends_of_user:
             self.set_num_of_shared_items(user_id, friend.user2_id)
 
-    def increment_time_played(self, user_id, game_id):
+    def increment_time_played(self, user_id, game_id):  # Emre
         """
         Increments the play time of the game owned by the user.
 
@@ -910,7 +910,7 @@ class Database:
 
         self.disconnect()
 
-    def check_code(self, code):
+    def check_code(self, code):  # Emre
         """
         Returns whether the entered balance code is valid or not.
 
@@ -929,7 +929,7 @@ class Database:
         self.disconnect()
         return is_valid
 
-    def add_balance_to_user(self, user_id):
+    def add_balance_to_user(self, user_id):  # Emre
         """
         Adds 100$ to the user's balance.
 
@@ -947,7 +947,7 @@ class Database:
 
         self.disconnect()
 
-    def decrease_balance_of_user(self, user_id, amount):
+    def decrease_balance_of_user(self, user_id, amount):  # Emre
         """
         Subtracts the amount from the user's balance.
 
@@ -1188,7 +1188,7 @@ class Database:
 
     # -------------------------------------------------------
 
-    def send_friend_request(self, user_id_from, user_id_to):
+    def send_friend_request(self, user_id_from, user_id_to):  # Emre
         """
         Adds the friend request to the database.
 
@@ -1207,7 +1207,7 @@ class Database:
 
         self.disconnect()
 
-    def add_friend(self, user1_id, user2_id):
+    def add_friend(self, user1_id, user2_id):  # Emre
         """
         Adds the users as friends to the database.
 
@@ -1231,7 +1231,7 @@ class Database:
 
         self.disconnect()
 
-    def get_received_friend_requests(self, user_id_to):
+    def get_received_friend_requests(self, user_id_to):  # Emre
         """
         Returns every friend request sent to the user.
 
@@ -1255,7 +1255,7 @@ class Database:
         self.disconnect()
         return requests
 
-    def get_sent_friend_requests(self, user_id_from):
+    def get_sent_friend_requests(self, user_id_from):  # Emre
         """
         Returns every friend request sent by the user.
 
@@ -1279,7 +1279,7 @@ class Database:
         self.disconnect()
         return requests
 
-    def remove_request(self, user_id_from, user_id_to):
+    def remove_request(self, user_id_from, user_id_to):  # Emre
         """
         Removes the sent friend request from the database.
 
@@ -1296,7 +1296,7 @@ class Database:
 
         self.disconnect()
 
-    def get_friends(self, user_id):
+    def get_friends(self, user_id):  # Emre
         """
         Returns the list of the friends of the user.
 
@@ -1321,7 +1321,7 @@ class Database:
         self.disconnect()
         return friends
 
-    def check_if_already_friends(self, user1_id, user2_id):
+    def check_if_already_friends(self, user1_id, user2_id):  # Emre
         """
         Returns whether the users are already friends or not.
 
@@ -1341,7 +1341,7 @@ class Database:
         self.disconnect()
         return are_friends
 
-    def check_friend_request(self, user_id_from, user_id_to):
+    def check_friend_request(self, user_id_from, user_id_to):  # Emre
         """
         Returns if the user already sent the friend request to the other user.
 
@@ -1361,7 +1361,7 @@ class Database:
         self.disconnect()
         return already_sent
       
-    def get_all_reviews_of_user_for_community(self, user_id):
+    def get_all_reviews_of_user_for_community(self, user_id):  # Emre
         """
         Returns the list of reviews made by the user to be displayed on the community page.
 
@@ -1385,7 +1385,7 @@ class Database:
         self.disconnect()
         return reviews
 
-    def get_all_screenshots_of_user_for_community(self, user_id):
+    def get_all_screenshots_of_user_for_community(self, user_id):  # Emre
         """
         Returns the list of screenshots uploaded by the user to be displayed on the community page.
 
@@ -1409,7 +1409,7 @@ class Database:
         self.disconnect()
         return screenshots
 
-    def get_all_not_blocked_friends_for_community(self, user_id):
+    def get_all_not_blocked_friends_for_community(self, user_id):  # Emre
         """
         Returns the list of friends of the user who are not blocked by the user.
 
@@ -1430,7 +1430,7 @@ class Database:
         self.disconnect()
         return not_blocked_friends
 
-    def update_friend_variable(self, user1_id, user2_id, operation):
+    def update_friend_variable(self, user1_id, user2_id, operation):  # Emre
         """
         Handles the favourite/unfavourite, block/unblock and remove operations related to friends.
 
