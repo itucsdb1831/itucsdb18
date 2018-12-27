@@ -112,7 +112,7 @@ profile page).
 
    Review In a Game Page
 
-.. figure:: screenshotlinkingamepage.png
+.. figure:: sslinkingamepage.png
    :scale: 80 %
    :alt: Screenshot Link In a Game Page
 
