@@ -14,7 +14,7 @@ screenshots whereever appropriate**
 
 .. toctree::
 
-   member1
+   emreekici
    member2
    member3
    member4
