@@ -12,6 +12,8 @@ from screenshot_comment import ScreenshotComment
 
 
 class Database:
+    """Class that includes the database query functions.
+    """
     def __init__(self, dsn):
         self.dsn = dsn
         self.connection = None
@@ -37,6 +39,10 @@ class Database:
         self.connection.close()
 
     def insert_user(self, user_to_insert):
+        """Inserts a user into the table "USERS".
+        
+        :param User user_to_insert: User object to insert.
+        """
         self.connect()
 
         statement = """INSERT INTO USERS (NAME, PASSWORD) VALUES (%s, %s)"""
@@ -47,6 +53,10 @@ class Database:
         self.disconnect()
 
     def query_user_name(self, user_name):
+        """Selects all from the table "USERS" with the name user_name. Returns a User object for given user name if there is a row, returns None otherwise.
+        
+        :param str user_name: user name to select.
+        """
         self.connect()
 
         statement = """SELECT * FROM USERS WHERE NAME=%s"""
@@ -63,6 +73,10 @@ class Database:
         return user
 
     def get_user(self, user_id):
+        """Selects all from the table "USERS" with the user id user_id. Returns a User object for given userid if there is a row, returns None otherwise.
+        
+        :param int user_id: user id to select.
+        """
         self.connect()
 
         statement = """SELECT * FROM USERS WHERE USER_ID=%s"""
@@ -79,6 +93,10 @@ class Database:
         return user
 
     def get_user_id(self, user_name):
+        """Selects user id from the table "USERS" with the name user_name. Returns a User object for given user name if there is a row, returns None otherwise.
+        
+        :param str user_name: user name to select.
+        """
         self.connect()
 
         statement = "SELECT USER_ID FROM USERS WHERE NAME = %s"
@@ -96,6 +114,10 @@ class Database:
     
         
     def delete_user(self, user_id):
+        """Deletes all from the table "USERS" with the id user_id.
+
+        :param int user_id: user id to delete.
+        """
         self.connect()
 
         statement = "DELETE FROM USERS WHERE USER_ID=%s"
@@ -120,6 +142,10 @@ class Database:
         self.query_database(query)
 
     def insert_review(self, review):
+        """Inserts a review into the table "REVIEWS".
+        
+        :param Review review: Review object to insert.
+        """
         self.connect()
 
         self.update_users_review_count_for_game(review.user_id, review.game_id, "ADD")
@@ -132,6 +158,11 @@ class Database:
         self.disconnect()
     
     def get_reviews_of_user(self, user_id, cur_user_id):
+        """Selects all from the table "REVIEWS" and also the related game titles with the user id user_id. Checks each review if the user with the user id cur_user_id liked or disliked it. Returns a list of Review objects in descending order according to the addition time.
+        
+        :param int user_id: user id to select.
+        :param int cur_user_id: user id to check like/dislike situations.
+        """
         self.connect()
 
         statement = """SELECT REVIEW_ID, REVIEWS.GAME_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED, TITLE FROM (REVIEWS JOIN GAMES ON ((REVIEWS.GAME_ID=GAMES.GAME_ID) AND (REVIEWS.USER_ID=%s))) ORDER BY ADDED DESC"""
@@ -151,6 +182,11 @@ class Database:
         return reviews
 
     def get_reviews_of_game(self, game_id, cur_user_id):
+        """Selects all from the table "REVIEWS" and also the related user name with the game id game_id. Checks each review if the user with the user id cur_user_id liked or disliked it. Returns a list of Review objects in descending order according to the addition time.
+        
+        :param int game_id: game id to select.
+        :param int cur_user_id: user id to check like/dislike situations.
+        """
         self.connect()
 
         statement = """SELECT REVIEW_ID, REVIEWS.USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED, NAME FROM (REVIEWS JOIN USERS ON ((REVIEWS.USER_ID=USERS.USER_ID) AND (REVIEWS.GAME_ID=%s))) ORDER BY ADDED DESC"""
@@ -170,6 +206,11 @@ class Database:
         return reviews
     
     def get_prev_review(self, game_id, user_id):
+        """Selects all from the table "REVIEWS" with the game id game_id and user id user_id. Returns a list of Review objects. Intuitively list may have 1 object at most.
+        
+        :param int game_id: game id to select.
+        :param int user_id: user id to select.
+        """
         self.connect()
 
         statement = """SELECT REVIEW_ID, USER_ID, LABEL, CONTENT, ADDED, LIKES, DISLIKES, UPDATED FROM REVIEWS WHERE GAME_ID=%s AND USER_ID=%s"""
@@ -184,6 +225,10 @@ class Database:
         return reviews
     
     def update_review(self, review_id, label, content, edited):
+        """Updates reviews with review id review_id.
+        
+        :param int review_id: review id to update.
+        """
         self.connect()
 
         statement = """UPDATE REVIEWS SET CONTENT=%s, LABEL=%s, UPDATED=%s WHERE REVIEW_ID=%s"""
@@ -194,6 +239,10 @@ class Database:
         self.disconnect()
 
     def get_review(self, review_id):
+        """Selects all from the table "REVIEWS" with the review id review_id. Returns a Review object for given review id if there is a row, returns None otherwise.
+        
+        :param int review_id: review id to select.
+        """
         self.connect()
 
         statement = "SELECT * FROM REVIEWS WHERE REVIEW_ID = %s"
@@ -211,6 +260,10 @@ class Database:
         return review
     
     def delete_review(self, review_id):
+        """Deletes all rows from the table "REVIEWS" with the review id review_id. Also deletes the related rows from the tables "LIKES" and "DISLIKES".
+        
+        :param int review_id: review id to delete.
+        """
         review = self.get_review(review_id)
         self.update_users_review_count_for_game(review.user_id, review.game_id, "DELETE")  # *** BUGGED ***
 
@@ -234,6 +287,12 @@ class Database:
         self. disconnect()
     
     def add_like(self, entity_id, user_id, entity_type):
+        """Inserts a row into the table "LIKES" with given values.
+        
+        :param int user_id: User id that references the table "USERS".
+        :param str entity_type: Entity type may be either "REVIEWS" or "SCREENSHOTS".
+        :param int entity_id: Id that references the table given in the entity_type.
+        """
         self.connect()
         statement = """INSERT INTO LIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
         data = (entity_id, user_id, entity_type,)
@@ -248,6 +307,12 @@ class Database:
         self.disconnect()
     
     def remove_like(self, entity_id, user_id, entity_type):
+        """Deletes a row from the table "LIKES" with given values.
+        
+        :param int user_id: User id that references the table "USERS".
+        :param str entity_type: Entity type may be either "REVIEWS" or "SCREENSHOTS".
+        :param int entity_id: Id that references the table given in the entity_type.
+        """
         self.connect()
         statement = """DELETE FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
         data = (entity_id, user_id, entity_type,)
@@ -262,6 +327,12 @@ class Database:
         self.disconnect()
     
     def get_like_of_user(self, entity_id, user_id, entity_type):
+        """Selects all from the table "LIKES" with the given values. Returns True if there is a row, returns False otherwise.
+        
+        :param int user_id: User id that references the table "USERS".
+        :param str entity_type: Entity type may be either "REVIEWS" or "SCREENSHOTS".
+        :param int entity_id: Id that references the table given in the entity_type.
+        """
         self.connect()
         statement = """SELECT * FROM LIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
         data = (entity_id, user_id, entity_type,)
@@ -273,6 +344,12 @@ class Database:
         return is_liked
     
     def add_dislike(self, entity_id, user_id, entity_type):
+        """Inserts a row into the table "DISLIKES" with given values.
+        
+        :param int user_id: User id that references the table "USERS".
+        :param str entity_type: Entity type may be either "REVIEWS" or "SCREENSHOTS".
+        :param int entity_id: Id that references the table given in the entity_type.
+        """
         self.connect()
         statement = """INSERT INTO DISLIKES (ENTITY_ID, USER_ID, ENTITY_TYPE) VALUES (%s, %s, %s)"""
         data = (entity_id, user_id, entity_type,)
@@ -287,6 +364,12 @@ class Database:
         self.disconnect()
     
     def remove_dislike(self, entity_id, user_id, entity_type):
+        """Deletes a row from the table "DISLIKES" with given values.
+        
+        :param int user_id: User id that references the table "USERS".
+        :param str entity_type: Entity type may be either "REVIEWS" or "SCREENSHOTS".
+        :param int entity_id: Id that references the table given in the entity_type.
+        """
         self.connect()
         statement = """DELETE FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
         data = (entity_id, user_id, entity_type,)
@@ -301,6 +384,12 @@ class Database:
         self.disconnect()
     
     def get_dislike_of_user(self, entity_id, user_id, entity_type):
+        """Selects all from the table "DISLIKES" with the given values. Returns True if there is a row, returns False otherwise.
+        
+        :param int user_id: User id that references the table "USERS".
+        :param str entity_type: Entity type may be either "REVIEWS" or "SCREENSHOTS".
+        :param int entity_id: Id that references the table given in the entity_type.
+        """
         self.connect()
         statement = """SELECT * FROM DISLIKES WHERE ((ENTITY_ID=%s) AND (USER_ID=%s) AND (ENTITY_TYPE=%s))"""
         data = (entity_id, user_id, entity_type,)
@@ -371,6 +460,10 @@ class Database:
         return profile_photo_name
     
     def insert_screenshot(self, ss):
+        """Inserts a screenshot into the table "SCREENSHOTS".
+        
+        :param Screenshot ss: Screenshot object to insert.
+        """
         self.connect()
 
         statement = "INSERT INTO SCREENSHOTS (NAME, USER_ID, GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES) VALUES (%s, %s, %s, %s, %s, %s, %s)"
@@ -380,6 +473,11 @@ class Database:
         self.disconnect()
     
     def get_screenshots_of_user(self, user_id, cur_user_id):
+        """Selects all from the table "SCREENSHOTS" and also the related game titles with the user id user_id. Checks each screenshot if the user with the user id cur_user_id liked or disliked it. Returns a list of Screenshot objects in descending order according to the addition time.
+        
+        :param int user_id: user id to select.
+        :param int cur_user_id: user id to check like/dislike situations.
+        """
         self.connect()
 
         statement = "SELECT NAME, SCREENSHOTS.GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID, TITLE FROM (SCREENSHOTS JOIN GAMES ON ((SCREENSHOTS.GAME_ID=GAMES.GAME_ID) AND (SCREENSHOTS.USER_ID=%s))) ORDER BY DATE_ADDED DESC"
@@ -398,6 +496,11 @@ class Database:
         return sss
     
     def get_screenshots_of_game(self, game_id, cur_user_id):
+        """Selects all from the table "SCREENSHOTS" and also the related user names with the game id game_id. Checks each screenshot if the user with the user id cur_user_id liked or disliked it. Returns a list of Screenshot objects in descending order according to the addition time.
+        
+        :param int game_id: game id to select.
+        :param int cur_user_id: user id to check like/dislike situations.
+        """
         self.connect()
         statement = "SELECT SCREENSHOTS.NAME, SCREENSHOTS.GAME_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SHOT_ID, USERS.NAME FROM (SCREENSHOTS JOIN USERS ON ((SCREENSHOTS.USER_ID=USERS.USER_ID) AND (SCREENSHOTS.GAME_ID=%s))) ORDER BY DATE_ADDED DESC"
         data = (str(game_id),)
@@ -415,6 +518,10 @@ class Database:
         return sss
     
     def get_screenshot(self, shot_id):
+        """Selects all from the table "SCREENSHOTS" with the shot id shot_id. Returns a Screenshot object for given shot id.
+        
+        :param int shot_id: shot id to select.
+        """
         self.connect()
 
         statement = "SELECT SCREENSHOTS.NAME, SCREENSHOTS.USER_ID, CAPTION, DATE_ADDED, LIKES, DISLIKES, SCREENSHOTS.GAME_ID, GAMES.TITLE, USERS.NAME FROM (USERS JOIN (SCREENSHOTS JOIN GAMES ON SCREENSHOTS.GAME_ID=GAMES.GAME_ID) ON USERS.USER_ID=SCREENSHOTS.USER_ID) WHERE SHOT_ID=%s"
@@ -428,6 +535,10 @@ class Database:
         return shot
     
     def delete_screenshot(self, shot_name):
+        """Deletes all rows from the table "SCREENSHOTS" with the shot id shot_id.
+        
+        :param int review_id: review id to delete.
+        """
         self.connect()
 
         statement = "DELETE FROM SCREENSHOTS WHERE NAME=%s"
