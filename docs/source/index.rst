@@ -1,11 +1,11 @@
-Welcome to itucsdbNN's documentation!
+Welcome to itucsdb31's documentation!
 =====================================
 
-:Team: Team Name
+:Team: Mercury
 
 :Members:
 
-   * Member 1
+   * Ömer Emre Ekici
    * Member 2
    * Member 3
    * Member 4
