@@ -8,6 +8,9 @@ Database Design
 
 **include the E/R diagram(s)**
 
+.. image:: diagram_emre.jpeg
+    :width: 600
+
 Code
 ----
 

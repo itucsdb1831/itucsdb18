@@ -89,3 +89,5 @@ original information is preserved.
     :width: 600
 
 The data of the game has been changed
+
+*
