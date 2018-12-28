@@ -14,7 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, 'C:\Users\Baran\Documents\GitHub\Mercury')
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
