@@ -9,7 +9,7 @@ and their related functions.
 
 * The "GAMES" table contains the games available on the website.
 * The "GAMES_OF_USERS" table contains the games owned by a user.
-* The "FRIEND" table contains the data of two users who are friends.
+* The "FRIENDS" table contains the data of two users who are friends.
 * The "FRIEND_REQUESTS" table contains the requests sent by a user
 to another user.
 * The "PROFILE_PHOTOS" table contains the user's profile photo data.
