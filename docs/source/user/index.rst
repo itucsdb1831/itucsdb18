@@ -16,7 +16,5 @@ screenshots whereever appropriate**
 
    emreekici
    cavitozbay
-   member3
-   member4
-   member5
+   baranugur
    
