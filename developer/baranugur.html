@@ -1,0 +1,665 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parts Implemented by Lütfi Baran Uğur &mdash; ITUCSDB1831  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Parts Implemented by Cavit Özbay" href="cavitozbay.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ITUCSDB1831
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="emreekici.html">Parts Implemented by Ömer Emre Ekici</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cavitozbay.html">Parts Implemented by Cavit Özbay</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Parts Implemented by Lütfi Baran Uğur</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-design">Database Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-database_baran">Database Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-server_baran">Server Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ITUCSDB1831</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+        
+      <li>Parts Implemented by Lütfi Baran Uğur</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/developer/baranugur.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parts-implemented-by-lutfi-baran-ugur">
+<h1>Parts Implemented by Lütfi Baran Uğur<a class="headerlink" href="#parts-implemented-by-lutfi-baran-ugur" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="database-design">
+<h2>Database Design<a class="headerlink" href="#database-design" title="Permalink to this headline">¶</a></h2>
+<p>For this project, I have worked on the tables
+ITEMS, ITEMS_OF_USERS &amp; SCREENSHOT_COMMENTS
+and their related functions.</p>
+<a class="reference internal image-reference" href="../_images/diagram_baran.jpeg"><img alt="../_images/diagram_baran.jpeg" src="../_images/diagram_baran.jpeg" style="width: 600px;" /></a>
+<ul class="simple">
+<li>The “ITEMS” table contains the items available for a game on the website.</li>
+<li>The “ITEMS_OF_USERS” table contains the items owned by a user.</li>
+<li>The “SCREENSHOT_COMMENTS” table contains the comments made on a screenshot.</li>
+</ul>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-database_baran">
+<span id="database-functions"></span><h3>Database Functions<a class="headerlink" href="#module-database_baran" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="database_baran.Database">
+<em class="property">class </em><code class="descclassname">database_baran.</code><code class="descname">Database</code><span class="sig-paren">(</span><em>dsn</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="database_baran.Database.add_item">
+<code class="descname">add_item</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.add_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an item for a game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> – Item to add to the game.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.add_item_to_user">
+<code class="descname">add_item_to_user</code><span class="sig-paren">(</span><em>item_id</em>, <em>game_id</em>, <em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.add_item_to_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an item to a user.</p>
+<p>If the user already owns the item, it only increments the level of the item.
+Otherwise it adds the item to the user. In this case,
+it also increments the number of items that the user owns for a game specified with a game_id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>item_id</strong> – ID of the item.</li>
+<li><strong>game_id</strong> – ID of the game.</li>
+<li><strong>user_id</strong> – ID of the user.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.add_screenshot_comment">
+<code class="descname">add_screenshot_comment</code><span class="sig-paren">(</span><em>user_id</em>, <em>game_id</em>, <em>screenshot_id</em>, <em>content</em>, <em>reaction</em>, <em>font_size</em>, <em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.add_screenshot_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a comment for a screenshot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> – ID of the user who leaves the comment.</li>
+<li><strong>game_id</strong> – ID of the game where the screenshot belongs.</li>
+<li><strong>screenshot_id</strong> – ID of the screenshot.</li>
+<li><strong>content</strong> – The content of the comment.</li>
+<li><strong>reaction</strong> – Reaction of the comment.</li>
+<li><strong>font_size</strong> – Font size of the comment.</li>
+<li><strong>color</strong> – Color of the comment.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.check_item_ownership">
+<code class="descname">check_item_ownership</code><span class="sig-paren">(</span><em>item_id</em>, <em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.check_item_ownership" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a user owns an item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>item_id</strong> – ID of the item</li>
+<li><strong>user_id</strong> – ID of the user</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">True if the user owns the item, False otherwise.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.delete_item">
+<code class="descname">delete_item</code><span class="sig-paren">(</span><em>item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.delete_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes an item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item_id</strong> – ID of the item to be deleted.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.delete_item_from_user">
+<code class="descname">delete_item_from_user</code><span class="sig-paren">(</span><em>item_id</em>, <em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.delete_item_from_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes an item from a user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>item_id</strong> – ID of the item to be deleted.</li>
+<li><strong>user_id</strong> – ID of the user that the item will be deleted from.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.delete_screenshot_comment">
+<code class="descname">delete_screenshot_comment</code><span class="sig-paren">(</span><em>comment_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.delete_screenshot_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes a comment from a screenshot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comment_id</strong> – ID of the comment to be deleted.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.edit_item">
+<code class="descname">edit_item</code><span class="sig-paren">(</span><em>item_id</em>, <em>new_color</em>, <em>new_status</em>, <em>is_equipped</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.edit_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the attributes of an item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>item_id</strong> – ID of the item.</li>
+<li><strong>new_color</strong> – The new color attribute of the item.</li>
+<li><strong>new_status</strong> – The new status attribute of the item.</li>
+<li><strong>is_equipped</strong> – The attribute of an item that specifies if the item is being equipped.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.get_item">
+<code class="descname">get_item</code><span class="sig-paren">(</span><em>game_id</em>, <em>item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.get_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets a single item for a game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – ID of the game.</li>
+<li><strong>item_id</strong> – ID of the item.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.get_items">
+<code class="descname">get_items</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.get_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all items for the game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – ID of the game that the items will be listed for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of items of the game.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.get_items_of_user">
+<code class="descname">get_items_of_user</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.get_items_of_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all the items that a user owns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – ID of the user.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of items that the user owns.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.get_screenshot_comments">
+<code class="descname">get_screenshot_comments</code><span class="sig-paren">(</span><em>game_id</em>, <em>screenshot_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.get_screenshot_comments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets all of the comments for a screenshot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – ID of the game.</li>
+<li><strong>screenshot_id</strong> – ID of the screenshot.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of comments for the screenshot.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.update_item">
+<code class="descname">update_item</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.update_item" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates an item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> – An instance of the Item class that is used to update the existing game.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_baran.Database.update_screenshot_comment">
+<code class="descname">update_screenshot_comment</code><span class="sig-paren">(</span><em>comment_id</em>, <em>user_id</em>, <em>game_id</em>, <em>screenshot_id</em>, <em>content</em>, <em>reaction</em>, <em>font_size</em>, <em>color</em><span class="sig-paren">)</span><a class="headerlink" href="#database_baran.Database.update_screenshot_comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Edits a screenshot comment.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>comment_id</strong> – ID of the comment to be edited.</li>
+<li><strong>user_id</strong> – ID of the user who left the comment.</li>
+<li><strong>game_id</strong> – ID of the game.</li>
+<li><strong>screenshot_id</strong> – ID of the screenshot.</li>
+<li><strong>content</strong> – Edited content for the comment.</li>
+<li><strong>reaction</strong> – Edited reaction for the comment.</li>
+<li><strong>font_size</strong> – Edited font size for the comment.</li>
+<li><strong>color</strong> – Edited color for the comment.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-server_baran">
+<span id="server-functions"></span><h3>Server Functions<a class="headerlink" href="#module-server_baran" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="server_baran.Server">
+<em class="property">class </em><code class="descclassname">server_baran.</code><code class="descname">Server</code><a class="headerlink" href="#server_baran.Server" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="server_baran.Server.item_add_page">
+<code class="descname">item_add_page</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.item_add_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the item adding page for the admin and handles adding an item to the database.</p>
+<p>If the request method is “POST”,
+then tries to create an instance of Item which will be added to the database and displays the result page,
+if any exception is raised, then refreshes the current page without any database operations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – ID for the game that the item is to be added</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Item adding page or the result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.item_edit_page">
+<code class="descname">item_edit_page</code><span class="sig-paren">(</span><em>item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.item_edit_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the item editing page for admins.</p>
+<p>If the method is “POST”,
+then gets item attributes from the request form and edits the item in the database according to those attributes
+and displays the result page.
+Otherwise, displays the item editing page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item_id</strong> – ID of the item to be edited</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Editing page or result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.item_edit_result_page">
+<code class="descname">item_edit_result_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.item_edit_result_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the result page for item editing.
+:return: Item edit result page</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.item_purchase_page">
+<code class="descname">item_purchase_page</code><span class="sig-paren">(</span><em>game_id</em>, <em>item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.item_purchase_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page for purchasing an item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – ID of the game to which the item belongs</li>
+<li><strong>item_id</strong> – ID of the item to be purchased</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Item purchase page</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.item_purchase_result_page">
+<code class="descname">item_purchase_result_page</code><span class="sig-paren">(</span><em>item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.item_purchase_result_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the resulting page after the user purchases (or levels up) an item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item_id</strong> – ID of the item purchased (or leveled up)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Item purchasing result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.item_update_page">
+<code class="descname">item_update_page</code><span class="sig-paren">(</span><em>game_id</em>, <em>item_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.item_update_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the item updating page for the admin and handles updating an item in the database.</p>
+<p>If the request method is “POST”,
+then tries to create an instance of Item which will be used to update the database and displays the result page.
+if any exception is raised, then refreshes the current page without any database operations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – ID of the game for which the item will be updated</li>
+<li><strong>item_id</strong> – ID of the item to be updated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Item updating page or the result page</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.screenshot_comment_edit_page">
+<code class="descname">screenshot_comment_edit_page</code><span class="sig-paren">(</span><em>game_id</em>, <em>screenshot_id</em>, <em>comment_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.screenshot_comment_edit_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the comment editing page for a screenshot.</p>
+<p>If the method is “POST”,
+then gets the attributes of the comment from the request form and updates the comment in the database and displays the result page.
+Otherwise, displays the comment editing page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – ID of the game from where the screenshot is taken</li>
+<li><strong>screenshot_id</strong> – ID of the screenshot for which the comment is made</li>
+<li><strong>comment_id</strong> – ID of the comment.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Screenshot comment editing page or the result page</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_baran.Server.screenshot_comment_edit_result_page">
+<code class="descname">screenshot_comment_edit_result_page</code><span class="sig-paren">(</span><em>game_id</em>, <em>screenshot_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_baran.Server.screenshot_comment_edit_result_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the result of the comment editing page</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – ID of the game from where the screenshot is taken</li>
+<li><strong>screenshot_id</strong> – ID of the screenshot for which the comment is edited</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Screenshot comment editing result page</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="cavitozbay.html" class="btn btn-neutral" title="Parts Implemented by Cavit Özbay" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, ITUCSDB1831
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

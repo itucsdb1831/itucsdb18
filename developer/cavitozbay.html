@@ -1,0 +1,799 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parts Implemented by Cavit Özbay &mdash; ITUCSDB1831  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parts Implemented by Lütfi Baran Uğur" href="baranugur.html" />
+    <link rel="prev" title="Parts Implemented by Ömer Emre Ekici" href="emreekici.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ITUCSDB1831
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="emreekici.html">Parts Implemented by Ömer Emre Ekici</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Parts Implemented by Cavit Özbay</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-design">Database Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#server-functions">Server Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#database-functions">Database Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#javascript-functions">Javascript Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="baranugur.html">Parts Implemented by Lütfi Baran Uğur</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ITUCSDB1831</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+        
+      <li>Parts Implemented by Cavit Özbay</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/developer/cavitozbay.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parts-implemented-by-cavit-ozbay">
+<h1>Parts Implemented by Cavit Özbay<a class="headerlink" href="#parts-implemented-by-cavit-ozbay" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="database-design">
+<h2>Database Design<a class="headerlink" href="#database-design" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<img alt="ER Diagram" src="../_images/db.png" />
+</div>
+<p>An important point that needs an explanation is the relationship of
+the tables LIKES and DISLIKES with others. First of all, they are not
+actually supertypes of the tables REVIEWS and SCREENSHOTS. However
+they are replicate supertype relationship. If the likes and dislikes
+datas of REVIEWS and SCREENSHOTS are kept in the same table, they have
+to have unique foreign keys. That means, a row of LIKES or DISLIKES
+tables has to reference one and only one row in other two tables
+(REVIEWS and SCREENSHOTS). Otherwise, we can not differentiate if a
+row of the LIKES or DISLIKES references to either the REVIEWS or the
+SCREENSHOTS. In order to provide that, a supertype of REVIEWS and
+SCREENSHOTS that has only a primary key may be implemented, and that
+keys may be used to reference as a foreign key from only one of the
+REVIEWS and SCREENSHOTS (that foreign key also is the primary key for
+that table). Instead of that, it is used an additional column called
+ENTITY_TYPE in the tables LIKES and DISLIKES in order to determine the
+table that is referenced from each row.</p>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="server-functions">
+<h3>Server Functions<a class="headerlink" href="#server-functions" title="Permalink to this headline">¶</a></h3>
+<p><strong>server.add_review(game_id)</strong></p>
+<blockquote>
+<div><p>Since each user may have only one review for each game, first two
+line checks if the user have a previous review for the game or not.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">prev_review</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_prev_review</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+<span class="n">duplicate</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prev_review</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span>
+</pre></div>
+</div>
+<p>If request method is “POST”, processes insertion or update. If not,
+renders the template with empty form or form within the previous
+review data according to bool value duplicate.</p>
+</div></blockquote>
+<p><strong>server.add_screenshot(game_id)</strong></p>
+<blockquote>
+<div>Handles with screenshot addition. If method is “GET”, displays the
+addition page. If method is “POST”, tries to save image into the
+file system by using flask-uploads, tries to insert the related
+data into the database, and displays the result page about those
+two operations’ success.</div></blockquote>
+<p><strong>server.delete_review()</strong></p>
+<blockquote>
+<div>Delete the review</div></blockquote>
+<p><strong>server.delete_screenshot()</strong></p>
+<blockquote>
+<div>Deletes the screenshot. Since the image file is not stored in the
+database, it must be deleted additionally.</div></blockquote>
+<p><strong>server.delete_user(user_id)</strong></p>
+<blockquote>
+<div>Deletes the user with id user_id if current user is able to do it.
+Redirects to the home page.</div></blockquote>
+<p><strong>server.game_page(game_id)</strong></p>
+<blockquote>
+<div><p>Since the visitors also may access to a game page, reviews and
+screenshots may not be displayed for all cases. They are displayed
+only when the current user is logged in.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">current_user</span><span class="o">.</span><span class="n">is_authenticated</span><span class="p">:</span>
+    <span class="n">reviews</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_reviews_of_game</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">screenshots</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">get_screenshots_of_game</span><span class="p">(</span><span class="n">game_id</span><span class="p">,</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><strong>server.login()</strong></p>
+<blockquote>
+<div>If method is “POST” and request values are valid, makes user logged
+in and redirects to the profile. Else renders “login.html”.</div></blockquote>
+<p><strong>server.process_likes_dislikes()</strong></p>
+<blockquote>
+<div><p>Handles with all like and dislike operations. It is called with an
+AJAX request. Like operation procedure is below (the similar
+procedure is followed for dislikes).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;sit4process&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;like&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;like_sit&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;Like&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entity_type&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">add_like</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entity_id&quot;</span><span class="p">),</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entity_type&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;like_sit&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="s2">&quot;You Liked It&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entity_type&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">entities</span><span class="p">:</span>
+            <span class="n">db</span><span class="o">.</span><span class="n">remove_like</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entity_id&quot;</span><span class="p">),</span> <span class="n">current_user</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;entity_type&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>“sit4process” determines that if request is made for like or dislike
+operation. “like_sit” determines that if request is made for liking
+or removing a like. “entity_type” determines the type entity that the
+subject of operation. It has to be in the list entities. After the
+operations, a JSON object is returned.</p>
+</div></blockquote>
+<p><strong>server.profile(user_id)</strong></p>
+<blockquote>
+<div>My parts in this function is only covers getting the reviews and
+screenshots of the profile owner and pass them to the
+“profile.html”. They are displayed in all cases.</div></blockquote>
+<p><strong>server.screenshot(game_id, shot_id)</strong></p>
+<blockquote>
+<div>Screenshot is displayed with full size and its other features
+(likes, dislikes, addition time etc.).</div></blockquote>
+<p><strong>server.sign_up_result()</strong></p>
+<blockquote>
+<div>It is used for handling with sign up requests and and it is
+accessible only with the “POST” method.</div></blockquote>
+</div>
+<div class="section" id="database-functions">
+<h3>Database Functions<a class="headerlink" href="#database-functions" title="Permalink to this headline">¶</a></h3>
+<p><strong>class database.Database(dsn)</strong></p>
+<blockquote>
+<div><p>Fuctions that I query database are:</p>
+<p><strong>add_dislike(entity_id, user_id, entity_type)</strong></p>
+<blockquote>
+<div><p>Inserts a row into the table “DISLIKES” with given values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – User id that references the table “USERS”.</li>
+<li><strong>entity_type</strong> (<em>str</em>) – Entity type may be either “REVIEWS” or “SCREENSHOTS”.</li>
+<li><strong>entity_id</strong> (<em>int</em>) – Id that references the table given in the entity_type.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>add_like(entity_id, user_id, entity_type)</strong></p>
+<blockquote>
+<div><p>Inserts a row into the table “LIKES” with given values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – User id that references the table “USERS”.</li>
+<li><strong>entity_type</strong> (<em>str</em>) – Entity type may be either “REVIEWS” or “SCREENSHOTS”.</li>
+<li><strong>entity_id</strong> (<em>int</em>) – Id that references the table given in the entity_type.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>delete_review(review_id)</strong></p>
+<blockquote>
+<div><p>Deletes all rows from the table “REVIEWS” with the review id
+review_id. Also deletes the related rows from the tables “LIKES”
+and “DISLIKES”.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>review_id</strong> (<em>int</em>) – review id to delete.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>delete_screenshot(shot_name)</strong></p>
+<blockquote>
+<div><p>Deletes all rows from the table “SCREENSHOTS” with the shot id
+shot_id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>review_id</strong> (<em>int</em>) – review id to delete.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>delete_user(user_id)</strong></p>
+<blockquote>
+<div><p>Deletes all from the table “USERS” with the id user_id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>int</em>) – user id to delete.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_dislike_of_user(entity_id, user_id, entity_type)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “DISLIKES” with the given values.
+Returns True if there is a row, returns False otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – User id that references the table “USERS”.</li>
+<li><strong>entity_type</strong> (<em>str</em>) – Entity type may be either “REVIEWS” or “SCREENSHOTS”.</li>
+<li><strong>entity_id</strong> (<em>int</em>) – Id that references the table given in the entity_type.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_like_of_user(entity_id, user_id, entity_type)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “LIKES” with the given values.
+Returns True if there is a row, returns False otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – User id that references the table “USERS”.</li>
+<li><strong>entity_type</strong> (<em>str</em>) – Entity type may be either “REVIEWS” or “SCREENSHOTS”.</li>
+<li><strong>entity_id</strong> (<em>int</em>) – Id that references the table given in the entity_type.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_prev_review(game_id, user_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “REVIEWS” with the game id game_id
+and user id user_id. Returns a list of Review objects.
+Intuitively list may have 1 object at most.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game_id</strong> (<em>int</em>) – game id to select.</li>
+<li><strong>user_id</strong> (<em>int</em>) – user id to select.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_review(review_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “REVIEWS” with the review id
+review_id. Returns a Review object for given review id if there
+is a row, returns None otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>review_id</strong> (<em>int</em>) – review id to select.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_reviews_of_game(game_id, cur_user_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “REVIEWS” and also the related user
+name with the game id game_id. Checks each review if the user
+with the user id cur_user_id liked or disliked it. Returns a
+list of Review objects in descending order according to the
+addition time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game_id</strong> (<em>int</em>) – game id to select.</li>
+<li><strong>cur_user_id</strong> (<em>int</em>) – user id to check like/dislike situations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_reviews_of_user(user_id, cur_user_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “REVIEWS” and also the related game
+titles with the user id user_id. Checks each review if the user
+with the user id cur_user_id liked or disliked it. Returns a
+list of Review objects in descending order according to the
+addition time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – user id to select.</li>
+<li><strong>cur_user_id</strong> (<em>int</em>) – user id to check like/dislike situations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_screenshot(shot_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “SCREENSHOTS” with the shot id
+shot_id. Returns a Screenshot object for given shot id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>shot_id</strong> (<em>int</em>) – shot id to select.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_screenshots_of_game(game_id, cur_user_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “SCREENSHOTS” and also the related
+user names with the game id game_id. Checks each screenshot if
+the user with the user id cur_user_id liked or disliked it.
+Returns a list of Screenshot objects in descending order
+according to the addition time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>game_id</strong> (<em>int</em>) – game id to select.</li>
+<li><strong>cur_user_id</strong> (<em>int</em>) – user id to check like/dislike situations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_screenshots_of_user(user_id, cur_user_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “SCREENSHOTS” and also the related
+game titles with the user id user_id. Checks each screenshot if
+the user with the user id cur_user_id liked or disliked it.
+Returns a list of Screenshot objects in descending order
+according to the addition time.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – user id to select.</li>
+<li><strong>cur_user_id</strong> (<em>int</em>) – user id to check like/dislike situations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_user(user_id)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “USERS” with the user id user_id.
+Returns a User object for given userid if there is a row,
+returns None otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>int</em>) – user id to select.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>get_user_id(user_name)</strong></p>
+<blockquote>
+<div><p>Selects user id from the table “USERS” with the name user_name.
+Returns a User object for given user name if there is a row,
+returns None otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_name</strong> (<em>str</em>) – user name to select.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>insert_review(review)</strong></p>
+<blockquote>
+<div><p>Inserts a review into the table “REVIEWS”.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>review</strong> (<em>Review</em>) – Review object to insert.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>insert_screenshot(ss)</strong></p>
+<blockquote>
+<div><p>Inserts a screenshot into the table “SCREENSHOTS”.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ss</strong> (<em>Screenshot</em>) – Screenshot object to insert.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>insert_user(user_to_insert)</strong></p>
+<blockquote>
+<div><p>Inserts a user into the table “USERS”.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_to_insert</strong> (<em>User</em>) – User object to insert.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>query_user_name(user_name)</strong></p>
+<blockquote>
+<div><p>Selects all from the table “USERS” with the name user_name.
+Returns a User object for given user name if there is a row,
+returns None otherwise.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_name</strong> (<em>str</em>) – user name to select.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>remove_dislike(entity_id, user_id, entity_type)</strong></p>
+<blockquote>
+<div><p>Deletes a row from the table “DISLIKES” with given values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – User id that references the table “USERS”.</li>
+<li><strong>entity_type</strong> (<em>str</em>) – Entity type may be either “REVIEWS” or “SCREENSHOTS”.</li>
+<li><strong>entity_id</strong> (<em>int</em>) – Id that references the table given in the entity_type.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>remove_like(entity_id, user_id, entity_type)</strong></p>
+<blockquote>
+<div><p>Deletes a row from the table “LIKES” with given values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>user_id</strong> (<em>int</em>) – User id that references the table “USERS”.</li>
+<li><strong>entity_type</strong> (<em>str</em>) – Entity type may be either “REVIEWS” or “SCREENSHOTS”.</li>
+<li><strong>entity_id</strong> (<em>int</em>) – Id that references the table given in the entity_type.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><strong>update_review(review_id, label, content, edited)</strong></p>
+<blockquote>
+<div><p>Updates reviews with review id review_id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>review_id</strong> (<em>int</em>) – review id to update.</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div></blockquote>
+</div>
+<div class="section" id="javascript-functions">
+<h3>Javascript Functions<a class="headerlink" href="#javascript-functions" title="Permalink to this headline">¶</a></h3>
+<p><strong>timezone_handler.js</strong></p>
+<p>Handles with displaying the time features of reviews and screenshots
+according to local time. It listens for the members of “timeobj”
+class.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">span</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;timeobj&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">review</span><span class="o">.</span><span class="n">added</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span><span class="o">*</span><span class="mi">1000</span><span class="p">}}</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The members of the class includes the time value in milliseconds in
+utc timezone.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">document</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.timeobj&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">var</span> <span class="n">d</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Date</span><span class="p">();</span>
+        <span class="n">d</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="n">parseInt</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">innerHTML</span><span class="p">)</span> <span class="o">-</span> <span class="n">d</span><span class="o">.</span><span class="n">getTimezoneOffset</span><span class="p">()</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">);</span>
+
+        <span class="n">x</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">toLocaleDateString</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">d</span><span class="o">.</span><span class="n">toLocaleTimeString</span><span class="p">()</span><span class="o">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>timezone_handler takes that value, converts it to the local time, and
+change the innerHTML of object with the calculated value.</p>
+<p><strong>likesdislikes_handler.js</strong></p>
+<p>Handles with like and dislike operations by making AJAX requests.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">toggle_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">===</span> <span class="s2">&quot;Like&quot;</span><span class="p">){</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">innerHTML</span><span class="o">=</span><span class="s2">&quot;You Liked It&quot;</span><span class="p">;</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.dislikes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">button</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">button</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">&amp;&amp;</span> <span class="n">button</span><span class="o">.</span><span class="n">value</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="k">else</span><span class="p">{</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">innerHTML</span><span class="o">=</span><span class="s2">&quot;Like&quot;</span><span class="p">;</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.dislikes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">button</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">button</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">&amp;&amp;</span> <span class="n">button</span><span class="o">.</span><span class="n">value</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">button</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>toggle_like function toggles the innerHTML of the like button between
+“Like” and “You Liked It”. Also, disables the related “Dislike”
+button. toggle_dislike makes the similar operations for “Dislike”
+button.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">document</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="s1">&#39;DOMContentLoaded&#39;</span><span class="p">,</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s1">&#39;.likes&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">button</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">button</span><span class="o">.</span><span class="n">onclick</span> <span class="o">=</span> <span class="n">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+            <span class="n">const</span> <span class="n">like_sit</span> <span class="o">=</span> <span class="n">button</span><span class="o">.</span><span class="n">innerHTML</span><span class="p">;</span>
+            <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/process_likes_dislikes/&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For each member of the “likes” class a new request is created on click
+situation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>            <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;entity_id&#39;</span><span class="p">,</span> <span class="n">button</span><span class="o">.</span><span class="n">value</span><span class="p">);</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;sit4process&#39;</span><span class="p">,</span> <span class="s2">&quot;like&quot;</span><span class="p">);</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;like_sit&#39;</span><span class="p">,</span> <span class="n">like_sit</span><span class="p">);</span>
+            <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;entity_type&#39;</span><span class="p">,</span> <span class="n">button</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span><span class="p">);</span>
+            <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.dislikes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">button</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">&amp;&amp;</span> <span class="n">button</span><span class="o">.</span><span class="n">value</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">x</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+            <span class="p">});</span>
+            <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.likes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">button</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">&amp;&amp;</span> <span class="n">button</span><span class="o">.</span><span class="n">value</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">x</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+            <span class="p">});</span>
+
+            <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+            <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">};</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>New FormData() object keeps the proper data. Before the sending data,
+both “Like” and “Dislike” buttons are disabled.Then, the FormData is
+sent.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">success</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">toggle_like</span><span class="p">(</span><span class="n">button</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.likes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">button</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">ent_type</span> <span class="o">&amp;&amp;</span> <span class="n">button</span><span class="o">.</span><span class="n">value</span> <span class="o">===</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">x</span><span class="o">.</span><span class="n">disabled</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>On load situation after the sending request, JSON object is parsed and
+is looked for if the operation was successful. If it is, buttons are
+edited according to new situation.</p>
+<p>For dislike operation, the similar process is followed.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="baranugur.html" class="btn btn-neutral float-right" title="Parts Implemented by Lütfi Baran Uğur" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="emreekici.html" class="btn btn-neutral" title="Parts Implemented by Ömer Emre Ekici" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, ITUCSDB1831
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

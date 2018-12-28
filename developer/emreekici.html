@@ -1,0 +1,1503 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Parts Implemented by Ömer Emre Ekici &mdash; ITUCSDB1831  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parts Implemented by Cavit Özbay" href="cavitozbay.html" />
+    <link rel="prev" title="Developer Guide" href="index.html" /> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ITUCSDB1831
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user/index.html">User Guide</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Developer Guide</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Parts Implemented by Ömer Emre Ekici</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#database-design">Database Design</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#code">Code</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#module-database_emre">Database Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-server_emre">Server Functions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#javascript-functions">Javascript Functions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cavitozbay.html">Parts Implemented by Cavit Özbay</a></li>
+<li class="toctree-l2"><a class="reference internal" href="baranugur.html">Parts Implemented by Lütfi Baran Uğur</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ITUCSDB1831</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Developer Guide</a> &raquo;</li>
+        
+      <li>Parts Implemented by Ömer Emre Ekici</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/developer/emreekici.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="parts-implemented-by-omer-emre-ekici">
+<h1>Parts Implemented by Ömer Emre Ekici<a class="headerlink" href="#parts-implemented-by-omer-emre-ekici" title="Permalink to this headline">¶</a></h1>
+<p>For this project, I have worked on the tables GAMES, GAMES_OF_USERS &amp;
+FRIENDS, FRIEND_REQUESTS, PROFILE_PHOTOS, BALANCE_CODES, RATING_VOTES
+and their related functions.</p>
+<div class="section" id="database-design">
+<h2>Database Design<a class="headerlink" href="#database-design" title="Permalink to this headline">¶</a></h2>
+<a class="reference internal image-reference" href="../_images/diagram_emre.jpeg"><img alt="../_images/diagram_emre.jpeg" src="../_images/diagram_emre.jpeg" style="width: 600px;" /></a>
+<ul class="simple">
+<li>The “GAMES” table contains the games available on the website.</li>
+<li>The “GAMES_OF_USERS” table contains the games owned by a user.</li>
+<li>The “FRIENDS” table contains the data of two users who are friends.</li>
+<li>The “FRIEND_REQUESTS” table contains the requests sent by a user
+to another user.</li>
+<li>The “PROFILE_PHOTOS” table contains the user’s profile photo data.</li>
+<li>The “RATING_VOTES” table contains the ratings a user made for each
+game.</li>
+</ul>
+</div>
+<div class="section" id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-database_emre">
+<span id="database-functions"></span><h3>Database Functions<a class="headerlink" href="#module-database_emre" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="database_emre.Database">
+<em class="property">class </em><code class="descclassname">database_emre.</code><code class="descname">Database</code><span class="sig-paren">(</span><em>dsn</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="database_emre.Database.add_balance_to_user">
+<code class="descname">add_balance_to_user</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.add_balance_to_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds 100$ to the user’s balance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.add_friend">
+<code class="descname">add_friend</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.add_friend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the users as friends to the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.add_game">
+<code class="descname">add_game</code><span class="sig-paren">(</span><em>game</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.add_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the game to the GAMES table.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game</strong> (<em>Game object</em>) – all of the data about the game to be added</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.add_game_to_user">
+<code class="descname">add_game_to_user</code><span class="sig-paren">(</span><em>game_id</em>, <em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.add_game_to_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the game to the user’s library.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – id of the game to be added</li>
+<li><strong>user_id</strong> – id of the user who purchased the game</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">if the operation is successful or not</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.add_user_rating">
+<code class="descname">add_user_rating</code><span class="sig-paren">(</span><em>game_id</em>, <em>user_id</em>, <em>rating</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.add_user_rating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the user’s rating of the game to the table RATING_VOTES.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – id of the game that is rated</li>
+<li><strong>user_id</strong> – id of the user who rated</li>
+<li><strong>rating</strong> – rating by the user</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.change_profile_photo">
+<code class="descname">change_profile_photo</code><span class="sig-paren">(</span><em>profile_photo</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.change_profile_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the profile photo of the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>profile_photo</strong> (<em>ProfilePhoto object</em>) – all of the data about the photo uploaded by the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.check_code">
+<code class="descname">check_code</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.check_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the entered balance code is valid or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>code</strong> – balance code entered by the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">if the code is valid or not</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.check_friend_request">
+<code class="descname">check_friend_request</code><span class="sig-paren">(</span><em>user_id_from</em>, <em>user_id_to</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.check_friend_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns if the user already sent the friend request to the other user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id_from</strong> – id of the user who sent the request</li>
+<li><strong>user_id_to</strong> – id of the user who received the request</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">if the friend request is already sent or not</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.check_if_already_friends">
+<code class="descname">check_if_already_friends</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.check_if_already_friends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the users are already friends or not.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">if the users are already friends or not</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.decrease_balance_of_user">
+<code class="descname">decrease_balance_of_user</code><span class="sig-paren">(</span><em>user_id</em>, <em>amount</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.decrease_balance_of_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Subtracts the amount from the user’s balance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> – id of the user</li>
+<li><strong>amount</strong> – amount of money to be subtracted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.delete_game">
+<code class="descname">delete_game</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.delete_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the game from the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game to be deleted</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.edit_game">
+<code class="descname">edit_game</code><span class="sig-paren">(</span><em>game_id</em>, <em>new_genre</em>, <em>new_age_restriction</em>, <em>new_price</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.edit_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the game’s info.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – id of the game to be changed</li>
+<li><strong>new_genre</strong> – new genre of the game</li>
+<li><strong>new_age_restriction</strong> – new age restriction of the game</li>
+<li><strong>new_price</strong> – new price of the game</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_all_not_blocked_friends_for_community">
+<code class="descname">get_all_not_blocked_friends_for_community</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_all_not_blocked_friends_for_community" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of friends of the user who are not blocked by the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of not blocked friends</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_all_reviews_of_user_for_community">
+<code class="descname">get_all_reviews_of_user_for_community</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_all_reviews_of_user_for_community" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of reviews made by the user to be displayed on the community page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of the reviews by the user</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_all_screenshots_of_user_for_community">
+<code class="descname">get_all_screenshots_of_user_for_community</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_all_screenshots_of_user_for_community" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of screenshots uploaded by the user to be displayed on the community page.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of the screenshots by the user</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_friends">
+<code class="descname">get_friends</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_friends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of the friends of the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of the friends</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_game">
+<code class="descname">get_game</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all of the data about the game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the game</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_games">
+<code class="descname">get_games</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_games" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the list of every game in the database to be listed on the store.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the list of all the games</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_games_of_user">
+<code class="descname">get_games_of_user</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_games_of_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all of the games of the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of the games of the user</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_num_of_shared_games">
+<code class="descname">get_num_of_shared_games</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_num_of_shared_games" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of games owned by both friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the number of shared games</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_num_of_shared_items">
+<code class="descname">get_num_of_shared_items</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_num_of_shared_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of items owned by both friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the number of shared games</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_profile_photo_of_user">
+<code class="descname">get_profile_photo_of_user</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_profile_photo_of_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the name of the profile photo of the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>serial</em>) – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">name of the profile photo</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_received_friend_requests">
+<code class="descname">get_received_friend_requests</code><span class="sig-paren">(</span><em>user_id_to</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_received_friend_requests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns every friend request sent to the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id_to</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of the received friend requests</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_sent_friend_requests">
+<code class="descname">get_sent_friend_requests</code><span class="sig-paren">(</span><em>user_id_from</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_sent_friend_requests" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns every friend request sent by the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id_from</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the list of the sent friend requests</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.get_user_rating">
+<code class="descname">get_user_rating</code><span class="sig-paren">(</span><em>game_id</em>, <em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.get_user_rating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rating of the user for the game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – id of the game that is rated</li>
+<li><strong>user_id</strong> – id of the user who rated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">rating made by the user</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.increment_time_played">
+<code class="descname">increment_time_played</code><span class="sig-paren">(</span><em>user_id</em>, <em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.increment_time_played" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increments the play time of the game owned by the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> – id of the user who owns the game</li>
+<li><strong>game_id</strong> – id of the game</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.initialize_profile_photo">
+<code class="descname">initialize_profile_photo</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.initialize_profile_photo" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the user is created, initializes the profile photo to null which will be changed when the user uploads
+a photo.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> (<em>serial</em>) – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.is_already_rated">
+<code class="descname">is_already_rated</code><span class="sig-paren">(</span><em>user_id</em>, <em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.is_already_rated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns whether the user rated the game before or not.
+:param user_id: id of the user
+:param game_id: id of the game
+:return: if the game is already rated or not</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.remove_game_from_user">
+<code class="descname">remove_game_from_user</code><span class="sig-paren">(</span><em>user_id</em>, <em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.remove_game_from_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the game from the user’s library.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> – id of the user who owns the game</li>
+<li><strong>game_id</strong> – id of the game to be deleted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.remove_request">
+<code class="descname">remove_request</code><span class="sig-paren">(</span><em>user_id_from</em>, <em>user_id_to</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.remove_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes the sent friend request from the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id_from</strong> – id of the user who sent the request</li>
+<li><strong>user_id_to</strong> – id of the user who received the request</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.send_friend_request">
+<code class="descname">send_friend_request</code><span class="sig-paren">(</span><em>user_id_from</em>, <em>user_id_to</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.send_friend_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the friend request to the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id_from</strong> – id of the user who sent the request</li>
+<li><strong>user_id_to</strong> – id of the user who received the request</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.set_num_of_shared_games">
+<code class="descname">set_num_of_shared_games</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.set_num_of_shared_games" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of games owned by both friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.set_num_of_shared_games_for_all_friends">
+<code class="descname">set_num_of_shared_games_for_all_friends</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.set_num_of_shared_games_for_all_friends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of games owned by both friends, between every friend of the user and the user themselves.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.set_num_of_shared_items">
+<code class="descname">set_num_of_shared_items</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.set_num_of_shared_items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of items owned by both friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.set_num_of_shared_items_for_all_friends">
+<code class="descname">set_num_of_shared_items_for_all_friends</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.set_num_of_shared_items_for_all_friends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the number of items owned by both friends, between every friend of the user and the user themselves.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">nothing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.update_friend_variable">
+<code class="descname">update_friend_variable</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em>, <em>operation</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.update_friend_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the favourite/unfavourite, block/unblock and remove operations related to friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of user 1</li>
+<li><strong>user2_id</strong> – id of user 2</li>
+<li><strong>operation</strong> – favourite/unfavourite, block/unblock or remove</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">response text which is the name of the operation</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.update_game_favourite_variable">
+<code class="descname">update_game_favourite_variable</code><span class="sig-paren">(</span><em>user_id</em>, <em>game_id</em>, <em>operation</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.update_game_favourite_variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the game as a favourite of the user or resets it.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> – id of the user</li>
+<li><strong>game_id</strong> – id of the game</li>
+<li><strong>operation</strong> – if the game is to be favourited or unfavourited</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.update_rating_of_game">
+<code class="descname">update_rating_of_game</code><span class="sig-paren">(</span><em>game_id</em>, <em>user_id</em>, <em>new_rating</em>, <em>already_rated</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.update_rating_of_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the user’s rating to the total and if it is the user’s first time voting, increments the vote counter,
+else keeps the vote counter the same.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – id of the game that is rated</li>
+<li><strong>user_id</strong> – id of the user that rated</li>
+<li><strong>new_rating</strong> – new rating by the user</li>
+<li><strong>already_rated</strong> – if the user rated the game before or not</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="database_emre.Database.update_user_rating">
+<code class="descname">update_user_rating</code><span class="sig-paren">(</span><em>game_id</em>, <em>user_id</em>, <em>new_rating</em><span class="sig-paren">)</span><a class="headerlink" href="#database_emre.Database.update_user_rating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the user’s existing rating on the game with the new one on the table RATING_VOTES.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>game_id</strong> – id of the game that is rated</li>
+<li><strong>user_id</strong> – id of the user who rated</li>
+<li><strong>new_rating</strong> – new rating by the user</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">nothing</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-server_emre">
+<span id="server-functions"></span><h3>Server Functions<a class="headerlink" href="#module-server_emre" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="server_emre.Server">
+<em class="property">class </em><code class="descclassname">server_emre.</code><code class="descname">Server</code><a class="headerlink" href="#server_emre.Server" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="server_emre.Server.code_enter_page">
+<code class="descname">code_enter_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.code_enter_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the pages code_enter and the result and handles the operations of checking the validity of the
+code and adding the amount to the user’s balance.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the code enter or the result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.community_page">
+<code class="descname">community_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.community_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page for viewing the activities of unblocked friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the community page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.friend_add_page">
+<code class="descname">friend_add_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.friend_add_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page for adding a friend and handles the operation of checking if the friend request is valid. The request is
+not valid if the users are already friends, if the user has sent a request to themselves or the user has already sent a
+request before which is still pending.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">friend add page or the result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_add_page">
+<code class="descname">game_add_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_add_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the game adding page for the admin and handles the operation for adding the game to the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">not_allowed for non admins, game_add page or the result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_add_page_result_page">
+<code class="descname">game_add_page_result_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_add_page_result_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the pages for the result of adding a game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">not_allowed for non-admins or the result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_edit_page">
+<code class="descname">game_edit_page</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_edit_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page for editing the game and handles the operations for editing the game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">game page or game_edit page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_page">
+<code class="descname">game_page</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves game specific page and handles the operations for deleting items.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the game page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_purchase_page">
+<code class="descname">game_purchase_page</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_purchase_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page and handles the operation for purchasing a game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">game purchase page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_purchase_result_page">
+<code class="descname">game_purchase_result_page</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_purchase_result_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page for the result of the purchasing of a game and handles the operations of decreasing the user’s
+balance, adding the game to the user’s account and setting thr number of shared games between the user and
+all of their friends.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">the result page for purchasing the game</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.game_rate_page">
+<code class="descname">game_rate_page</code><span class="sig-paren">(</span><em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.game_rate_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page and handles the operation for rating a game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>game_id</strong> – id of the game</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">game rating page or the result page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.process_drop_game">
+<code class="descname">process_drop_game</code><span class="sig-paren">(</span><em>user_id</em>, <em>game_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.process_drop_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the operation of user deleting a game from their library.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user_id</strong> – id of the user</li>
+<li><strong>game_id</strong> – id of the game</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the profile page</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.process_friend_operations">
+<code class="descname">process_friend_operations</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.process_friend_operations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the operations related to friends, such as blocking, favouriting and removing the friend.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the response text</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.process_friend_request_response">
+<code class="descname">process_friend_request_response</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.process_friend_request_response" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the response given to a friend request. If the user has accepted the request, adds them as friends
+to the database, removes the request to the database, and sets the number of shared games and items variables
+correctly. If the request was  or cancelled, removes the friend request from the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the result of the response as text</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.process_game_favouriting">
+<code class="descname">process_game_favouriting</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.process_game_favouriting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the operations of favouriting or unfavouriting a game.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the response text</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.process_play_game">
+<code class="descname">process_play_game</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.process_play_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the playing the game operation. Simply increments the play time by 1 hour.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the incremented play time</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.process_remove_friend">
+<code class="descname">process_remove_friend</code><span class="sig-paren">(</span><em>user1_id</em>, <em>user2_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.process_remove_friend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Processes the removing friend operation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>user1_id</strong> – id of the user 1</li>
+<li><strong>user2_id</strong> – id of the user 2</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the profile page</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.store_page">
+<code class="descname">store_page</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.store_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page and handles the operation for viewing and deleting games.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">the store page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="server_emre.Server.upload_profile_photo_page">
+<code class="descname">upload_profile_photo_page</code><span class="sig-paren">(</span><em>user_id</em><span class="sig-paren">)</span><a class="headerlink" href="#server_emre.Server.upload_profile_photo_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Serves the page and handles the operation for uploading a profile photo by the user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user_id</strong> – id of the user</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">user’s profile page</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="javascript-functions">
+<h3>Javascript Functions<a class="headerlink" href="#javascript-functions" title="Permalink to this headline">¶</a></h3>
+<p><strong>friend_operations_handler</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">removeFriend</span><span class="p">(</span><span class="n">user1_id</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_operations&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s1">&#39;remove_friend&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">innerHTML</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">responseText</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;REMOVE&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user1_id&#39;</span><span class="p">,</span> <span class="n">user1_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user2_id&#39;</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to remove the friend of a user to the webpage and
+displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">blockFriend</span><span class="p">(</span><span class="n">user1_id</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_operations&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;BLOCK&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user1_id&#39;</span><span class="p">,</span> <span class="n">user1_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user2_id&#39;</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to block the friend of a user to the webpage and
+displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">unblockFriend</span><span class="p">(</span><span class="n">user1_id</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_operations&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;UNBLOCK&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user1_id&#39;</span><span class="p">,</span> <span class="n">user1_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user2_id&#39;</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to unblock the friend of a user to the webpage and
+displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">addFriendToFavourites</span><span class="p">(</span><span class="n">user1_id</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_operations&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;FAVOURITE&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user1_id&#39;</span><span class="p">,</span> <span class="n">user1_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user2_id&#39;</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to favourite the friend of a user to the webpage
+and displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">removeFriendFromFavourites</span><span class="p">(</span><span class="n">user1_id</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_operations&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;UNFAVOURITE&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user1_id&#39;</span><span class="p">,</span> <span class="n">user1_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user2_id&#39;</span><span class="p">,</span> <span class="n">user2_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to unfavourite the friend of a user to the webpage
+and displays the result of the operation to the user.</p>
+<p><strong>friend_request_feedback</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">cancelRequest</span><span class="p">(</span><span class="n">user_id_from</span><span class="p">,</span> <span class="n">user_id_to</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_request_response&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="n">user_id_to</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">fillerText</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="s1">&#39;cancelled&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id_from&#39;</span><span class="p">,</span> <span class="n">user_id_from</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id_to&#39;</span><span class="p">,</span> <span class="n">user_id_to</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to cancel the friend request of a user to the
+webpage and displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">acceptRequest</span><span class="p">(</span><span class="n">user_id_from</span><span class="p">,</span> <span class="n">user_id_to</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_request_response&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="n">user_id_from</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">fillerText</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="s1">&#39;accepted&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id_from&#39;</span><span class="p">,</span> <span class="n">user_id_from</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id_to&#39;</span><span class="p">,</span> <span class="n">user_id_to</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to accept the friend request of a user to the
+webpage and displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">declineRequest</span><span class="p">(</span><span class="n">user_id_from</span><span class="p">,</span> <span class="n">user_id_to</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_friend_request_response&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="n">user_id_from</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">fillerText</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="s1">&#39;declined&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id_from&#39;</span><span class="p">,</span> <span class="n">user_id_from</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id_to&#39;</span><span class="p">,</span> <span class="n">user_id_to</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to decline the friend request of a user to the
+webpage and displays the result of the operation to the user.</p>
+<p><strong>game_favouriting_handler</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">addGameToFavourites</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_game_favouriting&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;favourite_game_button&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">responseText</span><span class="p">;</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;is_game_favourite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">column_favourite</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;ADD&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;game_id&#39;</span><span class="p">,</span> <span class="n">game_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to favourite the game of a user to the webpage
+and displays the result of the operation to the user.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">removeGameFromFavourites</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_game_favouriting&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;unfavourite_game_button&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">responseText</span><span class="p">;</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;is_game_favourite&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">column_favourite</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;operation&#39;</span><span class="p">,</span> <span class="s1">&#39;REMOVE&#39;</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;game_id&#39;</span><span class="p">,</span> <span class="n">game_id</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Sends the request to unfavourite the game of a user to the webpage
+and displays the result of the operation to the user.</p>
+<p><strong>play_game_handler</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">function</span> <span class="n">playGame</span><span class="p">(</span><span class="n">user_id</span><span class="p">,</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">time_played</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">const</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">XMLHttpRequest</span><span class="p">();</span>
+    <span class="n">request</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/profile/process_play_game&#39;</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">onload</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">JSON</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">responseText</span><span class="p">);</span>
+        <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="s2">&quot;column_time_played&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">innerHtml</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">time_played</span> <span class="o">+</span> <span class="s2">&quot; hours&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">const</span> <span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FormData</span><span class="p">();</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">,</span> <span class="n">user_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;game_id&#39;</span><span class="p">,</span> <span class="n">game_id</span><span class="p">);</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;time_played&#39;</span><span class="p">,</span> <span class="n">time_played</span><span class="p">);</span>
+
+    <span class="n">request</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Send the data about the game the user have played and the play time
+they have on the game to be processed by the webpage and reloads the
+play time on the user’s profile.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cavitozbay.html" class="btn btn-neutral float-right" title="Parts Implemented by Cavit Özbay" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Developer Guide" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, ITUCSDB1831
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+
+  
+
+  <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
