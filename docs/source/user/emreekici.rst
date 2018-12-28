@@ -4,7 +4,7 @@ Parts Implemented by Ömer Emre Ekici
 STORE
 -----
 * The store page lists the games available on the website. Admins have
-the capability to add or delete games.
+  the capability to add or delete games.
 
 .. image:: screenshots_emre/store_user.JPG
     :width: 600
@@ -20,7 +20,7 @@ Adding games to the store
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Admins can add games to the store via the "Add game" link in the
-navigation bar.
+  navigation bar.
 
 .. image:: screenshots_emre/add_game.JPG
     :width: 600
@@ -57,9 +57,9 @@ GAME PAGE
 ---------
 
 * The game page can be reached by clicking the name of the game on
-the store. This page contains the data of the game and buttons for
-various features, such as purchasing, rating and (for admins)
-editing the game.
+  the store. This page contains the data of the game and buttons for
+  various features, such as purchasing, rating and (for admins)
+  editing the game.
 
 .. image:: screenshots_emre/game_page.JPG
     :width: 600
@@ -106,11 +106,137 @@ Purchasing a game
 ~~~~~~~~~~~~~~~~~
 
 * Users can purchase a game if they have enough balance. Admins have
-infinite balance.
+  infinite balance.
 
 .. image:: screenshots_emre/purchase_game.JPG
     :width: 600
 
 Game is about to be purchased
 
+.. image:: screenshots_emre/purchase_game_result.JPG
+    :width: 600
 
+Game is purchased
+
+.. image:: screenshots_emre/game_in_library.JPG
+    :width: 600
+
+The user can view the game in their profile
+
+Adding Balance
+~~~~~~~~~~~~~~
+
+* Users have to enter a valid code to add balance to their account.
+
+.. image:: screenshots_emre/enter_code.JPG
+    :width: 600
+
+One such code is "1234"
+
+.. image:: screenshots_emre/balance_added.JPG
+    :width: 600
+
+100$ has been added to the user's account
+
+-------
+PROFILE
+-------
+
+In their profile, users can view their library of the games they
+own, the list of their friends and the friend requests they have
+sent and received.
+
+Library
+~~~~~~~
+
+.. image:: screenshots_emre/game_in_library.JPG
+    :width: 600
+
+User's library
+
+.. image:: screenshots_emre/game_played.JPG
+    :width: 600
+
+Game has been played 1 hour
+
+.. image:: screenshots_emre/game_favourited.JPG
+    :width: 600
+
+Game is favourited by the user
+
+.. image:: screenshots_emre/game_dropped.JPG
+    :width: 600
+
+The game is deleted from the user's library
+
+Friends
+~~~~~~~
+
+.. image:: screenshots_emre/request_sent.JPG
+    :width: 600
+
+A friend request has been sent
+
+.. image:: screenshots_emre/request_received.JPG
+    :width: 600
+
+The request has been received by the other user
+
+.. image:: screenshots_emre/request_accepted.JPG
+    :width: 600
+
+The request is accepted
+
+.. image:: screenshots_emre/friend_favourited.JPG
+    :width: 600
+
+The friend is favourited by the user
+
+.. image:: screenshots_emre/friend_blocked.JPG
+    :width: 600
+
+The friend is blocked by the user
+
+.. image:: screenshots_emre/friend_removed.JPG
+    :width: 600
+
+The friend is removed
+
+Avatar
+~~~~~~
+
+Users can upload an image as their profile photo by clicking the
+"Change avatar" button at the buttom of their profile page.
+
+.. image:: screenshots_emre/change_avatar_button.JPG
+    :width: 600
+
+The link to the image uploading page
+
+.. image:: screenshots_emre/image_selected.JPG
+    :width: 600
+
+The image is selected from the user's PC
+
+.. image:: screenshots_emre/avatar_changed.JPG
+    :width: 600
+
+The new avatar is displayed on the profile
+
+---------
+COMMUNITY
+---------
+
+The community page displays the activities of the user and the
+user's friends sorted by the date, descending. The blocked friends'
+activities is not shown.
+
+.. image:: screenshots_emre/community_reviews.JPG
+    :width: 600
+
+The reviews in the community feed
+
+.. image:: screenshots_emre/community_screenshots.JPG
+    :width: 600
+
+Screenshots uploaded in the community feed
