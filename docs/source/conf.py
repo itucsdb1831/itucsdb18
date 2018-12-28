@@ -40,7 +40,6 @@ release = ''
 # ones.
 extensions = [
     'sphinx.ext.githubpages',
-    'sphinxcontrib.restbuilder',
     'sphinx.ext.autodoc',
 ]
 
