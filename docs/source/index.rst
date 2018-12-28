@@ -7,7 +7,7 @@ Welcome to itucsdb31's documentation!
 
    * Ömer Emre Ekici
    * Cavit Özbay
-   * Member 3
+   * Lütfi Baran Uğur
 
 **project description goes here (a few paragraphs)**
 
