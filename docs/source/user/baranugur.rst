@@ -25,6 +25,8 @@ Items can be added by clicking the "Add item" link down below.
 .. figure:: screenshots_baran/item_add_link.png
    :scale: 80 %
 
+    Item add link
+
 Once an admin clicks the link, they are met with the
 item adding page.
 
