@@ -8,8 +8,6 @@ Welcome to itucsdb31's documentation!
    * Ömer Emre Ekici
    * Cavit Özbay
    * Member 3
-   * Member 4
-   * Member 5
 
 **project description goes here (a few paragraphs)**
 
