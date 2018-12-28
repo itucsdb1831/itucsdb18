@@ -19,7 +19,7 @@ game.
 -------------------------
 Functions of the database
 -------------------------
-.. automodule:: database
+.. automodule:: database_emre
     :members: Database
 
 -----------------------

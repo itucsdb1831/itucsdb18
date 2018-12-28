@@ -16,6 +16,9 @@ The store seen by a regular user
 
 The store seen by an admin
 
+Adding games to the store
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
 * Admins can add games to the store via the "Add game" link in the
 navigation bar.
 
@@ -33,6 +36,9 @@ The result page after the game is added.
     :width: 600
 
 The added game is now listed at the store.
+
+Deleting games from the store
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * Games can also be deleted by admins.
 
@@ -60,6 +66,9 @@ editing the game.
 
 The game page
 
+Rating a game
+~~~~~~~~~~~~~
+
 * Users can rate the game.
 
 .. image:: screenshots_emre/rate_game.JPG
@@ -77,6 +86,9 @@ The vote is processed
 
 The game has been rated
 
+Editing a game
+~~~~~~~~~~~~~~
+
 * Admins can change the information of the game
 
 .. image:: screenshots_emre/edit_game.JPG
@@ -90,4 +102,15 @@ original information is preserved.
 
 The data of the game has been changed
 
-*
+Purchasing a game
+~~~~~~~~~~~~~~~~~
+
+* Users can purchase a game if they have enough balance. Admins have
+infinite balance.
+
+.. image:: screenshots_emre/purchase_game.JPG
+    :width: 600
+
+Game is about to be purchased
+
+
